@@ -1,46 +1,39 @@
-# Getting Started with Create React App
+# Tripper
+Easily create rich blogs post about your trips with this site. The main project in the course DH2643 - Advanced Interaction Programming.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+## Development Setup
+### Frontend - React
+* Step 0 - Run `git pull`
+* Step 1 - If it is the first time running the app, run `npm install`
+* Step 2 - Start the the app by typing `npm start`
+### Backend - Node
+TODO
 
-In the project directory, you can run:
+---
 
-### `yarn start`
+## Contribution Guide
+* Step 1 - Create an issue for the feature / bug that you want to work with.
+* Step 2 - Copy the issue id, the one with the hashtag e.g (#23)
+* Step 3 - Create a new branch with the following name structure: 
+  * Structure: `issue/<issue_id>-short-title-of-issue`
+  * Exempel: `issue/23-fix-text-editor-crash`
+* Step 4 - Code, commit, and push! A recommended naming convention for the commits are as follow
+  *  Structure: `<type>[optional scope]: <description>`
+  *  Example: `fix: the text editor crashed when applying bold style`
+  *  Notes: `<type>` is usually either: fix = bugfix, feat = feature, test = tests
+  *  More can be read here: https://www.conventionalcommits.org/en/v1.0.0/
+* Step 5 - Create a pull request of your branch into the master branch.
+* Step 6 - Connection the relevant issue to the PR, this can be done inside the created PR page in GitHub.  
+* Step 7 - Name the PR with the following structure: `#<issue_id> <type>: <description>`
+  * Example: `#23 fix: Prevent text editor to crash when applying bold text`
+* Step 8 - Ask for code review.
+* Step 9 - Merge the branch using "squash and merge". **OBS** Check that the commit of the merge is the same name as the PR and ends with the PR id, e.g {#24}.
+  * Example: `#23 fix: Prevent text editor to crash when applying bold text (#24)`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+---
 
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Deployment
+TODO
