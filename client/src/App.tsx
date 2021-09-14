@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from "axios";
 
 function App() {
+
+  useEffect(() =>{
+    // TODO: This is just an example how to call the backend server. Should be deleted
+    const callBackend = async () => {
+      var serverMessage = await axios.get("test");
+      console.log(serverMessage);
+    }
+    callBackend();
+  }, [])
+
   return (
     <div className="App">
       <header className="App-header">
