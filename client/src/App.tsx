@@ -5,14 +5,14 @@ import axios from "axios";
 
 function App() {
 
-  // TODO: This is just an example how to call the backend server. Should be deleted
-  const callBackend = async () => {
-    var serverMessage = await axios.get("test");
-    console.log(serverMessage);
-  }
   useEffect(() =>{
+    // TODO: This is just an example how to call the backend server. Should be deleted
+    const callBackend = async () => {
+      var serverMessage = await axios.get("test");
+      console.log(serverMessage);
+    }
     callBackend();
-  }, [callBackend])
+  }, [])
 
   return (
     <div className="App">
