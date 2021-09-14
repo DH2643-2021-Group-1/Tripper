@@ -1,4 +1,6 @@
 # Tripper
+[![codecov](https://codecov.io/gh/DH2643-2021-Group-1/Tripper/branch/main/graph/badge.svg?token=BQERY0QSYL)](https://codecov.io/gh/DH2643-2021-Group-1/Tripper)
+
 Easily create rich blogs post about your trips with this site. The main project in the course DH2643 - Advanced Interaction Programming.
 
 ---
