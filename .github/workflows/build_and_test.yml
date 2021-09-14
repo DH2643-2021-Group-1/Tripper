@@ -31,9 +31,9 @@ jobs:
       run: npm test -- --coverage
 
     - name: Analyze Code Coverage
-      uses: codecov/codecov-action@v2
+      uses: codecov/codecov-action@v2.1.0
       with:
-        token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+        token: ${{ secrets.CODECOV_TOKEN }}
       
     - name: Build
       run: npm run build
