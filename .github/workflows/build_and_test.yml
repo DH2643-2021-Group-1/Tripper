@@ -39,5 +39,4 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
       
     - name: Build
-      working-directory: ${{env.working-directory}}
       run: npm run build
