@@ -1,0 +1,10 @@
+@import "../../theme/theme";
+
+.input-container__input {
+    padding: 15px 20px;
+    margin-top: 3px;
+
+    border-radius: $shape-border-radius-medium;
+    border: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
