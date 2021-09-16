@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 import axios from "axios";
+import Button, { ButtonTypes } from './components/button/button';
+import Input from './components/input/input';
+import Card from './components/card/card';
 
 function App() {
 
@@ -17,18 +19,40 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload!
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <h1>Tripper</h1>
+        <p>This is just for testing the basic components. Can be deleted :)</p>
+
+        <Button
+          disabled={false}
+          type={ButtonTypes.primary}
+          onPress={() => {
+            alert("Button Pressed");
+          }}>
+          A primary button
+        </Button>
+
+        <br/>
+
+        <Button 
+          disabled={false}
+          type={ButtonTypes.secondary}
+          onPress={() => {
+            alert("Button Pressed");
+          }}>
+          A secondary button
+        </Button>
+
+        <br/>
+
+        <Input name="Test" label="This is a input!" value="A input value!"></Input>
+        
+        <br/>
+
+        <Card>
+          <div style={{padding: 25, background: "#fff"}}>
+            A basic card
+          </div>
+        </Card>
       </header>
     </div>
   );

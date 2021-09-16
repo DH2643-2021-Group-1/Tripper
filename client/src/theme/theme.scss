@@ -1,0 +1,21 @@
+// I have created a basic color palett here. The "on" keywords are just to 
+// specify the color the content should have inside the color. For example
+// The text should have the $color-on-primary if it is inside a div that
+// has the $color-primary or $color-primary-dark colors.
+
+$color-primary-dark: #293241;
+$color-primary: #3D5A80;
+$color-on-primary: #FFFFFF;
+
+$color-secondary: #98C1D9;
+$color-secondary-light: #E0FBFC;
+$color-on-secondary: #303030;
+
+$color-attention: #EE6C4D;
+$color-on-attention: #FFFFFF;
+
+$color-error: #FF0000;
+$color-disabled: #aaaaaa;
+
+$shape-border-radius-medium: 7px;
+$shape-border-radius-big: 12px;
