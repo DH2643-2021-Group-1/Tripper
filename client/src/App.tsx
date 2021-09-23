@@ -8,6 +8,8 @@ import Card from "./components/card/card";
 import PreLoader from "./components/PreLoader/PreLoader";
 import Menu from "./components/MenuPresenter/MenuPresenter";
 import WelcomePresenter from "./components/pages/WelcomePage/WelcomePresenter";
+import BlogPostCard from './components/blog-post-card/blog-post-card';
+import { BlogPost } from './models/blog-post';
 
 const App: React.FC = () => {
 
@@ -19,6 +21,21 @@ const App: React.FC = () => {
       };
       callBackend()
   }, []);
+
+  const dummyBlogPost: BlogPost = {
+    id: "43ds9f39h9shs",
+    title: "This is a title",
+    primaryImage: "https://www.swedishlapland.com/wp-content/uploads/1920_hiking_fullres_cjutsi-1920x842.jpg",
+    description: "This is a description that is somewhat to long to be contained in the blog post card.",
+    content: "TODO",
+    publicationDate: new Date(),
+    author: {
+      email: "adajon@kth.se",
+      firstName: "Adam",
+      lastName: "Jonsson",
+      profilePicture: null,
+    }
+  } 
 
   return (
     <Router>
@@ -32,50 +49,35 @@ const App: React.FC = () => {
         <Route exact path="/components">
           <Menu />
           <div className="pageConatiner">
-            <header className="App-header">
-              <h1>Tripper</h1>
-              <p>
-                This is just for testing the basic components. Can be deleted :)
-              </p>
+          <header className="App-header">
+        <h1>Tripper</h1>
+        <p>This is just for testing the basic components. Can be deleted :)</p>
 
-              <Button
-                disabled={false}
-                type={ButtonTypes.primary}
-                onPress={() => {
-                  alert("Button Pressed");
-                }}
-              >
-                A primary button
-              </Button>
+        <Button
+          disabled={false}
+          type={ButtonTypes.primary}
+          onPress={() => {
+            alert("Button Pressed");
+          }}>
+          A primary button
+        </Button>
 
-              <br />
+        <br/>
 
-              <Button
-                disabled={false}
-                type={ButtonTypes.secondary}
-                onPress={() => {
-                  alert("Button Pressed");
-                }}
-              >
-                A secondary button
-              </Button>
+        <Button 
+          disabled={false}
+          type={ButtonTypes.secondary}
+          onPress={() => {
+            alert("Button Pressed");
+          }}>
+          A secondary button
+        </Button>
 
-              <br />
+        <br/>
 
-              <Input
-                name="Test"
-                label="This is a input!"
-                value="A input value!"
-              ></Input>
-
-              <br />
-
-              <Card>
-                <div style={{ padding: 25, background: "#fff" }}>
-                  A basic card
-                </div>
-              </Card>
-            </header>
+        <BlogPostCard data={ dummyBlogPost }>
+        </BlogPostCard>
+      </header>
           </div>
         </Route>
       </Switch>
