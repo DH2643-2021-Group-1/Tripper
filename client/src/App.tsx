@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import './App.scss';
 import axios from "axios";
 import Button, { ButtonTypes } from './components/button/button';
-import Input from './components/input/input';
-import Card from './components/card/card';
+import BlogPostCard from './components/blog-post-card/blog-post-card';
+import { BlogPost } from './models/blog-post';
 
 function App() {
 
@@ -15,6 +15,21 @@ function App() {
     }
     callBackend();
   }, [])
+
+  const dummyBlogPost: BlogPost = {
+    id: "43ds9f39h9shs",
+    title: "This is a title",
+    primaryImage: "https://www.swedishlapland.com/wp-content/uploads/1920_hiking_fullres_cjutsi-1920x842.jpg",
+    description: "This is a description that is somewhat to long to be contained in the blog post card.",
+    content: "TODO",
+    publicationDate: new Date(),
+    author: {
+      email: "adajon@kth.se",
+      firstName: "Adam",
+      lastName: "Jonsson",
+      profilePicture: null,
+    }
+  } 
 
   return (
     <div className="App">
@@ -44,15 +59,8 @@ function App() {
 
         <br/>
 
-        <Input name="Test" label="This is a input!" value="A input value!"></Input>
-        
-        <br/>
-
-        <Card>
-          <div style={{padding: 25, background: "#fff"}}>
-            A basic card
-          </div>
-        </Card>
+        <BlogPostCard data={ dummyBlogPost }>
+        </BlogPostCard>
       </header>
     </div>
   );
