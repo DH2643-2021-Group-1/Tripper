@@ -16,13 +16,17 @@ const MenuView: React.FC<Props> = () => {
           <MenuIconPresenter menuIcon="compass" height="20px" />
           Tripper
         </span>
-        <span className="Menu-item" onClick={() => history.push("/components")}>
-        <MenuIconPresenter menuIcon="search" height="20px" />
-          Look at Components
+        <span className="Menu-item" onClick={() => history.push("/post")}>
+        <MenuIconPresenter menuIcon="plus" height="20px" />
+          New blogpost
+        </span>
+        <span className="Menu-item" onClick={() => history.push("/profile")}>
+        <MenuIconPresenter menuIcon="user" height="20px" />
+          Profile
         </span>
         <span className="Menu-item">
           <FontAwesomeIcon icon={faSignOutAlt} />
-          Sign in/out
+          Sign out
         </span>
       </div>
     </div>

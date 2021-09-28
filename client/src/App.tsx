@@ -3,30 +3,30 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
 import axios from "axios";
 import Button, { ButtonTypes } from "./components/button/button";
-import Input from "./components/input/input";
-import Card from "./components/card/card";
-import PreLoader from "./components/PreLoader/PreLoader";
 import Menu from "./components/MenuPresenter/MenuPresenter";
 import WelcomePresenter from "./components/pages/WelcomePage/WelcomePresenter";
-import BlogPostCard from './components/blog-post-card/blog-post-card';
-import { BlogPost } from './models/blog-post';
+import ProfilePresenter from "./components/pages/ProfilePage/ProfilePresenter";
+import PostPresenter from "./components/pages/PostPage/PostPresenter";
+import BlogPostCard from "./components/blog-post-card/blog-post-card";
+import { BlogPost } from "./models/blog-post";
 
 const App: React.FC = () => {
-
   useEffect(() => {
     // TODO: This is just an example how to call the backend server. Should be deleted
-      const callBackend = async () => {
-        var serverMessage = await axios.get("test");
-        console.log(serverMessage);
-      };
-      callBackend()
+    const callBackend = async () => {
+      var serverMessage = await axios.get("test");
+      console.log(serverMessage);
+    };
+    callBackend();
   }, []);
 
   const dummyBlogPost: BlogPost = {
     id: "43ds9f39h9shs",
     title: "This is a title",
-    primaryImage: "https://www.swedishlapland.com/wp-content/uploads/1920_hiking_fullres_cjutsi-1920x842.jpg",
-    description: "This is a description that is somewhat to long to be contained in the blog post card.",
+    primaryImage:
+      "https://www.swedishlapland.com/wp-content/uploads/1920_hiking_fullres_cjutsi-1920x842.jpg",
+    description:
+      "This is a description that is somewhat to long to be contained in the blog post card.",
     content: "TODO",
     publicationDate: new Date(),
     author: {
@@ -34,8 +34,8 @@ const App: React.FC = () => {
       firstName: "Adam",
       lastName: "Jonsson",
       profilePicture: null,
-    }
-  } 
+    },
+  };
 
   return (
     <Router>
@@ -46,38 +46,53 @@ const App: React.FC = () => {
             <WelcomePresenter />
           </div>
         </Route>
+        <Route exact path="/post">
+          <Menu />
+          <div className="pageContainer">
+            <PostPresenter />
+          </div>
+        </Route>
+        <Route exact path="/profile">
+          <Menu />
+          <div className="pageContainer">
+            <ProfilePresenter />
+          </div>
+        </Route>
         <Route exact path="/components">
           <Menu />
           <div className="pageConatiner">
-          <header className="App-header">
-        <h1>Tripper</h1>
-        <p>This is just for testing the basic components. Can be deleted :)</p>
+            <header className="App-header">
+              <h1>Tripper</h1>
+              <p>
+                This is just for testing the basic components. Can be deleted :)
+              </p>
 
-        <Button
-          disabled={false}
-          type={ButtonTypes.primary}
-          onPress={() => {
-            alert("Button Pressed");
-          }}>
-          A primary button
-        </Button>
+              <Button
+                disabled={false}
+                type={ButtonTypes.primary}
+                onPress={() => {
+                  alert("Button Pressed");
+                }}
+              >
+                A primary button
+              </Button>
 
-        <br/>
+              <br />
 
-        <Button 
-          disabled={false}
-          type={ButtonTypes.secondary}
-          onPress={() => {
-            alert("Button Pressed");
-          }}>
-          A secondary button
-        </Button>
+              <Button
+                disabled={false}
+                type={ButtonTypes.secondary}
+                onPress={() => {
+                  alert("Button Pressed");
+                }}
+              >
+                A secondary button
+              </Button>
 
-        <br/>
+              <br />
 
-        <BlogPostCard data={ dummyBlogPost }>
-        </BlogPostCard>
-      </header>
+              <BlogPostCard data={dummyBlogPost} />
+            </header>
           </div>
         </Route>
       </Switch>
