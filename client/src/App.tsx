@@ -4,6 +4,7 @@ import axios from "axios";
 import Button, { ButtonTypes } from './components/button/button';
 import BlogPostCard from './components/blog-post-card/blog-post-card';
 import { BlogPost } from './models/blog-post';
+import BlogPostPage from './pages/blog-post-page/blog-post-page';
 
 function App() {
 
@@ -29,7 +30,9 @@ function App() {
       lastName: "Jonsson",
       profilePicture: null,
     }
-  } 
+  }
+  
+  return (<BlogPostPage></BlogPostPage>)
 
   return (
     <div className="App">
