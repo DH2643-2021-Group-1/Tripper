@@ -2,6 +2,7 @@ import express from 'express';
 const firebase = require('../db')
 const firestore = firebase.firestore()
 
+// TODO on POST look for auth in headers [ const { authorization } = req.headers ] 
 class BlogPost {
     title: string;
     text: string;
@@ -15,15 +16,11 @@ class BlogPost {
 const setBlogPost = async (req: express.Request, res: express.Response) => {
     // TODO: should hold reference to user
     try {
-        // TODO make not hardcoded - > const obj = JSON.parse(req.body) // title: obj.title, text: object.text
-        const blogPostData = {
-            title: "Blog post title",
-            text: "The text in the blogpost"
-            //userRef: "how is this set?"
-        }
-        const doc = await firestore.collection('blogposts').add(blogPostData)
+        const obj = req.body
+        const blogPostData = new BlogPost(obj.title, obj.text);
+        const doc = await firestore.collection('blogposts').add(JSON.parse(JSON.stringify(blogPostData)))
         console.log('Added document with ID: ', doc.id);
-        res.send("New blogpost written to database")
+        res.status(200).send("New blogpost written to database")
     }
     catch (error) {
         res.status(400).json({ error: 'an error occurred writing blogpost to database' })
@@ -44,20 +41,15 @@ const getBlogPost = async (req: express.Request, res: express.Response) => {
         }
         const post = new BlogPost(doc.data().text, doc.data().title);
         blopostArray.push(post)
-        //res.status(200).send(blopostArray)
-        res.send(blopostArray)
+        res.status(200).send(blopostArray)
     } catch (error) {
         console.log("error:(")
         res.status(400).json({ error: 'an error occurred getting blogpost' })
     }
 }
 
-const testFunc = (req: express.Request, res: express.Response) => {
-    res.send("hello:)")
-}
 
 module.exports = {
     getBlogPost,
-    setBlogPost,
-    testFunc
+    setBlogPost
 }
