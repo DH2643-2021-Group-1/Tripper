@@ -3,6 +3,7 @@ const firebase = require('../db')
 const firestore = firebase.firestore()
 
 // TODO on POST look for auth in headers [ const { authorization } = req.headers ] 
+// TODO all res.send should look somewhat the same, result in array [{}] etc
 class BlogPost {
     title: string;
     text: string;
