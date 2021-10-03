@@ -1,9 +1,12 @@
 import express from 'express';
 const { getBlogPost, setBlogPost } = require("./firestore/firestore")
 // rest of the code remains same
+
 const app = express();
+const cors = require('cors');
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json())
+app.use(cors());
 const PORT = 8000;
 app.get('/', (req, res) => res.send('Express + TypeScript Server'));
 app.listen(PORT, () => {
