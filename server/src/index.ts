@@ -1,4 +1,5 @@
 import express from 'express';
+const { getBlogPost, testFunc } = require("./firestore/firestore")
 // rest of the code remains same
 const app = express();
 const PORT = 8000;
@@ -8,3 +9,12 @@ app.listen(PORT, () => {
 });
 
 app.get('/test', (req, res) => res.send('YES!!!'));
+
+
+app.get('/blogposts', (req, res) => {
+  getBlogPost(req, res)
+})
+
+app.get("/skoj", (req, res) => {
+  testFunc(req, res)
+})
