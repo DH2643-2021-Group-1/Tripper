@@ -9,7 +9,9 @@ interface BlogRichTextProps {
 const BlogRichText: FC<BlogRichTextProps> = (props) => {
     return (
         <ContentWrapper>
-            <div dangerouslySetInnerHTML={{ __html: props.html }} ></div>
+            <div 
+                className="blog-rich-text__container" 
+                dangerouslySetInnerHTML={{ __html: props.html }} ></div>
         </ContentWrapper>
     )
 }
