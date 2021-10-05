@@ -8,13 +8,12 @@ interface BlogPost {
 let result: Array<BlogPost>;
 let postResult: string; // backend should return array of results in all cases, create types for different return types
 
-export default () => {
+function useBlogPostApi(): [() => Promise<BlogPost[]>, (title: string, text: string) => Promise<string>] {
 
     const handleGetBlogPost = async () => {
-        console.log("handleblog")
         try {
             result = await getBlogPost()
-            console.log("Get blogpost result:", result)
+            console.log("Get blogpost, result:", result)
             return result
         }
         catch (error) {
@@ -25,7 +24,7 @@ export default () => {
     const handleSetPost = async (title: string, text: string) => {
         try {
             postResult = await setBlogPost(title, text)
-            console.log("Set blogpost result:", postResult)
+            console.log("Set blogpost, result:", postResult)
             return postResult
         }
         catch (error) {
@@ -33,7 +32,7 @@ export default () => {
         }
     }
 
-    return [handleGetBlogPost, handleSetPost]
-    //return [handleGetBlogPost]
+    return [handleGetBlogPost, handleSetPost];
 }
 
+export default useBlogPostApi;

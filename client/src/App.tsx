@@ -22,7 +22,7 @@ const App: React.FC = () => {
       var serverMessage = await axios.get("/api/test");
       console.log(serverMessage);
       handleSetPost("cool title", "cool text")
-      handleGetBlogPost() // ?? expecting 2 arguments but got 0, whaaat?
+      handleGetBlogPost()
     }
     callBackend();
   }, []);

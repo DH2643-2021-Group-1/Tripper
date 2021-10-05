@@ -5,7 +5,6 @@ import axios from "axios"
 
 // TODO: getBlogPost by: user??
 export const getBlogPost = async () => {
-    console.log("getBlobPost")
     try {
         const res = await axios.get("http://localhost:8000/blogposts")
         console.log("response", res.data)
