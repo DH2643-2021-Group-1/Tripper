@@ -1,0 +1,84 @@
+label {
+  margin-bottom: 5px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+h1 {
+  margin-bottom: 40px;
+}
+
+.editPageContainer {
+  background-color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.editFormConatiner {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #01966e36;
+  border-radius: 3%;
+}
+
+.editProfilePicture {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  margin-bottom: 20px;
+}
+
+.editName {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  margin-bottom: 20px;
+}
+
+.editBio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  margin-bottom: 30px;
+}
+
+.bioTextarea {
+  width: 185px;
+  resize: vertical;
+  min-height: 36px;
+  height: 52px;
+}
+
+.buttons {
+  width: 250px;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30px;
+}
+
+.imageUploader {
+  border: 3px solid #01966e;
+  background-color: #faf9f9b9;
+  width: 185px;
+  height: 185px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5%;
+}
+
+.imageUploader input {
+  opacity: 0;
+  width: 185px;
+  height: 185px;
+  cursor: pointer;
+  position: absolute;
+}
