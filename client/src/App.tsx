@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
 import axios from "axios";
@@ -7,6 +7,7 @@ import Menu from "./components/MenuPresenter/MenuPresenter";
 import WelcomePresenter from "./components/pages/WelcomePage/WelcomePresenter";
 import ProfilePresenter from "./components/pages/ProfilePage/ProfilePresenter";
 import PostPresenter from "./components/pages/PostPage/PostPresenter";
+import EditPresenter from "./components/pages/EditPage/EditPresenter";
 import BlogPostCard from "./components/blog-post-card/blog-post-card";
 import { BlogPost } from "./models/blog-post";
 
@@ -56,6 +57,12 @@ const App: React.FC = () => {
           <Menu />
           <div className="pageContainer">
             <ProfilePresenter />
+          </div>
+        </Route>
+        <Route exact path="/edit">
+          <Menu />
+          <div className="pageContainer">
+            <EditPresenter />
           </div>
         </Route>
         <Route exact path="/components">

@@ -26,7 +26,7 @@ const MenuIconPresenter: React.FC<Props> = ({ menuIcon, height }) => {
   } else if (menuIcon === "user") {
     icon = faUser;
     iconClickHandler = () => history.push("/profile");
-    isActive = location.pathname === "/profile";
+    isActive = location.pathname === "/profile" || location.pathname === "/edit";
   } else {
     isActive = false;
     iconClickHandler = () => history.push(location.pathname);
