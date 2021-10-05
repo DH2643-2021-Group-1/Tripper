@@ -11,14 +11,19 @@ import EditPresenter from "./components/pages/EditPage/EditPresenter";
 import BlogPostCard from "./components/blog-post-card/blog-post-card";
 import { BlogPost } from "./models/blog-post";
 import BlogPostPagePresenter from "./components/pages/BlogPostPage/BlogPostPagePresenter";
+import useBlogPostApi from "./hooks/useBlogPostApi"
 
 const App: React.FC = () => {
+
+  const [handleGetBlogPost, handleSetPost] = useBlogPostApi()
   useEffect(() => {
     // TODO: This is just an example how to call the backend server. Should be deleted
     const callBackend = async () => {
       var serverMessage = await axios.get("/api/test");
       console.log(serverMessage);
-    };
+      handleSetPost("cool title", "cool text")
+      handleGetBlogPost() // ?? expecting 2 arguments but got 0, whaaat?
+    }
     callBackend();
   }, []);
 
@@ -108,7 +113,7 @@ const App: React.FC = () => {
           </div>
         </Route>
       </Switch>
-    </Router>
+    </Router >
   );
 };
 
