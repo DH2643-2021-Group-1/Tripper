@@ -21,9 +21,11 @@ function useBlogPostApi(): [() => Promise<BlogPost[]>, (title: string, text: str
         }
     }
 
+    // TODO should take userRef as param
     const handleSetPost = async (title: string, text: string) => {
+        let userRef: string = "320v9d6BBIeCkorfQgjc"
         try {
-            postResult = await setBlogPost(title, text)
+            postResult = await setBlogPost(title, text, userRef)
             console.log("Set blogpost, result:", postResult)
             return postResult
         }

@@ -14,14 +14,15 @@ export const getBlogPost = async () => {
     }
 }
 
-export const setBlogPost = async (title: string, text: string) => {
+export const setBlogPost = async (title: string, text: string, userRef: string) => {
     // const headers = {
     //     'Authorization': 'Bearer my-token',
     // };
     try {
         const res = await axios.post("http://localhost:8000/blogposts", {
             title: title,
-            text: text
+            text: text,
+            userRef: userRef
         })
         return res.data
     } catch (error: any) {
