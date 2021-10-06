@@ -16,10 +16,10 @@ app.listen(PORT, () => {
 
 app.get('/test', (req, res) => res.send('YES!!!'));
 
-
 app.get('/blogposts', (req, res) => {
   getBlogPost(req, res)
 })
+
 
 app.post('/blogposts', (req, res) => {
   setBlogPost(req, res)
