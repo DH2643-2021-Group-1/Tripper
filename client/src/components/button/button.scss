@@ -1,54 +1,56 @@
 @import "../../theme/theme";
 
 .button {
-    padding: 13px 20px; 
-    display: inline-block;
-    min-width: 100px;
+  padding: 13px 20px;
+  display: inline-block;
+  min-width: 100px;
 
-    cursor: pointer;
-    user-select: none;
-    font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  font-weight: bold;
 
-    border-radius: $shape-border-radius-medium;
-    box-sizing: border-box;
+  border-radius: $shape-border-radius-medium;
+  box-sizing: border-box;
 
-    transition: 250ms background-color;
+  text-align: center;
+
+  transition: 250ms background-color;
 }
 
 .button--primary {
-    background-color: $color-primary;
-    color: $color-on-primary;
+  background-color: $color-primary;
+  color: $color-on-primary;
 
+  &:hover {
+    background-color: $color-primary-dark;
+  }
+
+  &.button--disabled {
+    background-color: $color-disabled;
     &:hover {
-        background-color: $color-primary-dark;
+      background-color: $color-disabled;
     }
-
-    &.button--disabled {
-        background-color: $color-disabled;
-        &:hover {
-            background-color: $color-disabled;
-        }
-    }
+  }
 }
 
 .button--secondary {
-    border: 3px solid $color-secondary;
-    padding: 10px 20px; 
-    color: $color-on-secondary;
+  border: 3px solid $color-secondary;
+  padding: 10px 20px;
+  color: $color-on-secondary;
 
+  &:hover {
+    background-color: $color-secondary;
+  }
+
+  &.button--disabled {
+    border-color: $color-disabled;
+    color: $color-disabled;
     &:hover {
-        background-color: $color-secondary;
+      background-color: unset;
     }
-
-    &.button--disabled {
-        border-color: $color-disabled;
-        color: $color-disabled;
-        &:hover {
-            background-color: unset;
-        }
-    }
+  }
 }
 
 .button--disabled {
-    cursor: unset;
+  cursor: unset;
 }
