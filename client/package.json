@@ -50,8 +50,9 @@
     "@fortawesome/free-regular-svg-icons": "^6.0.0-beta2",
     "@fortawesome/free-solid-svg-icons": "^6.0.0-beta2",
     "@fortawesome/react-fontawesome": "^0.1.15",
-    "react-router-dom": "^5.3.0",
     "@types/enzyme": "^3.10.9",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3"
+    "@types/react-router-dom": "^5.3.1",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
+    "react-router-dom": "^5.3.0"
   }
 }

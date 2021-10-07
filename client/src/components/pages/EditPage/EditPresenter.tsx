@@ -15,6 +15,7 @@ const EditPresenter: React.FC = () => {
   const onChangeProfilePicture = (event: any) => {
     let imageFile = event.target.files[0];
     console.log(imageFile);
+    setProfilePicture(imageFile);
     // Write to database to upload image
   };
 

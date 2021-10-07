@@ -14,9 +14,9 @@ const ProfilePresenter: React.FC = () => {
     setBio(
       "A 20-something fun loving and ambitious female who set up The Travelista blog as a place to document all of my amazing personal and professional travel experiences in witty, informal and honest blog posts."
     );
-    // setProfilePicture(
-    //   "http://thetravelistablog.files.wordpress.com/2013/05/jess-gibson-the-travelista1.jpg"
-    // );
+    setProfilePicture(
+      "http://thetravelistablog.files.wordpress.com/2013/05/jess-gibson-the-travelista1.jpg"
+    );
   }, []);
 
   return <ProfileView name={name} bio={bio} profilePicture={profilePicture} />;
