@@ -1,17 +1,24 @@
 import React, { FC, useEffect, useState } from 'react';
-import PageLoadingIndicator from '../../components/page-loading-indicator/page-loading-indicator';
-import { BlogPost } from '../../models/blog-post';
-import BlogPostPagePresenter from './blog-post-page-presenter';
+import PageLoadingIndicator from '../../page-loading-indicator/page-loading-indicator';
+import { BlogPost } from '../../../models/blog-post';
+import BlogPostPageView from './BlogPostPageView';
+import { useParams } from 'react-router-dom';
 
-const BlogPostPage: FC = (props) => {
+interface BlogPostPagePresenterParamTypes {
+    id: string
+  }
+
+const BlogPostPagePresenter: FC = (props) => {
 
     // TODO: We should get the correct ID from the url
-    const blogPostId = 0;
+    const params = useParams<BlogPostPagePresenterParamTypes>();
+    const blogPostId = params.id;
 
     const [blogPost, setBlogPost] = useState<BlogPost | null>(null);
     const [isFetchingBlogPost, setIsFetchingBlogPost] = useState<boolean>(true);
 
     useEffect(() => {
+        console.log(blogPostId);
         setIsFetchingBlogPost(true);
         // TODO: Fetch the correct blog post
         setTimeout(()=> {
@@ -39,7 +46,7 @@ const BlogPostPage: FC = (props) => {
             return <PageLoadingIndicator/>
         }
         if (blogPost != null) {
-            return <BlogPostPagePresenter blogPost={blogPost}/>
+            return <BlogPostPageView blogPost={blogPost}/>
         }
         return <div>Blog post do not exist</div>
     }
@@ -47,4 +54,4 @@ const BlogPostPage: FC = (props) => {
     return ( render() )
 }
 
-export default BlogPostPage;
+export default BlogPostPagePresenter;

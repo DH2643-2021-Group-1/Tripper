@@ -16,6 +16,9 @@ Model -> Presenter (Controller) -> View
 * Folder that is the container of a component should be CamelCase.
   * Ex: BlogPostCard
 
+### SCSS
+See BEM: http://getbem.com/introduction/
+
 ---
 
 ## Development Setup

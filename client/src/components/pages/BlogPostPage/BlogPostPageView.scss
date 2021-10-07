@@ -1,4 +1,8 @@
-@import "../../theme/theme";
+@import "../../../theme/theme";
+
+.blog-post-page__container {
+    padding-top: $content-menu-height;
+}
 
 .blog-post-page__loader {
     display: none;

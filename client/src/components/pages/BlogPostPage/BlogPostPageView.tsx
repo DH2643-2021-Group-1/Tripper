@@ -1,21 +1,21 @@
 import moment from 'moment';
 import React, { FC } from 'react';
-import BlogPostMetaCard from '../../components/blog-post-meta-card/blog-post-meta-card';
-import BlogRichText from '../../components/blog-rich-text/blog-rich-text';
-import ContentWrapper from '../../components/content-wrapper/content-wrapper';
-import ProfilePicture from '../../components/profile-picture/profile-picture';
-import { BlogPost } from '../../models/blog-post';
+import BlogPostMetaCard from '../../blog-post-meta-card/blog-post-meta-card';
+import BlogRichText from '../../blog-rich-text/blog-rich-text';
+import ContentWrapper from '../../content-wrapper/content-wrapper';
+import ProfilePicture from '../../profile-picture/profile-picture';
+import { BlogPost } from '../../../models/blog-post';
 
 import EventNoteIcon from '@mui/icons-material/EventNoteRounded';
 import HourglassTopIcon from '@mui/icons-material/HourglassTopRounded';
 
-import './blog-post-page-presenter.scss';
+import './BlogPostPageView.scss';
 
-interface BlogPostPagePresenterProps {
+interface BlogPostPageViewProps {
     blogPost: BlogPost,
 }
 
-const BlogPostPagePresenter: FC<BlogPostPagePresenterProps> = (props) => {
+const BlogPostPageView: FC<BlogPostPageViewProps> = (props) => {
 
     return (
         <div className="blog-post-page__container">
@@ -63,4 +63,4 @@ const BlogPostPagePresenter: FC<BlogPostPagePresenterProps> = (props) => {
     )
 }
 
-export default BlogPostPagePresenter;
+export default BlogPostPageView;
