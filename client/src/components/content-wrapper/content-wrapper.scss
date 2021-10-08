@@ -1,0 +1,14 @@
+.content-wrapper__container {
+    padding: 0px 25px;
+    margin: auto;
+
+    &.content-wrapper__large {
+        max-width: 1000px;
+    }
+    &.content-wrapper__medium {
+        max-width: 700px;
+    }
+    &.content-wrapper__small {
+        max-width: 550px;
+    }
+}

@@ -10,6 +10,7 @@ import PostPresenter from "./components/pages/PostPage/PostPresenter";
 import EditPresenter from "./components/pages/EditPage/EditPresenter";
 import BlogPostCard from "./components/blog-post-card/blog-post-card";
 import { BlogPost } from "./models/blog-post";
+import BlogPostPagePresenter from "./components/pages/BlogPostPage/BlogPostPagePresenter";
 
 const App: React.FC = () => {
   useEffect(() => {
@@ -46,6 +47,10 @@ const App: React.FC = () => {
           <div className="pageContainer">
             <WelcomePresenter />
           </div>
+        </Route>
+        <Route path="/blog/:id">
+          <Menu />
+          <BlogPostPagePresenter />
         </Route>
         <Route exact path="/post">
           <Menu />

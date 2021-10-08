@@ -1,5 +1,7 @@
+@import "../../theme/theme.scss";
+
 .Menu {
-  height: 60px;
+  height: $content-menu-height;
   width: 100%;
   background-color: rgb(250, 250, 250);
   position: fixed;

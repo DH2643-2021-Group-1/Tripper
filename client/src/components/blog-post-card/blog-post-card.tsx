@@ -25,7 +25,9 @@ const BlogPostCard: FC<BlogPostCardProps> = (props) => {
                     className="blog-post-card__background-image"></div>
                 <div className="blog-post-card__text-container">
                     <div className="blog-post-card__author-container">
-                        <ProfilePicture profilePictureSrc={props.data.author.profilePicture}></ProfilePicture>
+                        <ProfilePicture 
+                            size="20px" 
+                            profilePictureSrc={props.data.author.profilePicture}/>
                         <div>
                             -
                         </div>

@@ -4,13 +4,18 @@ import EmptyProfilePicture from './assets/empty_profile_picture.svg';
 
 interface ProfilePictureProps {
     profilePictureSrc: string | null,
+    size: string,
 }
 
 const ProfilePicture: FC<ProfilePictureProps> = (props) => {
 
     return (
         <div
-            style={{ backgroundImage: `url(${props.profilePictureSrc ?? EmptyProfilePicture})` }}
+            style={{
+                width: props.size,
+                height: props.size,
+                backgroundImage: `url(${props.profilePictureSrc ?? EmptyProfilePicture})`
+            }}
             className="profile-picture__container"></div>
     )
 }

@@ -1,0 +1,26 @@
+@import "../../theme/theme";
+
+.icon-card__container {
+    padding: $content-padding-normal;
+    display: inline-block;
+    background-color: $color-primary;
+    color: $color-on-primary;
+}
+
+.icon-card__inner-container {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    gap: $content-padding-normal;
+}
+
+.icon-card__leading-container {
+    svg {
+        display: block;
+    }
+}
+
+.icon-card__split {
+    box-sizing: border-box;
+    width: 2px;
+    background-color: $color-secondary;
+}
