@@ -1,5 +1,5 @@
 import express from 'express';
-const { getBlogPost, setBlogPost } = require("./firestore/firestore")
+const { getBlogPostById, getAllBlogPosts, setBlogPost } = require("./firestore/firestore")
 // rest of the code remains same
 
 const app = express();
@@ -17,12 +17,16 @@ app.listen(PORT, () => {
 app.get('/test', (req, res) => res.send('YES!!!'));
 
 app.get('/blogposts', (req, res) => {
-  getBlogPost(req, res)
+  getBlogPostById(req, res)
 })
 
-
+// blogpostbyuserref
 app.post('/blogposts', (req, res) => {
   setBlogPost(req, res)
+})
+
+app.get('/allblogposts', (req, res) => {
+  getAllBlogPosts(req, res)
 })
 
 

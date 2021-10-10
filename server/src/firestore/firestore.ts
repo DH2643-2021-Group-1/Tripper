@@ -6,10 +6,6 @@ import { DocumentData, DocumentReference } from '@firebase/firestore-types'
 // TODO on POST look for auth in headers [ const { authorization } = req.headers ] 
 // TODO all res.send should look somewhat the same, result in array [{}] etc
 
-
-// Get blogpost by user // getBlogpostByUserId
-// Get all blogposts // limit 10 default, otherwise specify?
-// Get blogpost by blogpost id = doc id // getBlogpostByDocId
 // ? get doc id by user id? Or is it same thing? do we have doc id in frontend? 
 class SetBlogPost {
     title: string;
@@ -33,7 +29,14 @@ class GetBlogPost { // Todo should be same classes?
     }
 }
 
-// ! param userRef
+class ErrorMsg { // Todo should be same classes?
+    message: string;
+
+    constructor(message: string) {
+        this.message = message;
+    }
+}
+
 const setBlogPost = async (req: express.Request, res: express.Response) => {
     try {
         const obj = req.body
@@ -48,32 +51,66 @@ const setBlogPost = async (req: express.Request, res: express.Response) => {
     }
 }
 
-// ! param id, getBlogPostByUserId
-// return the userinfo, "posted by Anna G, anna@gmail.com"
-const getBlogPost = async (req: express.Request, res: express.Response) => {
-    // TODO: make not hardcoded, (and fix firestore layout)
+
+// TODO getBlogPostByUserId (i.e doc id of user)
+const getBlogPostById = async (req: express.Request, res: express.Response) => {
+
+    // TODO compare userRef with doc ref, make work
+    // TODO take id from req params
+
+    const userIdParam = req.params //parameter = id sent in the request
+    let userPath = "/users/320v9d6BBIeCkorfQgjc"
+
+    let userReference: DocumentReference<DocumentData> = firestore.doc(userPath)
+    console.log("hejhej", userReference) // not the same if quering on all docs w userRef field
+
     try {
-        console.log("called getBlogPost")
-        const blopostArray = []
-        const doc = await firestore
-            .collection('users')
-            .doc('E5Tfio3g1jlQvuzOnlE6')
-            .collection('blogposts')
-            .doc('v9qD8b344kCe3bCXTkA5').get()
-        if (!doc.exists) {
+        let responseArray: Array<any> = []
+        const blogpostsRef = await firestore.collection('blogposts');
+
+        // this is not working...
+        //const snapshot = await blogpostsRef.where('userRef', '==', userReference).get();
+
+        // currently just getting all docs with userRef field
+        const snapshot = await blogpostsRef.orderBy(`userRef`).get()
+
+        if (snapshot.empty) {
             res.status(404).send('No such document exists');
         }
-        const post = new GetBlogPost(doc.data().text, doc.data().title);
-        blopostArray.push(post)
-        console.log("result", blopostArray)
-        res.status(200).send(blopostArray)
+        snapshot.forEach((doc: DocumentData) => {
+            // TODO get email and username as well
+            console.log("userRef!", doc.data().userRef)
+            const post = new GetBlogPost(doc.data().text, doc.data().title);
+            responseArray.push(post)
+        });
+        res.status(200).send(responseArray)
+
+
     } catch (error) {
         console.log("error:(")
         res.status(400).json({ error: 'an error occurred getting blogpost' })
     }
 }
 
+
+const getAllBlogPosts = async (req: express.Request, res: express.Response) => {
+    let responseArray: Array<any> = []
+    try {
+        const blogpostsRef = await firestore.collection('blogposts');
+        const snapshot = await blogpostsRef.limit(10).get(); // ? orderBy(createdAt), ? set limit here or client?
+        snapshot.forEach((doc: DocumentData) => {
+            const post = new GetBlogPost(doc.data().text, doc.data().title);
+            responseArray.push(post)
+        });
+        res.status(200).send(responseArray)
+    } catch (error) {
+        res.status(400).json({ error: 'an error occurred getting blogpost' })
+    }
+
+}
+
 module.exports = {
-    getBlogPost,
+    getBlogPostById,
+    getAllBlogPosts,
     setBlogPost
 }
