@@ -15,14 +15,16 @@ import useBlogPostApi from "./hooks/useBlogPostApi"
 
 const App: React.FC = () => {
 
-  const [handleGetBlogPost, handleSetPost] = useBlogPostApi()
+  const [handleGetAllBlogPosts, handleSetPost, handleGetBlogPostById] = useBlogPostApi()
+
   useEffect(() => {
     // TODO: This is just an example how to call the backend server. Should be deleted
     const callBackend = async () => {
       var serverMessage = await axios.get("/api/test");
       console.log(serverMessage);
       handleSetPost("cool title", "cool text")
-      handleGetBlogPost()
+      handleGetBlogPostById("320v9d6BBIeCkorfQgjc")
+      handleGetAllBlogPosts()
     }
     callBackend();
   }, []);

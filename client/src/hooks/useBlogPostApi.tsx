@@ -1,4 +1,4 @@
-import { getBlogPost, setBlogPost } from "../blogpostApi"
+import { getBlogPostById, getAllBlogPosts, setBlogPost } from "../blogpostApi"
 
 interface BlogPost {
     title: string,
@@ -6,14 +6,14 @@ interface BlogPost {
 }
 
 let result: Array<BlogPost>;
-let postResult: string; // backend should return array of results in all cases, create types for different return types
+let postResult: string;
 
-function useBlogPostApi(): [() => Promise<BlogPost[]>, (title: string, text: string) => Promise<string>] {
+function useBlogPostApi(): [() => Promise<BlogPost[]>, (title: string, text: string) => Promise<string>, (userID: string) => Promise<BlogPost[]>] {
 
-    const handleGetBlogPost = async () => {
+    const handleGetAllBlogPosts = async () => {
         try {
-            result = await getBlogPost()
-            console.log("Get blogpost, result:", result)
+            result = await getAllBlogPosts()
+            console.log("Get all blogposts, result:", result)
             return result
         }
         catch (error) {
@@ -21,9 +21,8 @@ function useBlogPostApi(): [() => Promise<BlogPost[]>, (title: string, text: str
         }
     }
 
-    // TODO should take userRef as param
     const handleSetPost = async (title: string, text: string) => {
-        let userRef: string = "320v9d6BBIeCkorfQgjc"
+        let userRef: string = "320v9d6BBIeCkorfQgjc" // TODO take as param in handleSetPost
         try {
             postResult = await setBlogPost(title, text, userRef)
             console.log("Set blogpost, result:", postResult)
@@ -34,7 +33,21 @@ function useBlogPostApi(): [() => Promise<BlogPost[]>, (title: string, text: str
         }
     }
 
-    return [handleGetBlogPost, handleSetPost];
+    const handleGetBlogPostById = async (userID: string) => {
+        // userID = doc id to user
+        try {
+            result = await getBlogPostById(userID)
+            console.log("Get blogpost by id, result:", result)
+            return result
+        }
+        catch (error) {
+            throw new Error("No such document")
+        }
+    }
+
+
+
+    return [handleGetAllBlogPosts, handleSetPost, handleGetBlogPostById];
 }
 
 export default useBlogPostApi;
