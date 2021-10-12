@@ -16,7 +16,7 @@ const App: React.FC = () => {
   useEffect(() => {
     // TODO: This is just an example how to call the backend server. Should be deleted
     const callBackend = async () => {
-      var serverMessage = await axios.get("test");
+      var serverMessage = await axios.get("/api/test");
       console.log(serverMessage);
     };
     callBackend();
