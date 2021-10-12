@@ -1,4 +1,4 @@
-import { getBlogPostById, getAllBlogPosts, setBlogPost } from "../blogpostApi"
+import { getBlogPostByUserId, getAllBlogPosts, setBlogPost, getBlogPostByPostId } from "../blogpostApi"
 
 interface BlogPost {
     title: string,
@@ -8,7 +8,7 @@ interface BlogPost {
 let result: Array<BlogPost>;
 let postResult: string;
 
-function useBlogPostApi(): [() => Promise<BlogPost[]>, (title: string, text: string) => Promise<string>, (userID: string) => Promise<BlogPost[]>] {
+function useBlogPostApi(): [() => Promise<BlogPost[]>, (title: string, text: string) => Promise<string>, (userID: string) => Promise<BlogPost[]>, (blogPostId: string) => Promise<BlogPost[]>] {
 
     const handleGetAllBlogPosts = async () => {
         try {
@@ -33,10 +33,10 @@ function useBlogPostApi(): [() => Promise<BlogPost[]>, (title: string, text: str
         }
     }
 
-    const handleGetBlogPostById = async (userID: string) => {
+    const handleGetBlogPostByUserId = async (userID: string) => {
         // userID = doc id to user
         try {
-            result = await getBlogPostById(userID)
+            result = await getBlogPostByUserId(userID)
             console.log("Get blogpost by id, result:", result)
             return result
         }
@@ -45,9 +45,21 @@ function useBlogPostApi(): [() => Promise<BlogPost[]>, (title: string, text: str
         }
     }
 
+    const handleGetBlogPostByPostId = async (blogPostId: string) => {
+        try {
+            result = await getBlogPostByPostId(blogPostId)
+            console.log("Get blogpost by post id, result:", result)
+            return result
+        }
+        catch (error) {
+            throw new Error("No such document")
+        }
+
+    }
 
 
-    return [handleGetAllBlogPosts, handleSetPost, handleGetBlogPostById];
+
+    return [handleGetAllBlogPosts, handleSetPost, handleGetBlogPostByUserId, handleGetBlogPostByPostId];
 }
 
 export default useBlogPostApi;

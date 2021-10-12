@@ -6,11 +6,25 @@ import axios from "axios"
 //     'Authorization': 'Bearer my-token',
 // };
 
-export const getBlogPostById = async (userID: string) => {
+export const getBlogPostByUserId = async (userId: string) => {
     try {
-        const res = await axios.get("http://localhost:8000/blogposts", {
+        const res = await axios.get("http://localhost:8000/blogpost-from-author/:userId", {
             params: {
-                id: userID
+                userId: userId
+            }
+        })
+        console.log("response", res.data)
+        return res.data
+    } catch (error: any) {
+        throw new Error(error) // find appr. error to throw
+    }
+}
+
+export const getBlogPostByPostId = async (blogpostId: string) => {
+    try {
+        const res = await axios.get("http://localhost:8000/blogpost/:blogpostId", {
+            params: {
+                blogpostId: blogpostId
             }
         })
         console.log("response", res.data)
@@ -22,7 +36,7 @@ export const getBlogPostById = async (userID: string) => {
 
 export const setBlogPost = async (title: string, text: string, userRef: string) => {
     try {
-        const res = await axios.post("http://localhost:8000/blogposts", {
+        const res = await axios.post("http://localhost:8000/create-blogpost", {
             title: title,
             text: text,
             userRef: userRef
@@ -36,7 +50,7 @@ export const setBlogPost = async (title: string, text: string, userRef: string) 
 // ? set number of queried posts here? Now it's set in backend
 export const getAllBlogPosts = async () => {
     try {
-        const res = await axios.get("http://localhost:8000/allblogposts")
+        const res = await axios.get("http://localhost:8000/all-blogposts")
         console.log("response", res.data)
         return res.data
     } catch (error: any) {
