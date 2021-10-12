@@ -1,6 +1,7 @@
 import React from 'react';
 import { configure, shallow } from 'enzyme';
 import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import Button from './button';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import BlogPostCard from './blog-post-card';
 import { BlogPost } from '../../models/blog-post';
 
@@ -18,14 +19,14 @@ const dummyBlogPost: BlogPost = {
     }
   } 
 
-test('Title is rendered in blog post card', async () => {
+test('Title is rendered in blog post card', () => {
   render(<BlogPostCard data={dummyBlogPost}>Card Content</BlogPostCard>);
-  const linkElement = await screen.findByText(dummyBlogPost.title);
+  const linkElement =  screen.getByText(dummyBlogPost.title);
   expect(linkElement).toBeInTheDocument();
 });
 
-test('Author name is rendered in blog post card', async () => {
+test('Author name is rendered in blog post card', () => {
   render(<BlogPostCard data={dummyBlogPost}>Card Content</BlogPostCard>);
-  const linkElement = await screen.findByText(dummyBlogPost.author.firstName + " " + dummyBlogPost.author.lastName);
+  const linkElement = screen.getByText(dummyBlogPost.author.firstName + " " + dummyBlogPost.author.lastName);
   expect(linkElement).toBeInTheDocument();
 });
