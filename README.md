@@ -3,6 +3,22 @@
 
 Easily create rich blogs post about your trips with this site. The main project in the course DH2643 - Advanced Interaction Programming.
 
+## Coding Convention
+### Files names
+Model -> Presenter (Controller) -> View
+* View: CoolComponentView.tsx
+* Presenter: CoolComponentPresenter.tsx
+* Model: blogPost.ts
+
+### Folder names
+* Folders that contains multiple components should only be lowercase.
+  * Ex: blog-post-cards
+* Folder that is the container of a component should be CamelCase.
+  * Ex: BlogPostCard
+
+### SCSS
+See BEM: http://getbem.com/introduction/
+
 ---
 
 ## Development Setup
