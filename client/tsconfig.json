@@ -17,10 +17,11 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "jsx": "react-jsx"
   },
+  
   "include": [
-    "src"
+    "src",
+    "src/custom.d.ts"
   ]
 }
