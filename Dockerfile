@@ -9,6 +9,6 @@ COPY server/ ./server/
 COPY --from=client-build /usr/src/client/build ./server/src/client-build/
 RUN cd server && npm install
 
-EXPOSE 8000
+EXPOSE $PORT
 WORKDIR /root/server
 CMD ["npm", "run", "start"]
