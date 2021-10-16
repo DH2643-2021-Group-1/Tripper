@@ -28,6 +28,9 @@ jobs:
         - name: Checkout repository
           uses: actions/checkout@v2
 
+        - name: Add Firebase Secrete
+          run: echo $FIREBASE_KEY >> server/src/firebase-key.json
+
         - name: Build Docker image
           run: docker build . -t $IMAGE_NAME
 
