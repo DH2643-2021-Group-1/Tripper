@@ -31,6 +31,9 @@ jobs:
         - name: Add Firebase Secrete
           run: echo $FIREBASE_KEY > server/src/firebase-key.json
 
+        - name: Log Firebase Secrete
+          run: echo server/src/firebase-key.json
+
         - name: Build Docker image
           run: docker build . -t $IMAGE_NAME
 
