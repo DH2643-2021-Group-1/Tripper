@@ -4,6 +4,7 @@
   "description": "The backend part of the website",
   "scripts": {
     "start": "nodemon src/index.ts",
+    "start-production": "nodemon src/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
