@@ -30,6 +30,8 @@ jobs:
 
         - name: Add Firebase Secrete
           run: echo $FIREBASE_KEY > server/src/firebase-key.json
+          env:
+            FIREBASE_KEY : ${{ secrets.FIREBASE_KEY }}
 
         - name: Log Firebase Secrete
           run: cat server/src/firebase-key.json
