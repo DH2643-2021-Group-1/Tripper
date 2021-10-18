@@ -13,7 +13,7 @@ const MenuView: React.FC<Props> = () => {
       <div className="Menu-content">
         <Link className="Menu-item" to="/">
           <MenuIconPresenter menuIcon="compass" height="20px" />
-          Tripper!
+          Tripper
         </Link>
         <Link className="Menu-item" to="/post">
           <MenuIconPresenter menuIcon="plus" height="20px" />
