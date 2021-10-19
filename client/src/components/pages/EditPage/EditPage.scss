@@ -21,7 +21,8 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #01966e36;
+  //border: 3px dashed #01966e;
+  //background-color: #ffffffd3;
   border-radius: 3%;
 }
 
@@ -42,12 +43,22 @@ h1 {
   margin-bottom: 20px;
 }
 
+.editName input {
+  width: 185px;
+  height: 30px;
+  border-width: 0px;
+}
+
 .editBio {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 300px;
   margin-bottom: 30px;
+}
+
+.editBio textarea {
+  border-width: 0px;
 }
 
 .bioTextarea {
@@ -65,8 +76,8 @@ h1 {
 }
 
 .imageUploader {
-  border: 3px solid #01966e;
-  background-color: #faf9f9b9;
+  border: 3px solid #01966e36;
+  background-color: #01966e36;
   width: 185px;
   height: 185px;
   display: flex;
@@ -80,5 +91,25 @@ h1 {
   width: 185px;
   height: 185px;
   cursor: pointer;
+  position: absolute;
+}
+
+.imageUploaderRemove {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border-radius: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imageUploaderRemove:hover {
+  filter: brightness(0);
+}
+
+.closeIcon {
+  width: 60px;
+  height: 60px;
   position: absolute;
 }
