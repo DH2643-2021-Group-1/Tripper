@@ -1,7 +1,6 @@
 import moment from 'moment';
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import BlogPostMetaCard from '../../blog-post-meta-card/blog-post-meta-card';
-import BlogRichText from '../../blog-rich-text/blog-rich-text';
 import ContentWrapper from '../../content-wrapper/content-wrapper';
 import ProfilePicture from '../../profile-picture/profile-picture';
 import { BlogPost } from '../../../models/blog-post';
@@ -10,12 +9,73 @@ import EventNoteIcon from '@mui/icons-material/EventNoteRounded';
 import HourglassTopIcon from '@mui/icons-material/HourglassTopRounded';
 
 import './BlogPostPageView.scss';
+import BlogPostContentPresenter from '../../blog-post-content/BlogPostContent/BlogPostContentPresenter';
+import { BlogPostContent } from '../../../models/blog-post-content/blog-post-content';
+import { EditType } from '../../../models/blog-post-content/blog-post-content-piece';
 
 interface BlogPostPageViewProps {
     blogPost: BlogPost,
 }
 
 const BlogPostPageView: FC<BlogPostPageViewProps> = (props) => {
+
+    const [blogPostContentDummy, setBlogPostContentDummy] = useState<BlogPostContent>(
+        {
+            contentPieces: [
+                {
+                    editType: EditType.none,
+                    id: "000",
+                    order: 0,
+                    type: "title",
+                    title: "My Adventure Around Norway"
+                },
+                {
+                    editType: EditType.none,
+                    id: "001",
+                    order: 1,
+                    type: "paragraph",
+                    text: "I counted myself very fortunate, partly, I was very hardworking, and partly, it’s the timing. The organization was growing, and they need new leaders. Timing and opportunity are important. One has to do the right thing, and the right place, and the right time."
+                },
+                {
+                    editType: EditType.none,
+                    id: "002",
+                    order: 2,
+                    type: "paragraph",
+                    text: "Besides, my immediate superior was the director himself. He was there to set up the new department, and I seized every opportunity to contribute to the growing need. While my primary responsibility was just software development, I took up the challenge to set up the new build process and make it work. It’s DevOps work, but I saw no boundary."
+                },
+                {
+                    editType: EditType.none,
+                    id: "003",
+                    order: 3,
+                    type: "image",
+                    imageUrl: "https://cdn.pixabay.com/photo/2021/09/20/21/32/lake-6641880__340.jpg",
+                    file: null,
+                },
+                {
+                    editType: EditType.none,
+                    id: "004",
+                    order: 4,
+                    type: "title",
+                    title: "My Tips For Next Time"
+                },
+                {
+                    editType: EditType.none,
+                    id: "005",
+                    order: 2,
+                    type: "paragraph",
+                    text: "I’m getting further and further away from the progress of software development in pursuing my career in the organization. My actual passion is actual software technology, but I focus on what the company need than my passion. I failed to invest in myself to develop my actual passion."
+                },
+                {
+                    editType: EditType.none,
+                    id: "006",
+                    order: 3,
+                    type: "image",
+                    imageUrl: null,
+                    file: null,
+                },
+            ]
+        }
+    )
 
     return (
         <div className="blog-post-page__container">
@@ -56,7 +116,13 @@ const BlogPostPageView: FC<BlogPostPageViewProps> = (props) => {
                     </ContentWrapper>
                 </div>
                 <div className="blog-post-page__text-content-container">
-                    <BlogRichText html={props.blogPost.content}></BlogRichText>
+                    <BlogPostContentPresenter
+                        content={blogPostContentDummy}
+                        editMode={true}
+                        onContentEdited={(content) => {
+                            setBlogPostContentDummy(content);
+                            console.log(content)
+                        }}/>
                 </div>
             </div>
         </div>

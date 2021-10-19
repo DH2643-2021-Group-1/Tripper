@@ -1,0 +1,18 @@
+@import "../../../theme/theme";
+
+.blog-post-content-image-container {
+    width: 100%;
+    border-radius: $shape-border-radius-medium;
+    color: $color-on-primary;
+    background-color: $color-primary; 
+    overflow: hidden;
+}
+
+.blog-post-content-image__no-image {
+    height: 250px;
+    text-align: center;
+}
+
+.blog-post-content-image__image {
+    width: 100%;
+}
