@@ -5,17 +5,11 @@ import useBlogPostApi from "../../../hooks/useBlogPostApi";
 interface Props {}
 
 const WelcomePresenter: React.FC<Props> = () => {
-  const [
-    handleGetAllBlogPosts,
-    handleSetPost,
-    handleGetBlogPostByUserId,
-    handleGetBlogPostByPostId,
-  ] = useBlogPostApi();
+  const [handleGetAllBlogPosts] = useBlogPostApi();
   const [blogPosts, setBlogPosts] = React.useState<Array<any>>([]);
 
   useEffect(() => {
     handleGetAllBlogPosts().then((posts) => {
-      console.log("blogposts: ", posts);
       setBlogPosts(posts);
     });
   }, []);
