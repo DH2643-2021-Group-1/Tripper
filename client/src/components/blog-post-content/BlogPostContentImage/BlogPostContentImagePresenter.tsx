@@ -3,6 +3,7 @@ import { BlogPostContentImage } from '../../../models/blog-post-content/blog-pos
 import BlogPostContentImageView from './BlogPostContentImageView';
 
 interface BlogPostContentImagePresenterProps {
+    editMode: boolean,
     piece: BlogPostContentImage,
     onPieceUpdate: (piece: BlogPostContentImage) => void
 }
@@ -12,7 +13,6 @@ const BlogPostContentImagePresenter: FC<BlogPostContentImagePresenterProps> = (p
     const [image, setImage] = useState<string | null>(null);
 
     useEffect(() => {
-        console.log("Update image url");
         setImage(getImageURL());
     }, [props.piece.file, props.piece.imageUrl]);
 
@@ -24,13 +24,14 @@ const BlogPostContentImagePresenter: FC<BlogPostContentImagePresenterProps> = (p
     }
 
     const getImageURL = () => {
-        if (props.piece.imageUrl) return props.piece.imageUrl;
         if (props.piece.file) return URL.createObjectURL(props.piece.file);
+        if (props.piece.imageUrl) return props.piece.imageUrl;
         return null;
     }
 
     return (
         <BlogPostContentImageView
+            editMode={props.editMode}
             imageURL={image}
             onImageChange={handleNewImageSelect}
             contentPiece={props.piece}/>

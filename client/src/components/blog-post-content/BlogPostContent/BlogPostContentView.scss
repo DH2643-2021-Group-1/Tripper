@@ -1,0 +1,14 @@
+.blogpost-content-view__container {
+    position: relative;
+}
+
+.blog-post-content-view__toolbox-container {
+    position: absolute;
+    right: -225px;
+    top: 0;
+    width: 200px;
+}
+
+.blog-post-content-view__sortable-container {
+    min-height: 300px;
+}

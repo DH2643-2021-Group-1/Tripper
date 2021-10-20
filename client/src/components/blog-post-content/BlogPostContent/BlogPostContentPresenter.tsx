@@ -15,6 +15,7 @@ export interface BlogPostContentEditRequest {
 }
 
 const BlogPostContentPresenter: FC<BlogPostContentPresenterProps> = (props) => {
+    
     const handleEditRequest = (editedPiece: BlogPostContentPieceAny) => {
         if (props.onContentEdited == null) return;
         const pieces = [...props.content.contentPieces];

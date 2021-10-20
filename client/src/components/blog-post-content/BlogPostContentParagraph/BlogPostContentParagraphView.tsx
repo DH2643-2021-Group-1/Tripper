@@ -1,15 +1,22 @@
 import React, { FC } from 'react';
 import { BlogPostContentParagraph } from '../../../models/blog-post-content/blog-post-content-paragraph';
+import PureInput from '../../PureInput/PureInput';
 import './BlogPostContentParagraphView.scss'
 
 interface BlogPostContentParagraphViewProps {
-    piece: BlogPostContentParagraph
+    editMode: boolean,
+    piece: BlogPostContentParagraph,
+    onEditText: (newText: string) => void,
 }
 
 const BlogPostContentParagraphView: FC<BlogPostContentParagraphViewProps> = (props) => {
     return (
         <p className="blog-post-content-paragraph">
-            { props.piece.text }
+            {
+                props.editMode
+                ? <PureInput text={props.piece.text} onEditText={props.onEditText} />
+                : props.piece.text
+            }
         </p>
     )
 }

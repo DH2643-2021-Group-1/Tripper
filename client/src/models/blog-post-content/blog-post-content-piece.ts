@@ -9,6 +9,5 @@ export enum EditType {
 export interface BlogPostContentPiece {
     type: BlogPostContentType,
     id: string,
-    order: number,
     editType: EditType,
 }

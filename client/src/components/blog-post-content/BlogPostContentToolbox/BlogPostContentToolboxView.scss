@@ -1,0 +1,18 @@
+@import "../../../theme/theme.scss";
+
+.blog-post-content-toolbox__container {
+    width: 200px;
+}
+
+.blog-post-content-toolbox__header {
+    margin: 0;
+    padding: 0;
+}
+
+.blog-post-content-toolbox__line-split {
+    width: 100%;
+    height: 2px;
+    margin: 7px 0;
+    margin-bottom: 10px;
+    background-color: #aaa;
+}
