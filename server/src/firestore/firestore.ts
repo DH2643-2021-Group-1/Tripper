@@ -1,12 +1,16 @@
 import * as express from 'express';
+import { auth } from 'firebase-admin';
 import firestore from '../db';
 
 interface BlogPostDatabaseStructure {
+    id: string,
     title: string,
     text: string,
+    primaryImage: string,
+    description: string,
+    publicationDate: Date,
     userRef: FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData>,
 }
-
 
 const createBlogPost = async (req: express.Request, res: express.Response) => {
     try {
@@ -70,10 +74,17 @@ const populateBlogPostData = async (blogpostDocumentData: BlogPostDatabaseStruct
     const authorRef = blogpostDocumentData.userRef;
     const author = await authorRef.get();
     return {
+        id: blogpostDocumentData.id,
         title: blogpostDocumentData.title,
-        text: blogpostDocumentData.text,
+        content: blogpostDocumentData.text,
+        description: blogpostDocumentData.description,
+        primaryImage: blogpostDocumentData.primaryImage,
+        publicationDate: blogpostDocumentData.publicationDate,
         author: {
-            firstName: author.data()?.firstName
+            firstName: author.data()?.firstName,
+            lastName: author.data()?.lastName,
+            profilePicture: author.data()?.profilePicture,
+            email: author.data()?.email
         }
     };
 }
