@@ -30,7 +30,10 @@ const PostView = ({ onContentChange, onHeadingChange, onTextChange, onImageChang
       <Input name={"blogpost input form"} multiLine={false} value={formValue} onChange={onTextChange} />
       <span>Description</span>
       <Input name={"blogpost title input form"} multiLine={true} value={formHeader} onChange={onHeadingChange} />
-      {isLoading && <LoadingIndicator />}
+      {isLoading &&
+        <div className="loader-icon">
+          <LoadingIndicator />
+        </div>}
       {preview && <img className="preview" src={preview} alt="preview image" />}
       <ImageInput onImageChange={onImageChange} />
       <hr />
