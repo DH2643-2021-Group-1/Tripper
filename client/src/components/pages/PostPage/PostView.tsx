@@ -26,8 +26,8 @@ const PostView = ({ onHeadingChange, onTextChange, onImageChange, onSubmit, form
       <span>Description</span>
       <Input name={"blogpost title input form"} value={formHeader} onChange={onHeadingChange} />
       {isLoading && <LoadingIndicator />}
-      <ImageInput onImageChange={onImageChange} />
       {preview && <img className="preview" src={preview} alt="preview image" />}
+      <ImageInput onImageChange={onImageChange} />
       <Button
         disabled={false}
         type={ButtonTypes.primary}

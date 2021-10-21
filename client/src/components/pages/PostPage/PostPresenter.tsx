@@ -15,7 +15,7 @@ const PostPresenter = () => {
   const [handleGetAllBlogPosts, handleSetPost, handleGetBlogPostByUserId, handleGetBlogPostByPostId] = useBlogPostApi()
 
   const [blogPostContent, setblogPostContent] = useState("")
-  const [blogPostImage, setblogPostImage] = useState<Array<File | Blob | MediaSource>>([])
+  const [blogPostImage, setblogPostImage] = useState<Array<File | Blob>>([])
   const [blogPostTitle, setblogPostTitle] = useState("")
   const [loading, setIsLoading] = useState(false)
 
@@ -27,9 +27,10 @@ const PostPresenter = () => {
   }, [blogPostImage])
 
   const handleSubmit = async () => {
-    // TODO user id should be included
     setIsLoading(true)
     await handleSetPost(blogPostTitle, blogPostContent)
+    // when img upload is supported in backend:
+    // await handleSetPost(blogPostTitle, blogPostContent, blogPostImage) 
     setIsLoading(false)
   }
 
@@ -44,10 +45,9 @@ const PostPresenter = () => {
   }
 
   const handleFileChange = (e: any) => {
-
-    const file: string = URL.createObjectURL(e.target.files[0])
-    setPreviewImage(file)
-
+    const file = e.target.files[0];
+    setblogPostImage(file)
+    setPreviewImage(URL.createObjectURL(file))
   }
 
   return <PostView onHeadingChange={handleChangeHeader} onTextChange={handleTextChange} onImageChange={handleFileChange} onSubmit={handleSubmit} formValue={blogPostContent} formHeader={blogPostTitle} isLoading={loading} preview={previewImage} />;
