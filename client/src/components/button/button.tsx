@@ -12,6 +12,7 @@ export interface ButtonProps {
 
 export enum ButtonTypes {
     primary,
+    onPrimary,
     secondary
 }
 
@@ -19,6 +20,7 @@ const Button: FC<ButtonProps> = (props) => {
     const buttonClassStates = [
         props.disabled ? "button--disabled" : "",
         props.type === ButtonTypes.primary ? "button--primary" : "",
+        props.type === ButtonTypes.onPrimary ? "button--on-primary" : "",
         props.type === ButtonTypes.secondary ? "button--secondary" : "",
     ];
 

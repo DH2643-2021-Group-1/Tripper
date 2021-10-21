@@ -1,0 +1,29 @@
+@import "../../../theme/theme";
+
+.blog-post-content-image-container {
+    width: 100%;
+    border-radius: $shape-border-radius-medium;
+    overflow: hidden;
+}
+
+.blog-post-content-image__no-image {
+    color: $color-on-primary;
+    background-color: $color-primary; 
+    height: 250px;
+    width: 100%;
+    text-align: center;
+}
+
+.blog-post-content-image__image {
+    width: 100%;
+}
+
+.blog-post-content-image__change-file {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+}
+
+.blog-post-content-image__image-container {
+    position: relative;
+}

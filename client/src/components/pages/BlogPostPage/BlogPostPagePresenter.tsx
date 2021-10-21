@@ -18,7 +18,6 @@ const BlogPostPagePresenter: FC = (props) => {
     const [isFetchingBlogPost, setIsFetchingBlogPost] = useState<boolean>(true);
 
     useEffect(() => {
-        console.log(blogPostId);
         setIsFetchingBlogPost(true);
         // TODO: Fetch the correct blog post
         setTimeout(()=> {

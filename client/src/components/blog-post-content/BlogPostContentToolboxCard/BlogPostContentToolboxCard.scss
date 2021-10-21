@@ -1,0 +1,29 @@
+@import "../../../theme/theme.scss";
+
+.blog-post-content-toolbox-card__container {
+    padding: 10px;
+    margin: 7px 0px;
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    justify-content: center;
+    align-items: center;
+    
+    cursor: move;
+
+    background-color: $color-primary;
+    color: $color-on-primary;
+    border-radius: $shape-border-radius-medium;
+}
+
+.blog-post-content-toolbox-card__drag-icon,
+.blog-post-content-toolbox-card__type-icon {
+    line-height: 0;
+}
+
+.blog-post-content-toolbox-card__line-split {
+    height: 17px;
+    width: 2px;
+    margin-right: 10px;
+    margin-left: 5px;
+    background-color: $color-secondary;
+}

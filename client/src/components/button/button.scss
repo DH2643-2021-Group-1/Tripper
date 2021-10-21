@@ -51,6 +51,16 @@
   }
 }
 
+.button--on-primary {
+  background-color: $color-on-primary;
+  color: $color-primary;
+
+  &:hover {
+    background-color: #ccc;
+  }
+
+}
+
 .button--disabled {
   cursor: unset;
 }
