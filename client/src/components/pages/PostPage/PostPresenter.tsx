@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PostView from "./PostView";
 import useBlogPostApi from "../../../hooks/useBlogPostApi"
-import { BlogPost } from "../../../models/blog-post";
-
-// TODO: send img to firebase
-// TODO map image(s) to BLogPost interface before sending (hook needs changes)
-// ? hur kommer blogpostid till?
 
 // TODO possibility to populate fields with existing blogpost (for editing mode)
 // TODO: felhantering - "du måste ha en titel", etc
@@ -22,10 +17,6 @@ const PostPresenter = () => {
   const [previewImage, setPreviewImage] = useState("")
 
 
-  useEffect(() => {
-    console.log("blogpostimage", blogPostImage)
-  }, [blogPostImage])
-
   const handleSubmit = async () => {
     setIsLoading(true)
     await handleSetPost(blogPostTitle, blogPostContent)
@@ -35,11 +26,13 @@ const PostPresenter = () => {
   }
 
   const handleTextChange = (e: any) => {
+    e.preventDefault();
     const blogpostText = e.target.value;
     setblogPostContent(blogpostText)
   }
 
   const handleChangeHeader = (e: any) => {
+    e.preventDefault();
     const blogpostTitle = e.target.value;
     setblogPostTitle(blogpostTitle)
   }
