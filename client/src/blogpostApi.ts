@@ -8,11 +8,7 @@ import axios from "axios"
 
 export const getBlogPostByUserId = async (userId: string) => {
     try {
-        const res = await axios.get("http://localhost:8000/blogpost-from-author/:userId", {
-            params: {
-                userId: userId
-            }
-        })
+        const res = await axios.get(`http://localhost:8000/blogpost-from-author/${userId}`);
         console.log("response", res.data)
         return res.data
     } catch (error: any) {
@@ -55,5 +51,28 @@ export const getAllBlogPosts = async () => {
         return res.data
     } catch (error: any) {
         throw new Error(error) // find appr. error to throw
+    }
+}
+
+
+export const editProfilePage = async (userId: string, firstName:string, lastName:string, profilePicture:any, biography:string) => {
+    try {
+        const res = await axios.get(`http://localhost:8000/edit-profile/${userId}/${firstName}/${lastName}/${profilePicture}/${biography}`);
+        console.log('response:', res.data)
+        return res.data;
+    }
+    catch(error:any){
+        throw new Error(error);
+    }
+}
+
+export const getUserDetails = async (userId:string) => {
+    try{
+        const res = await axios.get(`http://localhost:8000/user/${userId}`);
+        console.log('response:', res.data)
+        return res.data;
+    }
+    catch(error:any){
+        throw new Error(error)
     }
 }

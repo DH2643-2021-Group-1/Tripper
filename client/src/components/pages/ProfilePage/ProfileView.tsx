@@ -4,23 +4,26 @@ import Button, { ButtonTypes } from "../../button/button";
 import { useHistory } from "react-router-dom";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import BlogPostCard from "../../blog-post-card/blog-post-card";
 
 interface Props {
-  name: string;
+  firstName: string;
+  lastName: string;
   bio: string;
   profilePicture: string | undefined;
+  userPosts: any[]
 }
 
-const ProfileView: React.FC<Props> = ({ name, bio, profilePicture }) => {
+const ProfileView: React.FC<Props> = ({ firstName, lastName, bio, profilePicture, userPosts }) => {
   const history = useHistory();
   return (
-    <div className="profilePageContainer">
-      <div className="profileContainer">
-        <div className="infoContainer">
-          <div className="profileInformation">
-            <span className="name">{name}</span>
-            <span className="bio">{bio}</span>
-            <div className="editProfile">
+    <div className="profile-page__container">
+      <div className="profile-page__profile-container">
+        <div className="profile-page__info-container">
+          <div className="profile-page__profile-information">
+            <span className="profile-page__name">{firstName + ' ' + lastName}</span>
+            <span className="profile-page__bio">{bio}</span>
+            <div className="profile-page__edit-profile">
               <Button
                 disabled={false}
                 type={ButtonTypes.primary}
@@ -32,15 +35,15 @@ const ProfileView: React.FC<Props> = ({ name, bio, profilePicture }) => {
               </Button>
             </div>
           </div>
-          <div className="profilePicture">
+          <div className="profile-page__profile-picture">
             {profilePicture ? (
               <img
-                className="picture"
+                className="profile-page__picture"
                 src={profilePicture}
                 alt="profile"
               />
             ) : (
-              <div className="defaultProfilePicture">
+              <div className="profile-page__default-profile-picture">
                 <FontAwesomeIcon
                   icon={faUser}
                   size="5x"
@@ -51,9 +54,9 @@ const ProfileView: React.FC<Props> = ({ name, bio, profilePicture }) => {
             )}
           </div>
         </div>
-        <div className="postContainer">
-          {[1, 2, 3, 4, 5].map((post, idx) => {
-            return <div className="post" key={idx}>Post {post}</div>;
+        <div className="profile-page__post-container">
+          {userPosts.map((post, idx) => {
+            return <div key={idx} className="profile-page__post"><BlogPostCard data={post} key={idx}></BlogPostCard></div>
           })}
         </div>
       </div>
