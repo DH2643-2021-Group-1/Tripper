@@ -1,14 +1,14 @@
 label {
   margin-bottom: 5px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
 }
 
 h1 {
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
-.editPageContainer {
+.edit-page__container {
   background-color: #f0f0f0;
   display: flex;
   flex-direction: column;
@@ -16,17 +16,15 @@ h1 {
   align-items: center;
 }
 
-.editFormConatiner {
+.edit-page__form-conatiner {
   width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  //border: 3px dashed #01966e;
-  //background-color: #ffffffd3;
   border-radius: 3%;
 }
 
-.editProfilePicture {
+.edit-page__profile-picture {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,7 +33,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-.editName {
+.edit-page__name {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -43,13 +41,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-.editName input {
-  width: 185px;
-  height: 30px;
-  border-width: 0px;
-}
-
-.editBio {
+.edit-page__bio {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,44 +49,34 @@ h1 {
   margin-bottom: 30px;
 }
 
-.editBio textarea {
-  border-width: 0px;
-}
-
-.bioTextarea {
-  width: 185px;
-  resize: vertical;
-  min-height: 36px;
-  height: 52px;
-}
-
-.buttons {
+.edit-page__buttons {
   width: 250px;
   display: flex;
   justify-content: space-around;
   margin-bottom: 30px;
 }
 
-.imageUploader {
+.edit-page__image-uploader {
   border: 3px solid #01966e36;
   background-color: #01966e36;
-  width: 185px;
-  height: 185px;
+  filter: brightness(1.2);
+  width: 197px;
+  height: 197px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 5%;
 }
 
-.imageUploader input {
+.edit-page__image-uploader input {
   opacity: 0;
-  width: 185px;
-  height: 185px;
+  width: 197px;
+  height: 197px;
   cursor: pointer;
   position: absolute;
 }
 
-.imageUploaderRemove {
+.edit-page__image-uploader-remove {
   width: 100%;
   height: 100%;
   cursor: pointer;
@@ -104,11 +86,16 @@ h1 {
   align-items: center;
 }
 
-.imageUploaderRemove:hover {
-  filter: brightness(0);
+.edit-page__image-uploader-remove img {
+  width: 100%;
+  height: 100%;
 }
 
-.closeIcon {
+// .edit-page__image-uploader-remove:hover {
+//   filter: brightness(0);
+// }
+
+.edit-page__close-icon {
   width: 60px;
   height: 60px;
   position: absolute;

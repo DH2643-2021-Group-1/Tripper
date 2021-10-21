@@ -2,14 +2,18 @@ import "./EditPage.scss";
 import Button, { ButtonTypes } from "../../button/button";
 import { faUpload, faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import TextField from "@mui/material/TextField";
 
 interface Props {
-  name: string;
-  setName: Function;
+  firstName: string;
+  setFirstName: Function;
+  lastName: string;
+  setLastName: Function;
   bio: string;
   setBio: Function;
   profilePicture: string | undefined;
   setProfilePicture: Function;
+  previewImage: string;
   onSave: Function;
   onCancel: Function;
   onChangeProfilePicture: Function;
@@ -20,12 +24,15 @@ interface Props {
 }
 
 const EditView: React.FC<Props> = ({
-  name,
-  setName,
+  firstName,
+  setFirstName,
+  lastName,
+  setLastName,
   bio,
   setBio,
   profilePicture,
   setProfilePicture,
+  previewImage,
   onSave,
   onCancel,
   onChangeProfilePicture,
@@ -35,29 +42,29 @@ const EditView: React.FC<Props> = ({
   onClose,
 }) => {
   return (
-    <div className="editPageContainer">
-      <div className="editFormConatiner">
+    <div className="edit-page__container">
+      <div className="edit-page__form-conatiner">
         <h1>Edit profile</h1>
         <form>
-          <div className="editProfilePicture">
+          <div className="edit-page__profile-picture">
             <label>Profile Picture</label>
-            <div className="imageUploader">
+            <div className="edit-page__image-uploader">
               {changedImage ? (
                 <>
                   <div
-                    className="imageUploaderRemove"
+                    className="edit-page__image-uploader-remove"
                     onMouseOver={() => onHover()}
                     onMouseOut={() => onHover()}
                     onClick={() => onClose()}
                   >
                     <img
-                      className="picture"
-                      src={profilePicture}
+                      className="edit-page__picture"
+                      src={previewImage}
                       alt="profile"
                     />
                     <FontAwesomeIcon
                       icon={faClose}
-                      className="closeIcon"
+                      className="edit-page__close-icon"
                       opacity={opacity}
                     />
                   </div>
@@ -73,31 +80,46 @@ const EditView: React.FC<Props> = ({
               )}
             </div>
           </div>
-          <div className="editName">
-            <label>Name</label>
-            <input
-              type="text"
-              autoFocus={true}
-              placeholder={name}
-              onChange={(e) => setName(e.target.value)}
-              maxLength={20}
+          <div className="edit-page__name">
+            <label>First Name</label>
+            <TextField
+              id="outlined-basic"
+              label="First Name"
+              value={firstName}
+              variant="outlined"
+              onChange={(e) => setFirstName(e.target.value)}
             />
           </div>
-          <div className="editBio">
+          <div className="edit-page__name">
+            <label>Last Name</label>
+            <TextField
+              id="outlined-basic"
+              label="Last Name"
+              value={lastName}
+              variant="outlined"
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </div>
+          <div className="edit-page__bio">
             <label>Biography</label>
-            <textarea
-              className="bioTextarea"
+            <TextField
+              id="outlined-multiline-static"
+              label="Bio"
+              multiline
+              rows={3}
               value={bio}
               onChange={(e) => setBio(e.target.value)}
-              maxLength={210}
-            ></textarea>
+            />
           </div>
         </form>
-        <div className="buttons">
+        <div className="edit-page__buttons">
           <Button type={ButtonTypes.secondary} onPress={() => onCancel()}>
             Cancel
           </Button>
-          <Button type={ButtonTypes.primary} onPress={() => onSave(name, bio)}>
+          <Button
+            type={ButtonTypes.primary}
+            onPress={() => onSave(firstName, lastName, bio, profilePicture)}
+          >
             Save
           </Button>
         </div>

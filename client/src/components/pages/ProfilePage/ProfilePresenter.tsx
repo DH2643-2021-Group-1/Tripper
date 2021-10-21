@@ -1,25 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ProfileView from "./ProfileView";
+import useBlogPostApi from "../../../hooks/useBlogPostApi";
 
 const ProfilePresenter: React.FC = () => {
   // Get user info from database
-  const [name, setName] = React.useState<string>("");
-  const [bio, setBio] = React.useState<string>("");
-  const [profilePicture, setProfilePicture] = React.useState<
-    string | undefined
-  >(undefined);
+  const SAMPLE_USER_REF = "UuJaEV7oLO07OZgreaAc";
 
-  React.useEffect(() => {
-    setName("Jane Doe");
-    setBio(
-      "A 20-something fun loving and ambitious female who set up The Travelista blog as a place to document all of my amazing personal and professional travel experiences in witty, informal and honest blog posts."
-    );
-    setProfilePicture(
-      "http://thetravelistablog.files.wordpress.com/2013/05/jess-gibson-the-travelista1.jpg"
-    );
-  }, []);
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [bio, setBio] = useState<string>("");
+  const [profilePicture, setProfilePicture] = useState<any>(undefined);
 
-  return <ProfileView name={name} bio={bio} profilePicture={profilePicture} />;
+  const [userPosts, setUserPosts] = useState<any[]>([]);
+
+  const [
+    handleGetAllBlogPosts,
+    handleSetPost,
+    handleGetBlogPostByUserId,
+    handleGetBlogPostByPostId,
+    handleEditProfile,
+    handleGetUserDetails,
+  ] = useBlogPostApi();
+
+  useEffect(() => {
+    handleGetUserDetails(SAMPLE_USER_REF).then((data) => {
+      setFirstName(data[0]);
+      setLastName(data[1]);
+      setBio(data[4]);
+      setProfilePicture(null); // null for now since image isn't uploaded to database yet
+    });
+    handleGetBlogPostByUserId(SAMPLE_USER_REF).then((data) => {
+      setUserPosts(data);
+    });
+  }, [bio]);
+
+  return (
+    <ProfileView
+      firstName={firstName}
+      lastName={lastName}
+      bio={bio}
+      profilePicture={profilePicture}
+      userPosts={userPosts}
+    />
+  );
 };
 
 export default ProfilePresenter;
