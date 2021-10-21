@@ -1,10 +1,9 @@
 import React from "react";
 import "./PostPage.scss";
 import Input from "../../input/input"
+import ImageInput from "../../imageInput/ImageInput";
 import Button, { ButtonTypes } from "../../button/button"
 import LoadingIndicator from "../../loading-indicator/loading-indicator"
-
-
 
 
 interface Props {
@@ -14,39 +13,29 @@ interface Props {
   onSubmit: () => void,
   formValue: string,
   formHeader: string,
-  isLoading: boolean
+  isLoading: boolean,
+  preview: string,
 }
 
-const PostView = ({ onHeadingChange, onTextChange, onImageChange, onSubmit, formValue, formHeader, isLoading }: Props) => {
-  return <div style={{ border: "2px solid red" }}>
-    <Input name={"blogpost input form"} value={formValue} onChange={onTextChange} />
-    <Input name={"blogpost title input form"} value={formHeader} onChange={onHeadingChange} />
-    {isLoading && <LoadingIndicator />}
-    <Button
-      disabled={false}
-      type={ButtonTypes.primary}
-      onPress={onSubmit}
-    >
-      Post
+const PostView = ({ onHeadingChange, onTextChange, onImageChange, onSubmit, formValue, formHeader, isLoading, preview }: Props) => {
+  return <div className="flexbox">
+    <span>Create new blog post</span>
+    <div className="container">
+      <span>Title</span>
+      <Input name={"blogpost input form"} value={formValue} onChange={onTextChange} />
+      <span>Description</span>
+      <Input name={"blogpost title input form"} value={formHeader} onChange={onHeadingChange} />
+      {isLoading && <LoadingIndicator />}
+      <ImageInput onImageChange={onImageChange} />
+      {preview && <img className="preview" src={preview} alt="preview image" />}
+      <Button
+        disabled={false}
+        type={ButtonTypes.primary}
+        onPress={onSubmit}
+      >
+        Post
     </Button>
-
-    <div style={{ border: "2px solid blue" }}>
-      <div style={{ border: "1px solid green" }}>
-        <label htmlFor='single'>
-          Single img form
-        </label>
-        <input type='file' id='single' onChange={onImageChange} />
-      </div>
     </div>
-    <div style={{ border: "2px solid blue" }}>
-      <div style={{ border: "1px solid green" }}>
-        <label htmlFor='multi'>
-          Multiple img form
-        </label>
-        <input type='file' id='multi' onChange={onImageChange} multiple />
-      </div>
-    </div>
-
   </div>;
 };
 

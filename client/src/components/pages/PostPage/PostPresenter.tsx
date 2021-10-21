@@ -15,10 +15,16 @@ const PostPresenter = () => {
   const [handleGetAllBlogPosts, handleSetPost, handleGetBlogPostByUserId, handleGetBlogPostByPostId] = useBlogPostApi()
 
   const [blogPostContent, setblogPostContent] = useState("")
-  const [blogPostImages, setblogPostImages] = useState<Array<File>>([])
+  const [blogPostImage, setblogPostImage] = useState<Array<File | Blob | MediaSource>>([])
   const [blogPostTitle, setblogPostTitle] = useState("")
   const [loading, setIsLoading] = useState(false)
 
+  const [previewImage, setPreviewImage] = useState("")
+
+
+  useEffect(() => {
+    console.log("blogpostimage", blogPostImage)
+  }, [blogPostImage])
 
   const handleSubmit = async () => {
     // TODO user id should be included
@@ -38,11 +44,13 @@ const PostPresenter = () => {
   }
 
   const handleFileChange = (e: any) => {
-    const files: Array<File> = Array.from(e.target.files)
-    setblogPostImages(files)
+
+    const file: string = URL.createObjectURL(e.target.files[0])
+    setPreviewImage(file)
+
   }
 
-  return <PostView onHeadingChange={handleChangeHeader} onTextChange={handleTextChange} onImageChange={handleFileChange} onSubmit={handleSubmit} formValue={blogPostContent} formHeader={blogPostTitle} isLoading={loading} />;
+  return <PostView onHeadingChange={handleChangeHeader} onTextChange={handleTextChange} onImageChange={handleFileChange} onSubmit={handleSubmit} formValue={blogPostContent} formHeader={blogPostTitle} isLoading={loading} preview={previewImage} />;
 };
 
 export default PostPresenter;
