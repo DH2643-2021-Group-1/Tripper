@@ -57,3 +57,16 @@ export const getAllBlogPosts = async () => {
         throw new Error(error) // find appr. error to throw
     }
 }
+
+
+export const editProfilePage = async (userId: string, firstName:string, lastName:string, profilePicture:string|null) => {
+    try {
+        const res = await axios.get(`http://localhost:8000/edit-profile/${userId}/${firstName}/${lastName}/${profilePicture}`);
+        console.log(userId);
+        console.log('responseeee', res.data)
+        return res.data
+    }
+    catch(error:any){
+        throw new Error(error);
+    }
+}

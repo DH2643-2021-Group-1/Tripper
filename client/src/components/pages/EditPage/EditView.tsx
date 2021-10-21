@@ -2,6 +2,7 @@ import "./EditPage.scss";
 import Button, { ButtonTypes } from "../../button/button";
 import { faUpload, faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import TextField from "@mui/material/TextField";
 
 interface Props {
   name: string;
@@ -35,29 +36,29 @@ const EditView: React.FC<Props> = ({
   onClose,
 }) => {
   return (
-    <div className="editPageContainer">
-      <div className="editFormConatiner">
+    <div className="edit-page__container">
+      <div className="edit-page__form-conatiner">
         <h1>Edit profile</h1>
         <form>
-          <div className="editProfilePicture">
+          <div className="edit-page__profile-picture">
             <label>Profile Picture</label>
-            <div className="imageUploader">
+            <div className="edit-page__image-uploader">
               {changedImage ? (
                 <>
                   <div
-                    className="imageUploaderRemove"
+                    className="edit-page__image-uploader-remove"
                     onMouseOver={() => onHover()}
                     onMouseOut={() => onHover()}
                     onClick={() => onClose()}
                   >
                     <img
-                      className="picture"
+                      className="edit-page__picture"
                       src={profilePicture}
                       alt="profile"
                     />
                     <FontAwesomeIcon
                       icon={faClose}
-                      className="closeIcon"
+                      className="edit-page__close-icon"
                       opacity={opacity}
                     />
                   </div>
@@ -73,27 +74,29 @@ const EditView: React.FC<Props> = ({
               )}
             </div>
           </div>
-          <div className="editName">
+          <div className="edit-page__name">
             <label>Name</label>
-            <input
-              type="text"
-              autoFocus={true}
-              placeholder={name}
+            <TextField
+              id="outlined-basic"
+              label="Name"
+              defaultValue={name}
+              variant="outlined"
               onChange={(e) => setName(e.target.value)}
-              maxLength={20}
             />
           </div>
-          <div className="editBio">
+          <div className="edit-page__bio">
             <label>Biography</label>
-            <textarea
-              className="bioTextarea"
-              value={bio}
+            <TextField
+              id="outlined-multiline-static"
+              label="Bio"
+              multiline
+              rows={3}
+              defaultValue={bio}
               onChange={(e) => setBio(e.target.value)}
-              maxLength={210}
-            ></textarea>
+            />
           </div>
         </form>
-        <div className="buttons">
+        <div className="edit-page__buttons">
           <Button type={ButtonTypes.secondary} onPress={() => onCancel()}>
             Cancel
           </Button>

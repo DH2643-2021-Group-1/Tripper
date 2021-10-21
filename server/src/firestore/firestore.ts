@@ -89,9 +89,29 @@ const populateBlogPostData = async (blogpostDocumentData: BlogPostDatabaseStruct
     };
 }
 
+const editProfilePage = async (req: express.Request, res: express.Response) => {
+    try {
+        const userId = req.params.userId;
+        const firstName = req.params.firstName;
+        const lastName = req.params.lastName;
+        const profilePicture = req.params.profilePicture;
+        const profileSnapshot = await firestore.collection('users').doc(userId).update({
+            firstName: firstName,
+            lastName: lastName,
+            profilePicture: profilePicture
+        })
+        res.status(200).send(profileSnapshot);
+        //return profileSnapshot.data()?.firstName;
+    }
+    catch(error){
+        res.status(400).json({ error: error});
+    }
+}
+
 export {
     getBlogPostsFromUserId,
     getBlogPostById,
     getAllBlogPosts,
-    createBlogPost as setBlogPost
+    createBlogPost as setBlogPost,
+    editProfilePage
 }

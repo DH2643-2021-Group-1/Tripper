@@ -1,7 +1,11 @@
-.welcomePageContainer {
+.welcome-page__container {
   background-color: #f0f0f0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.welcome-page-post-container {
+  padding-bottom: 20px;
 }

@@ -8,9 +8,13 @@ interface Props {
 
 const WelcomeView: React.FC<Props> = ({ blogPosts }) => {
   return (
-    <div className="welcomePageContainer">
+    <div className="welcome-page__container">
       {blogPosts.map((post, idx) => {
-        return <BlogPostCard data={post} key={idx} />;
+        return (
+          <div className="welcome-page-post-container" key={idx}>
+            <BlogPostCard data={post} key={idx} />
+          </div>
+        );
       })}
     </div>
   );
