@@ -1,25 +1,43 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import PostView from "./PostView";
 import useBlogPostApi from "../../../hooks/useBlogPostApi"
 import { BlogPostContent } from "../../../models/blog-post-content/blog-post-content";
+import { useParams } from 'react-router-dom';
 
 // TODO possibility to populate fields with existing blogpost (for editing mode)
 // TODO: felhantering - "du måste ha en titel", etc
 
-const PostPresenter = () => {
+interface PostPagePresenterParamTypes {
+  id: string
+}
 
+
+const PostPresenter = () => {
   const [handleGetAllBlogPosts, handleSetPost, handleGetBlogPostByUserId, handleGetBlogPostByPostId] = useBlogPostApi()
+
+  let location = useLocation()
+  const params = useParams<PostPagePresenterParamTypes>();
+  const blogPostId = params.id;
 
   const [blogPostDescription, setBlogPostDescription] = useState("")
   const [blogPostImage, setblogPostImage] = useState<Array<File | Blob>>([])
   const [blogPostTitle, setblogPostTitle] = useState("")
   const [loading, setIsLoading] = useState(false)
   const [blogPostContent, setBlogPostContent] = useState<BlogPostContent>({
-     contentPieces: [],
+    contentPieces: [],
   })
 
   const [previewImage, setPreviewImage] = useState("")
 
+
+  useEffect(() => {
+    if (blogPostId && location.pathname == `/edit-post/${blogPostId}`) {
+      // call getblogpostid func
+      //handleGetBlogPostByPostId(blogPostId)
+      handleGetBlogPostByPostId("5nuHLdsKtU96PsR5IRDF") //43ds9f39h9shs, 11
+    }
+  }, [])
 
   const handleSubmit = async () => {
     setIsLoading(true)
@@ -51,17 +69,17 @@ const PostPresenter = () => {
     setBlogPostContent(updatedContent);
   }
 
-  return <PostView 
+  return <PostView
     onContentChange={handleContentChange}
     onHeadingChange={handleChangeHeader}
-    onTextChange={handleTextChange} 
-    onImageChange={handleFileChange} 
-    onSubmit={handleSubmit} 
-    formValue={blogPostDescription} 
-    formHeader={blogPostTitle} 
-    isLoading={loading} 
-    preview={previewImage} 
-    content={blogPostContent}/>;
+    onTextChange={handleTextChange}
+    onImageChange={handleFileChange}
+    onSubmit={handleSubmit}
+    formValue={blogPostDescription}
+    formHeader={blogPostTitle}
+    isLoading={loading}
+    preview={previewImage}
+    content={blogPostContent} />;
 };
 
 export default PostPresenter;
