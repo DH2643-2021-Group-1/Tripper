@@ -7,9 +7,9 @@ import LoadingIndicator from "../../loading-indicator/loading-indicator"
 
 
 interface Props {
-  onHeadingChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  onTextChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
-  onImageChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
+  onHeadingChange: (event: React.ChangeEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>) => void,
+  onTextChange: (event: React.ChangeEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>) => void,
+  onImageChange: (event: React.ChangeEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>) => void,
   onSubmit: () => void,
   formValue: string,
   formHeader: string,
@@ -22,9 +22,9 @@ const PostView = ({ onHeadingChange, onTextChange, onImageChange, onSubmit, form
     <span>Create new blog post</span>
     <div className="container">
       <span>Title</span>
-      <Input name={"blogpost input form"} value={formValue} onChange={onTextChange} />
+      <Input name={"blogpost input form"} multiLine={false} value={formValue} onChange={onTextChange} />
       <span>Description</span>
-      <Input name={"blogpost title input form"} value={formHeader} onChange={onHeadingChange} />
+      <Input name={"blogpost title input form"} multiLine={true} value={formHeader} onChange={onHeadingChange} />
       {isLoading && <LoadingIndicator />}
       {preview && <img className="preview" src={preview} alt="preview image" />}
       <ImageInput onImageChange={onImageChange} />
