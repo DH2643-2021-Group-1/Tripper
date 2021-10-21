@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import './input.scss';
 
 export interface InputProps {
-    multiLine: boolean,
+    multiLine?: boolean,
     type?: string,
     name: string,
     label?: string,
