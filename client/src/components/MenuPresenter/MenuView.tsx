@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import '../../configs/firebase-config';
 import './Menu.scss';
@@ -19,12 +19,17 @@ import {
 	GoogleAuthProvider,
 } from 'firebase/auth';
 
-const auth = getAuth();
-
 interface Props {}
 
 const MenuView: React.FC<Props> = () => {
-	const [signedIn, setSignedIn] = useState<boolean>(false);
+	const auth = getAuth();
+	const [signedIn, setSignedIn] = useState<boolean>();
+
+	onAuthStateChanged(auth, (user) => {
+		if (user) {
+		  setSignedIn(true)
+		}
+	  });
 
 	const onFailure = (error: any) => {
 		console.log(error) // TODO: better error handling
