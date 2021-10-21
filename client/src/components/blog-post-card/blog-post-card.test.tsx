@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import BlogPostCard from './blog-post-card';
 import { BlogPost } from '../../models/blog-post';
+import { MemoryRouter } from 'react-router-dom';
 
 const dummyBlogPost: BlogPost = {
     id: "43ds9f39h9shs",
@@ -20,13 +21,13 @@ const dummyBlogPost: BlogPost = {
   } 
 
 test('Title is rendered in blog post card', () => {
-  render(<BlogPostCard data={dummyBlogPost}>Card Content</BlogPostCard>);
+  render(<MemoryRouter><BlogPostCard data={dummyBlogPost}>Card Content</BlogPostCard></MemoryRouter>);
   const linkElement =  screen.getByText(dummyBlogPost.title);
   expect(linkElement).toBeInTheDocument();
 });
 
 test('Author name is rendered in blog post card', () => {
-  render(<BlogPostCard data={dummyBlogPost}>Card Content</BlogPostCard>);
+  render(<MemoryRouter><BlogPostCard data={dummyBlogPost}>Card Content</BlogPostCard></MemoryRouter>);
   const linkElement = screen.getByText(dummyBlogPost.author.firstName + " " + dummyBlogPost.author.lastName);
   expect(linkElement).toBeInTheDocument();
 });

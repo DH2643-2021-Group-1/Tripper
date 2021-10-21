@@ -11,11 +11,13 @@ const EditPresenter: React.FC = () => {
   const [profilePicture, setProfilePicture] = React.useState<
     string | undefined
   >();
+  const [changedImage, setChangedImage] = React.useState<Boolean>(false);
+  const [opacity, setOpacity] = React.useState<number>(0);
 
   const onChangeProfilePicture = (event: any) => {
     let imageFile = event.target.files[0];
     console.log(imageFile);
-    setProfilePicture(imageFile);
+    setChangedImage(true);
     // Write to database to upload image
   };
 
@@ -31,15 +33,34 @@ const EditPresenter: React.FC = () => {
     history.push("/profile");
   };
 
+  const onHover = () => {
+    if (opacity === 0) {
+      setOpacity(1);
+    } else {
+      setOpacity(0);
+    }
+  };
+
+  const onClose = () => {
+    setChangedImage(false);
+    setProfilePicture(undefined);
+  };
+
   return (
     <EditView
       name={name}
       setName={setName}
       bio={bio}
       setBio={setBio}
+      profilePicture={profilePicture}
+      setProfilePicture={setProfilePicture}
       onSave={onSave}
       onCancel={onCancel}
       onChangeProfilePicture={onChangeProfilePicture}
+      changedImage={changedImage}
+      onHover={onHover}
+      opacity={opacity}
+      onClose={onClose}
     />
   );
 };

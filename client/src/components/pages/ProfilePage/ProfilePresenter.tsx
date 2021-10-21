@@ -10,7 +10,7 @@ const ProfilePresenter: React.FC = () => {
   >(undefined);
 
   React.useEffect(() => {
-    setName("Jane DoeJane DoeJane");
+    setName("Jane Doe");
     setBio(
       "A 20-something fun loving and ambitious female who set up The Travelista blog as a place to document all of my amazing personal and professional travel experiences in witty, informal and honest blog posts."
     );

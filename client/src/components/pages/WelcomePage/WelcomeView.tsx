@@ -1,12 +1,17 @@
 import React from "react";
 import "./WelcomePage.scss";
+import BlogPostCard from "../../blog-post-card/blog-post-card";
 
-const WelcomeView = () => {
+interface Props {
+  blogPosts: Array<any>;
+}
+
+const WelcomeView: React.FC<Props> = ({ blogPosts }) => {
   return (
     <div className="welcomePageContainer">
-      <h1>Tripper</h1>
-      <br/>
-      <span>This is where blogposts will show up</span>
+      {blogPosts.map((post, idx) => {
+        return <BlogPostCard data={post} key={idx} />;
+      })}
     </div>
   );
 };
