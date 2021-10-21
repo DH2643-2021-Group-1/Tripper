@@ -1,4 +1,5 @@
 # Tripper
+![example workflow](https://github.com/DH2643-2021-Group-1/Tripper/actions/workflows/build_and_test.yml/badge.svg)
 [![codecov](https://codecov.io/gh/DH2643-2021-Group-1/Tripper/branch/main/graph/badge.svg?token=BQERY0QSYL)](https://codecov.io/gh/DH2643-2021-Group-1/Tripper)
 
 Easily create rich blogs post about your trips with this site. The main project in the course DH2643 - Advanced Interaction Programming.
@@ -54,4 +55,18 @@ TODO
 ---
 
 ## Deployment
-TODO
+To deploy a new version of the site, do the following:
+* Step 1 - Click on "Create a new release" on the home page of GitHub site for this repository.
+* Step 2 - Create a new tag, major.minor.patch
+* Step 3 - Publish release
+* Step 4 - Wait for the GitHub Action to complete
+* Step 5 - Done, you should be able to access it via tripper.adamjonsson.dev
+
+---
+
+## Deployment Local
+If you want to deploy the website locally to test, do the following:
+* Step 1 - Download Docker.
+* Step 2 - Enter `docker build -t tripper-production-image .`
+* Step 3 - Enter `docker run -d -p  8000:8000 --name tripper-production tripper-production-image`
+* Step 4 - Done, you can now access the site on port 8000
