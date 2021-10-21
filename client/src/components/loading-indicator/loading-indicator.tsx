@@ -1,11 +1,11 @@
 import React, { FC } from 'react';
 import './loading-indicator.scss';
+import spinner from '../../resources/images/spinner.gif';
 
 
 const LoadingIndicator: FC = (props) => {
     return (
-        // TODO: Add better loading indicator
-        <div>Loading...</div>
+        <img className={"loader"} src={spinner} alt="loading..." />
     )
 }
 
