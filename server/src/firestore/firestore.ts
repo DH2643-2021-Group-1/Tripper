@@ -1,7 +1,7 @@
 import * as express from 'express';
 
 import { auth } from 'firebase-admin';
-import firestore from '../db';
+import { db, storage } from '../db';
 
 interface BlogPostDatabaseStructure {
     id: string,
