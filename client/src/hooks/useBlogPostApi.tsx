@@ -4,6 +4,7 @@ import {
   setBlogPost,
   getBlogPostByPostId,
   editProfilePage,
+  getUserDetails,
 } from "../blogpostApi";
 
 interface BlogPost {
@@ -23,8 +24,10 @@ function useBlogPostApi(): [
     userID: string,
     firstName: string,
     lastName: string,
-    profilePicture: string | null
-  ) => Promise<any>
+    profilePicture: any,
+    biography: string
+  ) => Promise<any>,
+  (userID: string) => Promise<any>
 ] {
   const handleGetAllBlogPosts = async () => {
     try {
@@ -72,19 +75,31 @@ function useBlogPostApi(): [
     userId: string,
     firstName: string,
     lastName: string,
-    profilePicture: string | null
+    profilePicture: any,
+    biography: string
   ) => {
     try {
       result = await editProfilePage(
         userId,
         firstName,
         lastName,
-        profilePicture
+        profilePicture,
+        biography
       );
-      console.log("Ny profil", result);
+      console.log("Updated profile:", result);
       return result;
     } catch (error) {
-      throw new Error("Ajdå");
+      throw new Error("Problems communicating with the API");
+    }
+  };
+
+  const handleGetUserDetails = async (userId: string) => {
+    try {
+      result = await getUserDetails(userId);
+      console.log("User details: ", result);
+      return result;
+    } catch (error) {
+      throw new Error("No such document");
     }
   };
 
@@ -94,6 +109,7 @@ function useBlogPostApi(): [
     handleGetBlogPostByUserId,
     handleGetBlogPostByPostId,
     handleEditProfile,
+    handleGetUserDetails,
   ];
 }
 

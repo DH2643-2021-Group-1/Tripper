@@ -30,7 +30,6 @@ const App: React.FC = () => {
       handleSetPost("cool title", "cool text");
       handleGetBlogPostByUserId("320v9d6BBIeCkorfQgjc");
       handleGetAllBlogPosts();
-      handleEditProfile("UuJaEV7oLO07OZgreaAc", "Anna", "Gustavsson", null);
     };
     callBackend();
   }, []);

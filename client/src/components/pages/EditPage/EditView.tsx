@@ -5,12 +5,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextField from "@mui/material/TextField";
 
 interface Props {
-  name: string;
-  setName: Function;
+  firstName: string;
+  setFirstName: Function;
+  lastName: string;
+  setLastName: Function;
   bio: string;
   setBio: Function;
   profilePicture: string | undefined;
   setProfilePicture: Function;
+  previewImage: string;
   onSave: Function;
   onCancel: Function;
   onChangeProfilePicture: Function;
@@ -21,12 +24,15 @@ interface Props {
 }
 
 const EditView: React.FC<Props> = ({
-  name,
-  setName,
+  firstName,
+  setFirstName,
+  lastName,
+  setLastName,
   bio,
   setBio,
   profilePicture,
   setProfilePicture,
+  previewImage,
   onSave,
   onCancel,
   onChangeProfilePicture,
@@ -53,7 +59,7 @@ const EditView: React.FC<Props> = ({
                   >
                     <img
                       className="edit-page__picture"
-                      src={profilePicture}
+                      src={previewImage}
                       alt="profile"
                     />
                     <FontAwesomeIcon
@@ -75,13 +81,23 @@ const EditView: React.FC<Props> = ({
             </div>
           </div>
           <div className="edit-page__name">
-            <label>Name</label>
+            <label>First Name</label>
             <TextField
               id="outlined-basic"
-              label="Name"
-              defaultValue={name}
+              label="First Name"
+              value={firstName}
               variant="outlined"
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+          </div>
+          <div className="edit-page__name">
+            <label>Last Name</label>
+            <TextField
+              id="outlined-basic"
+              label="Last Name"
+              value={lastName}
+              variant="outlined"
+              onChange={(e) => setLastName(e.target.value)}
             />
           </div>
           <div className="edit-page__bio">
@@ -91,7 +107,7 @@ const EditView: React.FC<Props> = ({
               label="Bio"
               multiline
               rows={3}
-              defaultValue={bio}
+              value={bio}
               onChange={(e) => setBio(e.target.value)}
             />
           </div>
@@ -100,7 +116,10 @@ const EditView: React.FC<Props> = ({
           <Button type={ButtonTypes.secondary} onPress={() => onCancel()}>
             Cancel
           </Button>
-          <Button type={ButtonTypes.primary} onPress={() => onSave(name, bio)}>
+          <Button
+            type={ButtonTypes.primary}
+            onPress={() => onSave(firstName, lastName, bio, profilePicture)}
+          >
             Save
           </Button>
         </div>

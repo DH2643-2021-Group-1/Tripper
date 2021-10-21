@@ -1,6 +1,6 @@
 import * as express from 'express';
 
-import { auth } from 'firebase-admin';
+import { auth, firestore } from 'firebase-admin';
 import { db, storage } from '../db';
 
 interface BlogPostDatabaseStructure {
@@ -98,16 +98,31 @@ const editProfilePage = async (req: express.Request, res: express.Response) => {
         const firstName = req.params.firstName;
         const lastName = req.params.lastName;
         const profilePicture = req.params.profilePicture;
-        const profileSnapshot = await firestore.collection('users').doc(userId).update({
+        const biography = req.params.biography;
+        const profileSnapshot = await db.collection('users').doc(userId).update({
             firstName: firstName,
             lastName: lastName,
-            profilePicture: profilePicture
+            profilePicture: profilePicture,
+            biography: biography
         })
-        res.status(200).send(profileSnapshot);
+        res.status(200).send(firstName + ' ' + lastName);
         //return profileSnapshot.data()?.firstName;
     }
     catch(error){
         res.status(400).json({ error: error});
+    }
+}
+
+const getUserDetails = async (req:express.Request, res: express.Response) => {
+    try{
+        const userId = req.params.userId;
+        const profileSnapshot = await db.collection('users').doc(userId).get();
+        const user_data = [profileSnapshot.data()?.firstName, profileSnapshot.data()?.lastName, profileSnapshot.data()?.email, profileSnapshot.data()?.profilePicture, profileSnapshot.data()?.biography];
+
+        res.status(200).send(user_data);
+    }
+    catch(error){
+        res.status(400).json({error:error})
     }
 }
 
@@ -116,5 +131,6 @@ export {
     getBlogPostById,
     getAllBlogPosts,
     createBlogPost as setBlogPost,
-    editProfilePage
+    editProfilePage,
+    getUserDetails
 }

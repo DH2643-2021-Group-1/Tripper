@@ -7,6 +7,7 @@ import {
   getBlogPostById,
   setBlogPost as createBlogPost,
   editProfilePage,
+  getUserDetails,
 } from "./firestore/firestore";
 // rest of the code remains same
 
@@ -39,11 +40,15 @@ app.get("/all-blogposts", (req, res) => {
 });
 
 app.get(
-  "/edit-profile/:userId/:firstName/:lastName/:profilePicture",
+  "/edit-profile/:userId/:firstName/:lastName/:profilePicture/:biography",
   (req, res) => {
     editProfilePage(req, res);
   }
 );
+
+app.get("/user/:userId", (req, res) => {
+  getUserDetails(req, res);
+});
 
 /** This is the client hosting */
 app.use(express.static(path.join(__dirname, "client-build/")));
