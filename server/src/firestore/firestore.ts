@@ -1,6 +1,7 @@
 import * as express from 'express';
+
 import { auth } from 'firebase-admin';
-import firestore from '../db';
+import { db, storage } from '../db';
 
 interface BlogPostDatabaseStructure {
     id: string,
@@ -13,19 +14,21 @@ interface BlogPostDatabaseStructure {
 }
 
 const createBlogPost = async (req: express.Request, res: express.Response) => {
+    // TODO include img
     try {
-        const doc = await firestore.collection('blogposts').add({
+        const doc = await db.collection('blogposts').add({
             title: req.body.title,
             text: req.body.text,
             userId: req.body.userId,
-            userRef: firestore.doc(`users/${req.body.userId}`)
+            userRef: db.doc(`users/${req.body.userId}`)
         });
 
         console.log('Added document with ID: ', doc.id);
         res.status(200).send(`New blogpost with doc id ${doc.id} written to database`)
     }
     catch (error) {
-        res.status(400).json({ error: error})
+        console.log("error:(", error)
+        res.status(400).json({ error: error })
     }
 }
 
@@ -34,7 +37,7 @@ const createBlogPost = async (req: express.Request, res: express.Response) => {
 const getBlogPostById = async (req: express.Request, res: express.Response) => {
     const blogpostId = req.params.blogpostId;
     console.log(blogpostId);
-    const blogPostSnapshot = await firestore.collection("blogposts").doc(blogpostId).get();
+    const blogPostSnapshot = await db.collection("blogposts").doc(blogpostId).get();
     const blogpost = await populateBlogPostData(blogPostSnapshot.data() as BlogPostDatabaseStructure);
     res.status(200).send(blogpost);
 }
@@ -43,8 +46,8 @@ const getBlogPostById = async (req: express.Request, res: express.Response) => {
 const getBlogPostsFromUserId = async (req: express.Request, res: express.Response) => {
     const responseArray: Object[] = [];
     const userId = req.params.userId;
-    const userRef = firestore.collection("users").doc(userId);
-    const blogPostSnapshot = await firestore
+    const userRef = db.collection("users").doc(userId);
+    const blogPostSnapshot = await db
         .collection("blogposts")
         .where("userRef", "==", userRef)
         .get();
@@ -58,7 +61,7 @@ const getBlogPostsFromUserId = async (req: express.Request, res: express.Respons
 const getAllBlogPosts = async (req: express.Request, res: express.Response) => {
     try {
         const responseArray: Object[] = [];
-        const blogpostCollection = firestore.collection('blogposts');
+        const blogpostCollection = db.collection('blogposts');
         const snapshot = await blogpostCollection.limit(10).get(); // ? orderBy(createdAt), ? set limit here or client?
         for (const doc of snapshot.docs) {
             responseArray.push(await populateBlogPostData(doc.data() as BlogPostDatabaseStructure));
