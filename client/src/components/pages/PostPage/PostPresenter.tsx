@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import PostView from "./PostView";
-import useBlogPostApi, { useCreateBlogPost } from "../../../hooks/useBlogPostApi"
+import useBlogPostApi, { useCreateBlogPost, useGetBlogPostByPostId, useUpdateBlogPost } from "../../../hooks/useBlogPostApi"
 import { BlogPostContent } from "../../../models/blog-post-content/blog-post-content";
 import { useParams } from 'react-router-dom';
 import { BlogPost } from "../../../models/blog-post";
@@ -15,11 +15,13 @@ interface PostPagePresenterParamTypes {
 
 const PostPresenter = () => {
 
-  const [handleGetAllBlogPosts, handleGetBlogPostByUserId, handleGetBlogPostByPostId] = useBlogPostApi()
+  const [handleGetAllBlogPosts, handleGetBlogPostByUserId] = useBlogPostApi()
 
   let location = useLocation()
   const params = useParams<PostPagePresenterParamTypes>();
   const blogPostId = params.id;
+
+  const [editMode, setEditMode] = useState<boolean>(false);
 
   const [blogPostDescription, setBlogPostDescription] = useState("")
   const [blogPostImage, setBlogPostImage] = useState<File | null>(null)
@@ -34,19 +36,29 @@ const PostPresenter = () => {
   // here's an id that exists http://localhost:8080/edit-post/5nuHLdsKtU96PsR5IRDF
   useEffect(() => {
     if (blogPostId && location.pathname == `/edit-post/${blogPostId}`) {
-      handleGetBlogPostByPostId(blogPostId).then((response: BlogPost[]) => {
-        setBlogPostTitle(response[0].title)
-        setBlogPostDescription(response[0].description)
-        setPreviewImage(response[0].primaryImage)
+      console.log(blogPostId);
+      setEditMode(true);
+      useGetBlogPostByPostId(blogPostId).then((response: BlogPost[]) => {
+        const existingBlogPost = response[0];
+        setBlogPostTitle(existingBlogPost.title);
+        setBlogPostDescription(existingBlogPost.description);
+        setBlogPostContent(existingBlogPost.content);
+        setPreviewImage(existingBlogPost.primaryImage);
       })
     }
   }, []);
 
   const handleSubmit = async () => {
-    if (blogPostImage == null) return;
     setIsLoading(true)
-    console.log(blogPostTitle);
-    await useCreateBlogPost(blogPostTitle, blogPostDescription, blogPostImage);
+
+    if (editMode) {
+      await useUpdateBlogPost(blogPostId, blogPostTitle, blogPostDescription, blogPostImage, blogPostContent);
+    }
+    else {
+      if (blogPostImage == null) return;
+      await useCreateBlogPost(blogPostTitle, blogPostDescription, blogPostImage, blogPostContent);
+    }
+
     setIsLoading(false)
   }
 

@@ -35,11 +35,11 @@ app.get("/blogpost-from-author/:userId", (req, res) => {
 });
 
 
-app.post("/create-blogpost", upload.single('primaryImage'), (req, res) => {
+app.post("/create-blogpost", upload.fields([{ name: 'primaryImage', maxCount: 1 }, { name: 'imagePieces', maxCount: 20 }]), (req, res) => {
   createBlogPost(req, res);
 });
 
-app.post("/update-blogpost", upload.single('primaryImage'), (req, res) => {
+app.post("/update-blogpost", upload.fields([{ name: 'primaryImage', maxCount: 1 }, { name: 'imagePieces', maxCount: 20 }]), (req, res) => {
   updateBlogPost(req, res);
 });
 

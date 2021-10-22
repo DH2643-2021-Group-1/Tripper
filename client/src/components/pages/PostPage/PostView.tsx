@@ -42,10 +42,6 @@ const PostView: FC<PostViewProps> = (props) => {
         value={props.description} 
         onChange={props.onDescriptionChange} />
       
-      <CenterContent>
-        { props.isLoading && <LoadingIndicator /> }
-      </CenterContent>
-      
       {props.imageUrl && <img className="preview" src={props.imageUrl} alt="preview image" />}
       <ImageInput onImageChange={props.onImageChange} />
       
@@ -60,6 +56,9 @@ const PostView: FC<PostViewProps> = (props) => {
       <br />
       <hr />
       <br />
+      <CenterContent>
+        { props.isLoading && <LoadingIndicator /> }
+      </CenterContent>
       <Button
           disabled={false}
           type={ButtonTypes.primary}

@@ -2,16 +2,16 @@ import axios from "axios";
 import {
     getBlogPostByUserId,
     getAllBlogPosts,
-    getBlogPostByPostId,
     editProfilePage,
     getUserDetails,
 } from "../blogpostApi";
 import { BlogPost } from "../models/blog-post"
+import { BlogPostContent } from "../models/blog-post-content/blog-post-content";
+import { BlogPostContentImage } from "../models/blog-post-content/blog-post-content-image";
 
 let result: Array<BlogPost>;
-let postResult: string;
 
-export const useCreateBlogPost = async (title: string, description: string, primaryImage: File) => {
+export const useCreateBlogPost = async (title: string, description: string, primaryImage: File, content: BlogPostContent) => {
     let userId: string = "320v9d6BBIeCkorfQgjc"; // TODO take as param in handleSetPost
     try {
         var formData = new FormData();
@@ -19,8 +19,10 @@ export const useCreateBlogPost = async (title: string, description: string, prim
         formData.append("description", description);
         formData.append("userId", userId);
         formData.append("primaryImage", primaryImage, "primaryImage.png");
+        transferContentFilesIntoFormData(formData, content);
+        formData.append("content", JSON.stringify(content));
         const res = await axios.post(
-            "api/create-blogpost",
+            "/api/create-blogpost",
             formData,
             {
                 headers: { "Content-Type": "multipart/form-data" }
@@ -31,7 +33,7 @@ export const useCreateBlogPost = async (title: string, description: string, prim
     }
 }
 
-export const useUpdateBlogPost = async (id: string, title: string, description: string, primaryImage: File) => {
+export const useUpdateBlogPost = async (id: string, title: string, description: string, primaryImage: File | null, content: BlogPostContent) => {
     let userId: string = "320v9d6BBIeCkorfQgjc"; // TODO take as param in handleSetPost
     try {
         var formData = new FormData();
@@ -39,9 +41,14 @@ export const useUpdateBlogPost = async (id: string, title: string, description: 
         formData.append("title", title);
         formData.append("description", description);
         formData.append("userId", userId);
-        formData.append("primaryImage", primaryImage, "primaryImage.png");
+        transferContentFilesIntoFormData(formData, content);
+        console.log(content);
+        formData.append("content", JSON.stringify(content));
+        if (primaryImage != null) {
+            formData.append("primaryImage", primaryImage, "primaryImage.png");
+        }
         const res = await axios.post(
-            "api/update-blogpost",
+            "/api/update-blogpost",
             formData,
             {
                 headers: { "Content-Type": "multipart/form-data" }
@@ -52,11 +59,31 @@ export const useUpdateBlogPost = async (id: string, title: string, description: 
     }
 }
 
+export const useGetBlogPostByPostId = async (blogPostId: string) => {
+    try {
+        const res = await axios.get(`/api/blogpost/${blogPostId}`)
+        return res.data;
+    } catch (error: any) {
+        throw new Error(error) // find appr. error to throw
+    }
+};
+
+const transferContentFilesIntoFormData = (formData: FormData, content: BlogPostContent) => {
+    content.contentPieces.forEach(piece => {
+        if (piece.type == "image") {
+            const imagePiece = (piece as BlogPostContentImage);
+            if (imagePiece.file != null) {
+                formData.append(`imagePieces`, imagePiece.file);
+                imagePiece.file = null;
+            }
+        }
+    })
+}
+
 
 function useBlogPostApi(): [
     () => Promise<BlogPost[]>,
     (userID: string) => Promise<BlogPost[]>,
-    (blogPostId: string) => Promise<BlogPost[]>,
     (
         userID: string,
         firstName: string,
@@ -87,15 +114,7 @@ function useBlogPostApi(): [
         }
     };
 
-    const handleGetBlogPostByPostId = async (blogPostId: string) => {
-        try {
-            result = await getBlogPostByPostId(blogPostId);
-            console.log("Get blogpost by post id, result:", result);
-            return result;
-        } catch (error) {
-            throw new Error("No such document");
-        }
-    };
+
 
     const handleEditProfile = async (
         userId: string,
@@ -132,7 +151,6 @@ function useBlogPostApi(): [
     return [
         handleGetAllBlogPosts,
         handleGetBlogPostByUserId,
-        handleGetBlogPostByPostId,
         handleEditProfile,
         handleGetUserDetails,
     ];

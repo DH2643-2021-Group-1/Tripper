@@ -16,16 +16,6 @@ export const getBlogPostByUserId = async (userId: string) => {
     }
 }
 
-export const getBlogPostByPostId = async (blogpostId: string) => {
-    console.log("i api call")
-    try {
-        const res = await axios.get(`http://localhost:8000/blogpost/${blogpostId}`)
-        console.log("response", res.data)
-        return res.data
-    } catch (error: any) {
-        throw new Error(error) // find appr. error to throw
-    }
-}
 
 // ? set number of queried posts here? Now it's set in backend
 export const getAllBlogPosts = async () => {

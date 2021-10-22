@@ -10,7 +10,6 @@ const EditPresenter: React.FC = () => {
   const [
     handleGetAllBlogPosts,
     handleGetBlogPostByUserId,
-    handleGetBlogPostByPostId,
     handleEditProfile,
     handleGetUserDetails,
   ] = useBlogPostApi();
