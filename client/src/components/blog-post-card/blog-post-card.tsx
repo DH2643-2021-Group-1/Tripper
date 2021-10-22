@@ -44,7 +44,7 @@ const BlogPostCard: FC<BlogPostCardProps> = (props) => {
                             { createShortDescription() }
                         </div>
                         <div className="blog-post-card__date">
-                            <i>{ moment(props.data.publicationDate).format("DD-MM-YYYY") }</i>
+                            <i>{ moment(props.data.publicationDate).format("DD MMMM YYYY") }</i>
                         </div>
                     </div>
                 </div>
