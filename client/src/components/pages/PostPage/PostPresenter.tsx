@@ -35,7 +35,7 @@ const PostPresenter = () => {
     if (blogPostId && location.pathname == `/edit-post/${blogPostId}`) {
       handleGetBlogPostByPostId(blogPostId).then((response: BlogPost[]) => {
         setblogPostTitle(response[0].title)
-        setblogPostContent(response[0].content)
+        setBlogPostDescription(response[0].description)
         setPreviewImage(response[0].primaryImage)
       })
     }
