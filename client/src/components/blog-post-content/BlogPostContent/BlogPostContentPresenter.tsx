@@ -9,11 +9,6 @@ interface BlogPostContentPresenterProps {
     onContentEdited?: (content: BlogPostContent) => void,
 }
 
-export interface BlogPostContentEditRequest {
-    contentPieceIndex: number,
-    contentPieceToUpdate: BlogPostContentPieceAny, 
-}
-
 const BlogPostContentPresenter: FC<BlogPostContentPresenterProps> = (props) => {
     
     const handleEditRequest = (editedPiece: BlogPostContentPieceAny) => {

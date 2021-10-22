@@ -33,9 +33,6 @@ jobs:
           env:
             FIREBASE_KEY : ${{ secrets.FIREBASE_KEY }}
 
-        - name: Log Firebase Secrete
-          run: cat server/src/firebase-key.json
-
         - name: Build Docker image
           run: docker build . -t $IMAGE_NAME
 
