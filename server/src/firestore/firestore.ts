@@ -27,7 +27,6 @@ const createBlogPost = async (req: express.Request, res: express.Response) => {
         res.status(200).send(`New blogpost with doc id ${doc.id} written to database`)
     }
     catch (error) {
-        console.log("error:(", error)
         res.status(400).json({ error: error })
     }
 }
@@ -35,14 +34,19 @@ const createBlogPost = async (req: express.Request, res: express.Response) => {
 
 /** Get the blog post from its Id */
 const getBlogPostById = async (req: express.Request, res: express.Response) => {
-    const responseArray: Object[] = [];
-    const blogpostId = req.params.blogpostId;
-    console.log(blogpostId);
-    const blogPostSnapshot = await db.collection("blogposts").doc(blogpostId).get();
-    responseArray.push(await populateBlogPostData(blogPostSnapshot.data() as BlogPostDatabaseStructure))
-    //const blogpost = await populateBlogPostData(blogPostSnapshot.data() as BlogPostDatabaseStructure);
-    //res.status(200).send(blogpost);
-    res.status(200).send(responseArray)
+
+    try {
+        const responseArray: Object[] = [];
+        const blogpostId = req.params.blogpostId;
+        console.log(blogpostId);
+        const blogPostSnapshot = await db.collection("blogposts").doc(blogpostId).get();
+        responseArray.push(await populateBlogPostData(blogPostSnapshot.data() as BlogPostDatabaseStructure))
+        //const blogpost = await populateBlogPostData(blogPostSnapshot.data() as BlogPostDatabaseStructure);
+        //res.status(200).send(blogpost);
+        res.status(200).send(responseArray)
+    } catch (error) {
+        res.status(400).json({ error: error })
+    }
 }
 
 /** Returns all the blog post that the user owns */
@@ -55,7 +59,7 @@ const getBlogPostsFromUserId = async (req: express.Request, res: express.Respons
         .where("userRef", "==", userRef)
         .get();
     for (const doc of blogPostSnapshot.docs) {
-        responseArray.push(await populateBlogPostData(doc.data() as BlogPostDatabaseStructure));
+        responseArray.push(await populateBlogPostData(doc));
     }
     res.status(200).send(responseArray);
 }
@@ -67,7 +71,7 @@ const getAllBlogPosts = async (req: express.Request, res: express.Response) => {
         const blogpostCollection = db.collection('blogposts');
         const snapshot = await blogpostCollection.limit(10).get(); // ? orderBy(createdAt), ? set limit here or client?
         for (const doc of snapshot.docs) {
-            responseArray.push(await populateBlogPostData(doc.data() as BlogPostDatabaseStructure));
+            responseArray.push(await populateBlogPostData(doc));
         }
         res.status(200).send(responseArray);
     } catch (error) {
@@ -76,11 +80,12 @@ const getAllBlogPosts = async (req: express.Request, res: express.Response) => {
 }
 
 /** Internal function that populates blog post data with the authors data */
-const populateBlogPostData = async (blogpostDocumentData: BlogPostDatabaseStructure): Promise<any> => {
+const populateBlogPostData = async (blogpostDocumentSnapshot: firestore.QueryDocumentSnapshot<firestore.DocumentData> | firestore.DocumentSnapshot<firestore.DocumentData>): Promise<any> => {
+    const blogpostDocumentData = blogpostDocumentSnapshot.data() as BlogPostDatabaseStructure;
     const authorRef = blogpostDocumentData.userRef;
     const author = await authorRef.get();
     return {
-        id: blogpostDocumentData.id,
+        id: blogpostDocumentSnapshot.id,
         title: blogpostDocumentData.title,
         content: blogpostDocumentData.text,   // TODO : change to advanced structure
         description: blogpostDocumentData.description,
