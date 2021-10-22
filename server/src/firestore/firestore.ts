@@ -82,7 +82,7 @@ const populateBlogPostData = async (blogpostDocumentData: BlogPostDatabaseStruct
     return {
         id: blogpostDocumentData.id,
         title: blogpostDocumentData.title,
-        content: blogpostDocumentData.text,
+        content: blogpostDocumentData.text,   // TODO : change to advanced structure
         description: blogpostDocumentData.description,
         primaryImage: blogpostDocumentData.primaryImage,
         publicationDate: blogpostDocumentData.publicationDate,
