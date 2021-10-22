@@ -35,11 +35,14 @@ const createBlogPost = async (req: express.Request, res: express.Response) => {
 
 /** Get the blog post from its Id */
 const getBlogPostById = async (req: express.Request, res: express.Response) => {
+    const responseArray: Object[] = [];
     const blogpostId = req.params.blogpostId;
     console.log(blogpostId);
     const blogPostSnapshot = await db.collection("blogposts").doc(blogpostId).get();
-    const blogpost = await populateBlogPostData(blogPostSnapshot.data() as BlogPostDatabaseStructure);
-    res.status(200).send(blogpost);
+    responseArray.push(await populateBlogPostData(blogPostSnapshot.data() as BlogPostDatabaseStructure))
+    //const blogpost = await populateBlogPostData(blogPostSnapshot.data() as BlogPostDatabaseStructure);
+    //res.status(200).send(blogpost);
+    res.status(200).send(responseArray)
 }
 
 /** Returns all the blog post that the user owns */
