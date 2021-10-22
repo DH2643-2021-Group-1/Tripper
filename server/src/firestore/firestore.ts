@@ -40,7 +40,7 @@ const getBlogPostById = async (req: express.Request, res: express.Response) => {
         const blogpostId = req.params.blogpostId;
         console.log(blogpostId);
         const blogPostSnapshot = await db.collection("blogposts").doc(blogpostId).get();
-        responseArray.push(await populateBlogPostData(blogPostSnapshot.data() as BlogPostDatabaseStructure))
+        responseArray.push(await populateBlogPostData(blogPostSnapshot))
         //const blogpost = await populateBlogPostData(blogPostSnapshot.data() as BlogPostDatabaseStructure);
         //res.status(200).send(blogpost);
         res.status(200).send(responseArray)
@@ -116,21 +116,21 @@ const editProfilePage = async (req: express.Request, res: express.Response) => {
         res.status(200).send(firstName + ' ' + lastName);
         //return profileSnapshot.data()?.firstName;
     }
-    catch(error){
-        res.status(400).json({ error: error});
+    catch (error) {
+        res.status(400).json({ error: error });
     }
 }
 
-const getUserDetails = async (req:express.Request, res: express.Response) => {
-    try{
+const getUserDetails = async (req: express.Request, res: express.Response) => {
+    try {
         const userId = req.params.userId;
         const profileSnapshot = await db.collection('users').doc(userId).get();
         const user_data = [profileSnapshot.data()?.firstName, profileSnapshot.data()?.lastName, profileSnapshot.data()?.email, profileSnapshot.data()?.profilePicture, profileSnapshot.data()?.biography];
 
         res.status(200).send(user_data);
     }
-    catch(error){
-        res.status(400).json({error:error})
+    catch (error) {
+        res.status(400).json({ error: error })
     }
 }
 
