@@ -34,12 +34,16 @@ const createBlogPost = async (req: express.Request, res: express.Response) => {
 
 /** Get the blog post from its Id */
 const getBlogPostById = async (req: express.Request, res: express.Response) => {
+
     try {
+        const responseArray: Object[] = [];
         const blogpostId = req.params.blogpostId;
         console.log(blogpostId);
         const blogPostSnapshot = await db.collection("blogposts").doc(blogpostId).get();
-        const blogpost = await populateBlogPostData(blogPostSnapshot);
-        res.status(200).send(blogpost);
+        responseArray.push(await populateBlogPostData(blogPostSnapshot.data() as BlogPostDatabaseStructure))
+        //const blogpost = await populateBlogPostData(blogPostSnapshot.data() as BlogPostDatabaseStructure);
+        //res.status(200).send(blogpost);
+        res.status(200).send(responseArray)
     } catch (error) {
         res.status(400).json({ error: error })
     }
@@ -83,7 +87,7 @@ const populateBlogPostData = async (blogpostDocumentSnapshot: firestore.QueryDoc
     return {
         id: blogpostDocumentSnapshot.id,
         title: blogpostDocumentData.title,
-        content: blogpostDocumentData.text,
+        content: blogpostDocumentData.text,   // TODO : change to advanced structure
         description: blogpostDocumentData.description,
         primaryImage: blogpostDocumentData.primaryImage,
         publicationDate: blogpostDocumentData.publicationDate,

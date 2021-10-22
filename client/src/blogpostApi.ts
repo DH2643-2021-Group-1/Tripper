@@ -17,12 +17,9 @@ export const getBlogPostByUserId = async (userId: string) => {
 }
 
 export const getBlogPostByPostId = async (blogpostId: string) => {
+    console.log("i api call")
     try {
-        const res = await axios.get("http://localhost:8000/blogpost/:blogpostId", {
-            params: {
-                blogpostId: blogpostId
-            }
-        })
+        const res = await axios.get(`http://localhost:8000/blogpost/${blogpostId}`)
         console.log("response", res.data)
         return res.data
     } catch (error: any) {
@@ -55,24 +52,24 @@ export const getAllBlogPosts = async () => {
 }
 
 
-export const editProfilePage = async (userId: string, firstName:string, lastName:string, profilePicture:any, biography:string) => {
+export const editProfilePage = async (userId: string, firstName: string, lastName: string, profilePicture: any, biography: string) => {
     try {
         const res = await axios.get(`http://localhost:8000/edit-profile/${userId}/${firstName}/${lastName}/${profilePicture}/${biography}`);
         console.log('response:', res.data)
         return res.data;
     }
-    catch(error:any){
+    catch (error: any) {
         throw new Error(error);
     }
 }
 
-export const getUserDetails = async (userId:string) => {
-    try{
+export const getUserDetails = async (userId: string) => {
+    try {
         const res = await axios.get(`http://localhost:8000/user/${userId}`);
         console.log('response:', res.data)
         return res.data;
     }
-    catch(error:any){
+    catch (error: any) {
         throw new Error(error)
     }
 }
