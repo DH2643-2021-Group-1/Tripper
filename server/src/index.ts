@@ -1,6 +1,7 @@
 import * as express from "express";
 import * as cors from "cors";
 import * as path from "path";
+import * as multer from "multer";
 import {
   getBlogPostsFromUserId,
   getAllBlogPosts,
@@ -8,11 +9,13 @@ import {
   setBlogPost as createBlogPost,
   editProfilePage,
   getUserDetails,
+  updateBlogPost,
 } from "./firestore/firestore";
 // rest of the code remains same
 
 const app = express();
-app.use(express.urlencoded({ extended: false }));
+let upload = multer();
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
 
@@ -31,14 +34,20 @@ app.get("/blogpost-from-author/:userId", (req, res) => {
   getBlogPostsFromUserId(req, res);
 });
 
-app.post("/create-blogpost", (req, res) => {
+
+app.post("/create-blogpost", upload.single('primaryImage'), (req, res) => {
   createBlogPost(req, res);
+});
+
+app.post("/update-blogpost", upload.single('primaryImage'), (req, res) => {
+  updateBlogPost(req, res);
 });
 
 app.get("/all-blogposts", (req, res) => {
   getAllBlogPosts(req, res);
 });
 
+//TODO: Use Post for edit profile
 app.get(
   "/edit-profile/:userId/:firstName/:lastName/:profilePicture/:biography",
   (req, res) => {

@@ -2,6 +2,7 @@ import * as express from 'express';
 
 import { auth, firestore } from 'firebase-admin';
 import { db, storage } from '../db';
+import { deleteImage, uploadImage } from './image-manager';
 
 interface BlogPostDatabaseStructure {
     id: string,
@@ -14,17 +15,48 @@ interface BlogPostDatabaseStructure {
 }
 
 const createBlogPost = async (req: express.Request, res: express.Response) => {
-    // TODO include img
     try {
         const doc = await db.collection('blogposts').add({
             title: req.body.title,
-            text: req.body.text,
-            userId: req.body.userId,
-            userRef: db.doc(`users/${req.body.userId}`)
+            description: req.body.description,
+            userRef: db.doc(`users/${req.body.userId}`),
+            publicationDate: new Date().getTime(),
+            primaryImage: ''
         });
 
+        const url = await uploadImage(req.file, `blogPostImages/${doc.id}.png`);
+
+        await doc.update({
+            primaryImage: url
+        })
+        
         console.log('Added document with ID: ', doc.id);
         res.status(200).send(`New blogpost with doc id ${doc.id} written to database`)
+    }
+    catch (error) {
+        res.status(400).json({ error: error })
+    }
+}
+
+const updateBlogPost = async (req: express.Request, res: express.Response) => {
+    try {
+        const existingBlogPost = await db.collection('blogposts').doc(req.body.id).get();
+        
+        if (req.file != null && existingBlogPost != null) {
+            const primaryImagePath = `blogPostImages/${existingBlogPost.id}.png`;
+            await deleteImage(primaryImagePath);
+            const newImageUrl = await uploadImage(req.file, primaryImagePath);
+            existingBlogPost.ref.update({
+                primaryImagePath: newImageUrl
+            })
+        }
+
+        await existingBlogPost.ref.update({
+            title: req.body.title,
+            description: req.body.description,
+        });
+        
+        res.status(200).send(`Blog Post Updated`);
     }
     catch (error) {
         res.status(400).json({ error: error })
@@ -134,6 +166,7 @@ export {
     getBlogPostsFromUserId,
     getBlogPostById,
     getAllBlogPosts,
+    updateBlogPost,
     createBlogPost as setBlogPost,
     editProfilePage,
     getUserDetails

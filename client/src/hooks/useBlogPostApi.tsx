@@ -1,7 +1,7 @@
+import axios from "axios";
 import {
   getBlogPostByUserId,
   getAllBlogPosts,
-  setBlogPost,
   getBlogPostByPostId,
   editProfilePage,
   getUserDetails,
@@ -15,9 +15,49 @@ interface BlogPost {
 let result: Array<BlogPost>;
 let postResult: string;
 
+export const useCreateBlogPost = async (title: string, description: string, primaryImage: File)  => {
+  let userId: string = "320v9d6BBIeCkorfQgjc"; // TODO take as param in handleSetPost
+  try {
+      var formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("userId", userId);
+      formData.append("primaryImage", primaryImage, "primaryImage.png");
+      const res = await axios.post(
+          "api/create-blogpost", 
+          formData, 
+          { headers: { "Content-Type": "multipart/form-data" } 
+      })
+      return res.data
+  } catch (error: any) {
+      throw new Error(error) // find appr. error to throw
+  }
+}
+
+export const useUpdateBlogPost = async (id: string, title: string, description: string, primaryImage: File) => {
+  let userId: string = "320v9d6BBIeCkorfQgjc"; // TODO take as param in handleSetPost
+  try {
+      var formData = new FormData();
+      formData.append("id", id);
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("userId", userId);
+      formData.append("primaryImage", primaryImage, "primaryImage.png");
+      const res = await axios.post(
+          "api/update-blogpost", 
+          formData, 
+          { headers: { "Content-Type": "multipart/form-data" } 
+      })
+      return res.data
+  } catch (error: any) {
+      throw new Error(error) // find appr. error to throw
+  }
+}
+
+
+
 function useBlogPostApi(): [
   () => Promise<BlogPost[]>,
-  (title: string, text: string) => Promise<string>,
   (userID: string) => Promise<BlogPost[]>,
   (blogPostId: string) => Promise<BlogPost[]>,
   (
@@ -36,17 +76,6 @@ function useBlogPostApi(): [
       return result;
     } catch (error) {
       throw new Error("No such document");
-    }
-  };
-
-  const handleSetPost = async (title: string, text: string) => {
-    let userRef: string = "320v9d6BBIeCkorfQgjc"; // TODO take as param in handleSetPost
-    try {
-      postResult = await setBlogPost(title, text, userRef);
-      console.log("Set blogpost, result:", postResult);
-      return postResult;
-    } catch (error) {
-      throw new Error("Problems communicating with the API");
     }
   };
 
@@ -105,7 +134,6 @@ function useBlogPostApi(): [
 
   return [
     handleGetAllBlogPosts,
-    handleSetPost,
     handleGetBlogPostByUserId,
     handleGetBlogPostByPostId,
     handleEditProfile,

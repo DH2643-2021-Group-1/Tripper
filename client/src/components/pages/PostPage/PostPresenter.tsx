@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PostView from "./PostView";
-import useBlogPostApi from "../../../hooks/useBlogPostApi"
+import useBlogPostApi, { useCreateBlogPost } from "../../../hooks/useBlogPostApi"
 import { BlogPostContent } from "../../../models/blog-post-content/blog-post-content";
 
 // TODO possibility to populate fields with existing blogpost (for editing mode)
@@ -8,11 +8,11 @@ import { BlogPostContent } from "../../../models/blog-post-content/blog-post-con
 
 const PostPresenter = () => {
 
-  const [handleGetAllBlogPosts, handleSetPost, handleGetBlogPostByUserId, handleGetBlogPostByPostId] = useBlogPostApi()
+  const [handleGetAllBlogPosts, handleGetBlogPostByUserId, handleGetBlogPostByPostId] = useBlogPostApi()
 
   const [blogPostDescription, setBlogPostDescription] = useState("")
-  const [blogPostImage, setblogPostImage] = useState<Array<File | Blob>>([])
-  const [blogPostTitle, setblogPostTitle] = useState("")
+  const [blogPostImage, setBlogPostImage] = useState<File | null>(null)
+  const [blogPostTitle, setBlogPostTitle] = useState("")
   const [loading, setIsLoading] = useState(false)
   const [blogPostContent, setBlogPostContent] = useState<BlogPostContent>({
      contentPieces: [],
@@ -20,30 +20,29 @@ const PostPresenter = () => {
 
   const [previewImage, setPreviewImage] = useState("")
 
-
   const handleSubmit = async () => {
+    if (blogPostImage == null) return;
     setIsLoading(true)
-    await handleSetPost(blogPostTitle, blogPostDescription)
-    // when img upload is supported in backend:
-    // await handleSetPost(blogPostTitle, blogPostContent, blogPostImage) 
+    console.log(blogPostTitle);
+    await useCreateBlogPost(blogPostTitle, blogPostDescription, blogPostImage);
     setIsLoading(false)
   }
 
-  const handleTextChange = (e: any) => {
+  const handleDescriptionChange = (e: any) => {
     e.preventDefault();
     const blogpostText = e.target.value;
     setBlogPostDescription(blogpostText)
   }
 
-  const handleChangeHeader = (e: any) => {
+  const handleTitleChange = (e: any) => {
     e.preventDefault();
     const blogpostTitle = e.target.value;
-    setblogPostTitle(blogpostTitle)
+    setBlogPostTitle(blogpostTitle)
   }
 
   const handleFileChange = (e: any) => {
     const file = e.target.files[0];
-    setblogPostImage(file)
+    setBlogPostImage(file)
     setPreviewImage(URL.createObjectURL(file))
   }
 
@@ -53,15 +52,16 @@ const PostPresenter = () => {
 
   return <PostView 
     onContentChange={handleContentChange}
-    onHeadingChange={handleChangeHeader}
-    onTextChange={handleTextChange} 
+    onDescriptionChange={handleDescriptionChange}
+    onTitleChange={handleTitleChange} 
     onImageChange={handleFileChange} 
     onSubmit={handleSubmit} 
-    formValue={blogPostDescription} 
-    formHeader={blogPostTitle} 
+    description={blogPostDescription} 
+    title={blogPostTitle} 
     isLoading={loading} 
-    preview={previewImage} 
+    imageUrl={previewImage} 
     content={blogPostContent}/>;
 };
 
 export default PostPresenter;
+
