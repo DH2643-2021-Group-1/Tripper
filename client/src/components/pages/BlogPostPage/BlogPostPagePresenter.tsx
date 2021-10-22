@@ -4,6 +4,7 @@ import { BlogPost } from '../../../models/blog-post';
 import BlogPostPageView from './BlogPostPageView';
 import { useParams } from 'react-router-dom';
 import { useGetBlogPostByPostId } from '../../../hooks/useBlogPostApi';
+import { calculateReadTimeInMinutes } from '../../../helpers/blog-post-read-time';
 
 interface BlogPostPagePresenterParamTypes {
     id: string
@@ -32,7 +33,9 @@ const BlogPostPagePresenter: FC = (props) => {
             return <PageLoadingIndicator/>
         }
         if (blogPost != null) {
-            return <BlogPostPageView blogPost={blogPost}/>
+            return <BlogPostPageView 
+                readingSpeed={calculateReadTimeInMinutes(blogPost.content)} 
+                blogPost={blogPost}/>
         }
         return <div>Blog post do not exist</div>
     }

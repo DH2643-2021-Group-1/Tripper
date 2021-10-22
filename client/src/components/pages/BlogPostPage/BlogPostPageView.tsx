@@ -12,6 +12,7 @@ import BlogPostContentPresenter from '../../blog-post-content/BlogPostContent/Bl
 import './BlogPostPageView.scss';
 
 interface BlogPostPageViewProps {
+    readingSpeed: number,
     blogPost: BlogPost,
 }
 
@@ -53,7 +54,7 @@ const BlogPostPageView: FC<BlogPostPageViewProps> = (props) => {
                             <BlogPostMetaCard 
                                 leading={<HourglassTopIcon/>}
                                 subtitle="Average Read Time"
-                                title={"12 minutes"}/>
+                                title={props.readingSpeed + " minutes"}/>
                         </div>
                     </ContentWrapper>
                 </div>
