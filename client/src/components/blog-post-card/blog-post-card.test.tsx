@@ -10,7 +10,9 @@ const dummyBlogPost: BlogPost = {
     title: "This is a title",
     primaryImage: "https://www.swedishlapland.com/wp-content/uploads/1920_hiking_fullres_cjutsi-1920x842.jpg",
     description: "This is a description that is somewhat to long to be contained in the blog post card.",
-    content: "TODO",
+    content: {
+      contentPieces: [],
+    },
     publicationDate: new Date(),
     author: {
       email: "adajon@kth.se",

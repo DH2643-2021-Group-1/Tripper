@@ -15,9 +15,7 @@ const ProfilePresenter: React.FC = () => {
 
   const [
     handleGetAllBlogPosts,
-    handleSetPost,
     handleGetBlogPostByUserId,
-    handleGetBlogPostByPostId,
     handleEditProfile,
     handleGetUserDetails,
   ] = useBlogPostApi();

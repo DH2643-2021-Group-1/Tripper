@@ -3,6 +3,7 @@ import PageLoadingIndicator from '../../page-loading-indicator/page-loading-indi
 import { BlogPost } from '../../../models/blog-post';
 import BlogPostPageView from './BlogPostPageView';
 import { useParams } from 'react-router-dom';
+import { useGetBlogPostByPostId } from '../../../hooks/useBlogPostApi';
 
 interface BlogPostPagePresenterParamTypes {
     id: string
@@ -19,25 +20,11 @@ const BlogPostPagePresenter: FC = (props) => {
 
     useEffect(() => {
         setIsFetchingBlogPost(true);
-        // TODO: Fetch the correct blog post
-        setTimeout(()=> {
-            const dummyBlogPost: BlogPost = {
-                id: "43ds9f39h9shs",
-                title: "Very Cool Title for an Adventure!",
-                primaryImage: "https://www.swedishlapland.com/wp-content/uploads/1920_hiking_fullres_cjutsi-1920x842.jpg",
-                description: "This is a description that is somewhat to long to be contained in the blog post card.",
-                content: "<h1>Test</h1><p>This is a test how the blog post content looks like when presented in the blog post page. Hopefully the html will render correctly and the content will be readable in a nice way. Fingers crossed :). I also wanted to add more text just to see how the paragraph could look like.</p><h1>Another title</h1><p>This is yet another paragraph to make it nicer to read and consume content on this site. I just write different words and we will see how it will look in the end. I am thiking about to make the text a little bigger and also to increase the line height of it</p>",
-                publicationDate: new Date(),
-                author: {
-                  email: "adajon@kth.se",
-                  firstName: "Adam",
-                  lastName: "Jonsson",
-                  profilePicture: null,
-                }
-            }
-            setBlogPost(dummyBlogPost);
+        useGetBlogPostByPostId(blogPostId).then((fetchedBlogPost: BlogPost[]) => {
+            console.log(fetchedBlogPost[0]);
+            setBlogPost(fetchedBlogPost[0]);
             setIsFetchingBlogPost(false);
-        }, 1000);
+        });
     }, [blogPostId]);
 
     const render = () => {

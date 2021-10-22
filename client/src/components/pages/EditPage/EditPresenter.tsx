@@ -9,9 +9,7 @@ const EditPresenter: React.FC = () => {
   const history = useHistory();
   const [
     handleGetAllBlogPosts,
-    handleSetPost,
     handleGetBlogPostByUserId,
-    handleGetBlogPostByPostId,
     handleEditProfile,
     handleGetUserDetails,
   ] = useBlogPostApi();
