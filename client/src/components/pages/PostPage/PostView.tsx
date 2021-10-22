@@ -7,6 +7,7 @@ import LoadingIndicator from "../../loading-indicator/loading-indicator"
 import ContentWrapper from "../../content-wrapper/content-wrapper";
 import BlogPostContentPresenter from "../../blog-post-content/BlogPostContent/BlogPostContentPresenter";
 import { BlogPostContent } from "../../../models/blog-post-content/blog-post-content";
+import CenterContent from "../../center-content/center-content";
 
 
 interface PostViewProps {
@@ -41,7 +42,9 @@ const PostView: FC<PostViewProps> = (props) => {
         value={props.description} 
         onChange={props.onDescriptionChange} />
       
-      { props.isLoading && <LoadingIndicator /> }
+      <CenterContent>
+        { props.isLoading && <LoadingIndicator /> }
+      </CenterContent>
       
       {props.imageUrl && <img className="preview" src={props.imageUrl} alt="preview image" />}
       <ImageInput onImageChange={props.onImageChange} />
