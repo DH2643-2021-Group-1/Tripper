@@ -70,6 +70,12 @@ const App: React.FC = () => {
             <PostPresenter />
           </div>
         </Route>
+        <Route exact path="/edit-post/:id">
+          <Menu />
+          <div className="pageContainer">
+            <PostPresenter />
+          </div>
+        </Route>
         <Route exact path="/profile">
           <Menu />
           <div className="pageContainer">

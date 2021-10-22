@@ -4,14 +4,14 @@ import PostView from "./PostView";
 import useBlogPostApi from "../../../hooks/useBlogPostApi"
 import { BlogPostContent } from "../../../models/blog-post-content/blog-post-content";
 import { useParams } from 'react-router-dom';
+import { BlogPost } from "../../../models/blog-post";
+
 
 // TODO possibility to populate fields with existing blogpost (for editing mode)
 // TODO: felhantering - "du måste ha en titel", etc
-
 interface PostPagePresenterParamTypes {
   id: string
 }
-
 
 const PostPresenter = () => {
   const [handleGetAllBlogPosts, handleSetPost, handleGetBlogPostByUserId, handleGetBlogPostByPostId] = useBlogPostApi()
@@ -30,14 +30,16 @@ const PostPresenter = () => {
 
   const [previewImage, setPreviewImage] = useState("")
 
-
+  // here's an id that exists http://localhost:8080/edit-post/5nuHLdsKtU96PsR5IRDF
   useEffect(() => {
     if (blogPostId && location.pathname == `/edit-post/${blogPostId}`) {
-      // call getblogpostid func
-      //handleGetBlogPostByPostId(blogPostId)
-      handleGetBlogPostByPostId("5nuHLdsKtU96PsR5IRDF") //43ds9f39h9shs, 11
+      handleGetBlogPostByPostId(blogPostId).then((response: BlogPost[]) => {
+        setblogPostTitle(response[0].title)
+        setblogPostContent(response[0].content)
+        setPreviewImage(response[0].primaryImage)
+      })
     }
-  }, [])
+  }, []);
 
   const handleSubmit = async () => {
     setIsLoading(true)
