@@ -55,6 +55,16 @@ export const useUpdateBlogPost = async (id: string, title: string, description: 
     }
 }
 
+export const useDeleteBlogPostByPostId = async (blogPostId: string) => {
+    try {
+        //TODO: Add some kind of authentication token here
+        const res = await axios.delete(`/api/delete-blogpost/${blogPostId}`);
+        return res.data;
+    } catch (error: any) {
+        throw new Error(error) // find appr. error to throw
+    }
+}
+
 export const useGetBlogPostByPostId = async (blogPostId: string) => {
     try {
         const res = await axios.get(`/api/blogpost/${blogPostId}`)
