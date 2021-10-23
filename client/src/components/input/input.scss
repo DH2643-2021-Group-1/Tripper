@@ -1,16 +1,26 @@
 @import "../../theme/theme";
 
-.input-container__input {
+%input-container__input {
     padding: 15px 20px;
     margin-top: 3px;
-
     border-radius: $shape-border-radius-medium;
-    border: none;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 5px #00000026;
     width: 100%;
 }
 
+    .input-container__input--default {
+        @extend %input-container__input;
+        border: none;
+    }
+    
+    .input-container__input--empty {
+        @extend %input-container__input;
+        outline: none;
+        border: 2px solid rgba(255, 0, 0, 0.6);
+    }
+
     .input-container--multiline {
     height: 200px;
+  
 }
 
