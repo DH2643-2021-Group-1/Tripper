@@ -6,9 +6,6 @@ import { BlogPostContent } from "../../../models/blog-post-content/blog-post-con
 import { useParams } from 'react-router-dom';
 import { BlogPost } from "../../../models/blog-post";
 
-
-// TODO possibility to populate fields with existing blogpost (for editing mode)
-// TODO: felhantering - "du måste ha en titel", etc
 interface PostPagePresenterParamTypes {
   id: string
 }
@@ -30,8 +27,27 @@ const PostPresenter = () => {
   const [blogPostContent, setBlogPostContent] = useState<BlogPostContent>({
     contentPieces: [],
   })
-
   const [previewImage, setPreviewImage] = useState("")
+
+  const [titleExists, setTitleExists] = useState(false)
+  const [descriptionExists, setDescriptionExists] = useState(false)
+  const [imageExists, setImageExists] = useState(false)
+
+  const [requireTitle, setRequireTitle] = useState(false)
+  const [requireDescription, setRequireDescription] = useState(false)
+  const [requireImage, setRequireImage] = useState(false)
+
+
+  useEffect(() => {
+    setTitleExists(blogPostTitle.length > 0)
+    setDescriptionExists(blogPostDescription.length > 0)
+    setImageExists(blogPostImage !== null && blogPostImage !== undefined)
+
+    setRequireTitle(false)
+    setRequireDescription(false)
+    setRequireImage(false)
+
+  }, [blogPostTitle, blogPostDescription, blogPostImage])
 
   // here's an id that exists http://localhost:8080/edit-post/5nuHLdsKtU96PsR5IRDF
   useEffect(() => {
@@ -62,6 +78,12 @@ const PostPresenter = () => {
     setIsLoading(false)
   }
 
+  const handleEmptyFieldsError = () => {
+    setRequireTitle(!titleExists)
+    setRequireDescription(!descriptionExists)
+    setRequireImage(!imageExists)
+  }
+
   const handleDescriptionChange = (e: any) => {
     e.preventDefault();
     const blogpostText = e.target.value;
@@ -84,17 +106,21 @@ const PostPresenter = () => {
     setBlogPostContent(updatedContent);
   }
 
+  // TODO add require img (onSubmit prop and separate prop)
   return <PostView
     onContentChange={handleContentChange}
     onDescriptionChange={handleDescriptionChange}
-    onTitleChange={handleTitleChange} 
-    onImageChange={handleFileChange} 
-    onSubmit={handleSubmit} 
-    description={blogPostDescription} 
-    title={blogPostTitle} 
-    isLoading={loading} 
-    imageUrl={previewImage} 
-    content={blogPostContent}/>;
+    onTitleChange={handleTitleChange}
+    onImageChange={handleFileChange}
+    onSubmit={titleExists && descriptionExists ? handleSubmit : handleEmptyFieldsError}
+    description={blogPostDescription}
+    title={blogPostTitle}
+    isLoading={loading}
+    imageUrl={previewImage}
+    content={blogPostContent}
+    requireTitle={requireTitle}
+    requireDescription={requireDescription}
+  />;
 };
 
 export default PostPresenter;

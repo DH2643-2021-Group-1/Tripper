@@ -21,49 +21,53 @@ interface PostViewProps {
   imageUrl: string,
   content: BlogPostContent
   isLoading: boolean,
+  requireTitle: boolean,
+  requireDescription: boolean,
 }
 
 const PostView: FC<PostViewProps> = (props) => {
   return <div className="flexbox">
     <ContentWrapper>
       <p>Create new blog post</p>
-      
+
       <span>Title</span>
-      <Input 
-        name={"blog-post-title"} 
-        multiLine={false} 
-        value={props.title} 
+      <Input
+        isMissing={props.requireTitle}
+        name={"blog-post-title"}
+        multiLine={false}
+        value={props.title}
         onChange={props.onTitleChange} />
 
       <span>Description</span>
-      <Input 
-        name={"blogpost title input form"} 
-        multiLine={true} 
-        value={props.description} 
+      <Input
+        isMissing={props.requireDescription}
+        name={"blogpost title input form"}
+        multiLine={true}
+        value={props.description}
         onChange={props.onDescriptionChange} />
-      
+
       {props.imageUrl && <img className="preview" src={props.imageUrl} alt="preview image" />}
       <ImageInput onImageChange={props.onImageChange} />
-      
+
       <hr />
       <br />
     </ContentWrapper>
     <BlogPostContentPresenter
-        content={props.content}
-        editMode={true}
-        onContentEdited={props.onContentChange}/>
+      content={props.content}
+      editMode={true}
+      onContentEdited={props.onContentChange} />
     <ContentWrapper>
       <br />
       <hr />
       <br />
       <CenterContent>
-        { props.isLoading && <LoadingIndicator /> }
+        {props.isLoading && <LoadingIndicator />}
       </CenterContent>
       <Button
-          disabled={false}
-          type={ButtonTypes.primary}
-          onPress={props.onSubmit}>
-            Post
+        disabled={false}
+        type={ButtonTypes.primary}
+        onPress={props.onSubmit}>
+        Post
       </Button>
     </ContentWrapper>
   </div>;
