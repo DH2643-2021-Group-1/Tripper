@@ -11,15 +11,16 @@ interface Props {
     imageUrl?: string,
     opacity?: number,
     onImageRemove: () => void,
+    isMissing: boolean,
 }
 
-const ImageInput = ({ onImageChange, onHover, uploaded, imageUrl, opacity, onImageRemove }: Props) => {
+const ImageInput = ({ onImageChange, onHover, uploaded, imageUrl, opacity, onImageRemove, isMissing }: Props) => {
 
 
     return (
 
         !uploaded ? (
-            <div className={"image-input__image-uploader-container"}>
+            <div className={!isMissing ? "image-input__image-uploader-default" : "image-input__image-uploader-required"}>
                 <div className={""}>
                     <label htmlFor='single'>
                         <FontAwesomeIcon size="4x"
@@ -35,7 +36,7 @@ const ImageInput = ({ onImageChange, onHover, uploaded, imageUrl, opacity, onIma
                 <div
                     onMouseOver={() => onHover()}
                     onMouseOut={() => onHover()}
-                    className={"image-input__image-uploader-container"}>
+                    className={!isMissing ? "image-input__image-uploader-no-border" : "image-input__image-uploader-required"}>
                     <div onClick={onImageRemove} className="image-input__remove-container">
                         <label htmlFor='single' >
                             <FontAwesomeIcon size="4x"
@@ -53,7 +54,7 @@ const ImageInput = ({ onImageChange, onHover, uploaded, imageUrl, opacity, onIma
 }
 
 ImageInput.defaultProps = {
-    opacity: 1,
+    opacity: 0,
 }
 
 

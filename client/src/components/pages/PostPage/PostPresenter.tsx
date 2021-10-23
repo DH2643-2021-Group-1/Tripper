@@ -37,6 +37,7 @@ const PostPresenter = () => {
   const [requireDescription, setRequireDescription] = useState(false)
   const [requireImage, setRequireImage] = useState(false)
 
+  const [opacity, setOpacity] = useState<number>(0);
 
   useEffect(() => {
     setTitleExists(blogPostTitle.length > 0)
@@ -106,13 +107,25 @@ const PostPresenter = () => {
     setBlogPostContent(updatedContent);
   }
 
+  const onImageRemove = () => {
+    setPreviewImage("")
+  }
+
+  const onImageHover = () => {
+    if (opacity === 0) {
+      setOpacity(1);
+    } else {
+      setOpacity(0);
+    }
+  };
+
   // TODO add require img (onSubmit prop and separate prop)
   return <PostView
     onContentChange={handleContentChange}
     onDescriptionChange={handleDescriptionChange}
     onTitleChange={handleTitleChange}
     onImageChange={handleFileChange}
-    onSubmit={titleExists && descriptionExists ? handleSubmit : handleEmptyFieldsError}
+    onSubmit={titleExists && descriptionExists && imageExists ? handleSubmit : handleEmptyFieldsError}
     description={blogPostDescription}
     title={blogPostTitle}
     isLoading={loading}
@@ -120,6 +133,10 @@ const PostPresenter = () => {
     content={blogPostContent}
     requireTitle={requireTitle}
     requireDescription={requireDescription}
+    requireImage={requireImage}
+    imageOpacity={opacity}
+    onImageHover={onImageHover}
+    onImageRemove={onImageRemove}
   />;
 };
 

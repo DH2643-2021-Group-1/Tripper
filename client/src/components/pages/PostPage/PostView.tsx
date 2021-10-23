@@ -4,7 +4,7 @@ import Input from "../../input/input"
 import ImageInput from "../../imageInput/ImageInput";
 import Button, { ButtonTypes } from "../../button/button"
 import LoadingIndicator from "../../loading-indicator/loading-indicator"
-import ContentWrapper from "../../content-wrapper/content-wrapper";
+import ContentWrapper, { ContentWrapperSize } from "../../content-wrapper/content-wrapper";
 import BlogPostContentPresenter from "../../blog-post-content/BlogPostContent/BlogPostContentPresenter";
 import { BlogPostContent } from "../../../models/blog-post-content/blog-post-content";
 import CenterContent from "../../center-content/center-content";
@@ -23,11 +23,15 @@ interface PostViewProps {
   isLoading: boolean,
   requireTitle: boolean,
   requireDescription: boolean,
+  requireImage: boolean,
+  imageOpacity?: number,
+  onImageHover: Function,
+  onImageRemove: () => void,
 }
 
 const PostView: FC<PostViewProps> = (props) => {
   return <div className="flexbox">
-    <ContentWrapper>
+    <ContentWrapper size={ContentWrapperSize.medium}>
       <p>Create new blog post</p>
 
       <span>Title</span>
@@ -45,10 +49,7 @@ const PostView: FC<PostViewProps> = (props) => {
         multiLine={true}
         value={props.description}
         onChange={props.onDescriptionChange} />
-
-      {props.imageUrl && <img className="preview" src={props.imageUrl} alt="preview image" />}
-      <ImageInput onImageChange={props.onImageChange} />
-
+      <ImageInput isMissing={props.requireImage} onImageRemove={props.onImageRemove} onHover={props.onImageHover} opacity={props.imageOpacity} imageUrl={props.imageUrl} uploaded={props.imageUrl.length > 0} onImageChange={props.onImageChange} />
       <hr />
       <br />
     </ContentWrapper>

@@ -1,11 +1,8 @@
-// TODO naming conventions!
-
-.image-input__image-uploader-container {
+%image-input__image-uploader-container {
     position: relative;
     width: 100%;
     min-height: 150px;
-    border: 3px solid #01966e36;
-    background-color: #01966e36;
+    background-color: hsla(164, 99%, 30%, 0.212);
     filter: brightness(1.2);
     margin: 10px 0px 10px 0px;    
     display: flex;
@@ -13,8 +10,23 @@
     align-items: center;
 }
 
+.image-input__image-uploader-default {
+    @extend %image-input__image-uploader-container;
+    border: 3px solid #01966e36;
+}
+
+.image-input__image-uploader-no-border {
+    @extend %image-input__image-uploader-container;
+    box-shadow: 0 0 5px #00000026;
+}
+
+.image-input__image-uploader-required {
+    @extend %image-input__image-uploader-container;
+    border: 2px solid rgba(255, 0, 0, 0.6);
+}
+
 .image-input__image-uploader-icon {
-  cursor: pointer;
+    cursor: pointer;
 }
 
  .image-input__remove-container {
@@ -32,7 +44,6 @@
 }
 
 .image-input__preview-image {
-    //z-index: 0;
     width: 100%;
     border: none;
 }
