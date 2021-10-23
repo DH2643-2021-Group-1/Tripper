@@ -18,6 +18,7 @@ const BlogPostContentPresenter: FC<BlogPostContentPresenterProps> = (props) => {
     
     const handleEditRequest = (editedPiece: BlogPostContentPieceAny) => {
         if (props.onContentEdited == null) return;
+        editedPiece.editType = EditType.edited;
         const pieces = [...props.content.contentPieces];
         pieces[getPieceIndexFromId(editedPiece.id)] = editedPiece;
         props.onContentEdited({

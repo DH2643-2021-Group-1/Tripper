@@ -4,12 +4,6 @@ import { auth, firestore } from 'firebase-admin';
 import { db, storage } from '../db';
 import { deleteImage, uploadImage } from './image-manager';
 
-export enum EditType {
-    none,
-    delete,
-    new,
-    edited,
-}
 
 interface BlogPostDatabaseStructure {
     id: string,
@@ -21,105 +15,6 @@ interface BlogPostDatabaseStructure {
     userRef: FirebaseFirestore.DocumentReference<FirebaseFirestore.DocumentData>,
 }
 
-const createBlogPost = async (req: express.Request, res: express.Response) => {
-    try {
-        const doc = await db.collection('blogposts').add({
-            title: req.body.title,
-            description: req.body.description,
-            userRef: db.doc(`users/${req.body.userId}`),
-            publicationDate: new Date().getTime(),
-            primaryImage: ''
-        });
-
-        const content = JSON.parse(req.body.content);
-        filterOutDeletedContentPieces(content);
-        const files = req.files! as { [fieldname: string]: Express.Multer.File[] };
-        const primaryImage = files['primaryImage'][0];
-        const imagePieces = files['imagePieces'];
-
-        const url = await uploadImage(primaryImage, `blogPostImages/${doc.id}.png`);
-        const contentWithImageLinks = await uploadContentImagesAndSetImageUrls(content,imagePieces);
-
-        await doc.update({
-            primaryImage: url,
-            content: contentWithImageLinks,
-        })
-        
-        console.log('Added document with ID: ', doc.id);
-        res.status(200).send(`New blogpost with doc id ${doc.id} written to database`)
-    }
-    catch (error) {
-        res.status(400).json({ error: error })
-    }
-}
-
-const updateBlogPost = async (req: express.Request, res: express.Response) => {
-    const existingBlogPost = await db.collection('blogposts').doc(req.body.id).get();
-    
-    const files = req.files! as { [fieldname: string]: Express.Multer.File[] };
-    const primaryImage = files['primaryImage'];
-    const imagePieces = files['imagePieces'];
-
-    // Replace existing primary image if any exist
-    if (primaryImage != null && existingBlogPost != null) {
-        const primaryImagePath = `blogPostImages/${existingBlogPost.id}.png`;
-        await deleteImage(primaryImagePath);
-        const newImageUrl = await uploadImage(primaryImage[0], primaryImagePath);
-        existingBlogPost.ref.update({
-            primaryImagePath: newImageUrl
-        })
-    }
-
-    const content = JSON.parse(req.body.content);     
-    await removeDeletedImagesFromDatabase(content);
-    filterOutDeletedContentPieces(content);
-    const contentWithImageLinks = await uploadContentImagesAndSetImageUrls(content, imagePieces);
-    await existingBlogPost.ref.update({
-        title: req.body.title,
-        description: req.body.description,
-        content: contentWithImageLinks,
-    });
-    
-    res.status(200).send(`Blog Post Updated`);
-    try {
-    }
-    catch (error) {
-        res.status(400).json({ error: error })
-    }
-}
-
-const filterOutDeletedContentPieces = (content: any) => {
-    content.contentPieces = content.contentPieces.filter((piece: any) => {
-        return piece.editType != EditType.delete;
-    });
-}
-
-const removeDeletedImagesFromDatabase = async (content: any) => {
-    for (const piece of content.contentPieces) {
-        if (piece.type == "image" && piece.editType == EditType.delete) {
-            try {
-                await deleteImage(`blogPostImages/${piece.id}.png`);
-            } catch (error) {
-                console.log("Note: Image already delete");
-            }
-        }
-    }
-}
-
-const uploadContentImagesAndSetImageUrls = async (content: any, files: Express.Multer.File[]) => {
-    let fileIndex = 0;
-    for (const piece of content.contentPieces) {
-        if (piece.type != "image") continue;
-
-        const imagePieceHasNewFile = files != null && files[fileIndex] != null;
-        if (!imagePieceHasNewFile) continue; 
-
-        const url = await uploadImage(files[fileIndex], `blogPostImages/${piece.id}.png`);
-        piece.imageUrl = url;
-        fileIndex++;
-    }
-    return content;
-}
 
 
 /** Get the blog post from its Id */
@@ -240,8 +135,6 @@ export {
     getBlogPostsFromUserId,
     getBlogPostById,
     getAllBlogPosts,
-    updateBlogPost,
-    createBlogPost as setBlogPost,
     editProfilePage,
     getUserDetails
 }

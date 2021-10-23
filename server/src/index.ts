@@ -6,11 +6,14 @@ import {
   getBlogPostsFromUserId,
   getAllBlogPosts,
   getBlogPostById,
-  setBlogPost as createBlogPost,
   editProfilePage,
   getUserDetails,
-  updateBlogPost,
 } from "./firestore/firestore";
+
+import {
+  createBlogPost,
+  updateBlogPost,
+} from "./firestore/edit-blog-post-manager";
 // rest of the code remains same
 
 const app = express();
@@ -34,27 +37,25 @@ app.get("/blogpost-from-author/:userId", (req, res) => {
   getBlogPostsFromUserId(req, res);
 });
 
-app.post(
-  "/create-blogpost",
-  upload.fields([
-    { name: "primaryImage", maxCount: 1 },
-    { name: "imagePieces", maxCount: 20 },
-  ]),
-  (req, res) => {
-    createBlogPost(req, res);
-  }
-);
 
 app.post(
-  "/update-blogpost",
+    "/create-blogpost", 
+    upload.fields([
+      { name: 'primaryImage', maxCount: 1 }, 
+      { name: 'imagePieces', maxCount: 20 }
+    ]), 
+    (req, res) => {
+  createBlogPost(req, res);
+});
+
+app.put(
+  "/update-blogpost", 
   upload.fields([
-    { name: "primaryImage", maxCount: 1 },
-    { name: "imagePieces", maxCount: 20 },
-  ]),
-  (req, res) => {
-    updateBlogPost(req, res);
-  }
-);
+    { name: 'primaryImage', maxCount: 1 }, 
+    { name: 'imagePieces', maxCount: 20 }
+  ]), (req, res) => {
+  updateBlogPost(req, res);
+});
 
 app.get("/all-blogposts", (req, res) => {
   getAllBlogPosts(req, res);
