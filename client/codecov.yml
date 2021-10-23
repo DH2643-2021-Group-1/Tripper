@@ -2,3 +2,7 @@ coverage:
   precision: 2
   round: down
   range: "0...100" # Make the codecov optional
+  status:
+    project:
+      default:
+        threshold: 100%
