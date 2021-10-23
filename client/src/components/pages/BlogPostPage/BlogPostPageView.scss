@@ -49,3 +49,14 @@
     gap: 20px;
     justify-content: space-between;
 }
+
+.blog-post-page__edit-delete-container {
+    margin-top: 25px;
+}
+
+.blog-post-page__edit-delete-buttons {
+    margin-bottom: 25px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 2fr 1fr;
+}

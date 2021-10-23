@@ -100,6 +100,39 @@ const updateBlogPost = async (req: express.Request, res: express.Response) => {
     respond(res, { statusCode: StatusCode.OK, message: "The blog post was successfully updated"});
 }
 
+const deleteBlogPost = async (req: express.Request, res: express.Response) => {
+    try {
+        var blogPostToDelete = await db.collection('blogposts').doc(req.params.id).get();
+    }
+    catch (_) {
+        respond(res, { statusCode: StatusCode.RequestBlogPostDoNotExist, error: `Blog post with id: '${req.body.id}' do not exist` });
+        return;
+    }
+
+    try {
+        await deletePrimaryImage(blogPostToDelete.id)
+    }
+    catch (_) {
+        // respond(res, { statusCode: StatusCode.ErrorCouldNotDeleteImage, error: `Failed to remove the primary image` });
+    }
+    
+    try {
+        await removeAllImagesFromBlogPostContent(blogPostToDelete.data()!.content);
+    }
+    catch (_) {
+        // respond(res, { statusCode: StatusCode.ErrorCouldNotDeleteImage, warning: `Failed to remove the images from the content` });
+    }
+
+    try {
+        await blogPostToDelete.ref.delete();
+    }
+    catch (_) {
+        // respond(res, { statusCode: StatusCode.ErrorCouldNotDeleteBlogPost, warning: `Failed to delete the blog post from database` });
+    }
+
+    respond(res, { statusCode: StatusCode.OK, message: "Successfully delete the blog post"});
+} 
+
 /** Returns the primary image and also an array of imagePieces */
 const extractBlogPostImagesFromFileBody = (
     rawFiles: Express.Multer.File[] | { [fieldname: string]: Express.Multer.File[];} | undefined
@@ -185,11 +218,24 @@ const replacePrimaryImage = async (docRef: firestore.DocumentReference, newFile:
     })
 }
 
+const deletePrimaryImage = async (docId: string) => {
+    const primaryImagePath = `blogPostImages/${docId}.png`;
+    await deleteImage(primaryImagePath);
+}
+
 const errorCleanUp = async (doc: firestore.DocumentReference) => {
     await doc.delete();
+}
+
+const removeAllImagesFromBlogPostContent = async (content: BlogPostContent) => {
+    content.contentPieces.forEach(piece => {
+        piece.editType = EditType.delete;
+    });
+    await removeDeletedImagePiecesFromDatabase(content);
 }
 
 export {
     createBlogPost,
     updateBlogPost,
+    deleteBlogPost
 }

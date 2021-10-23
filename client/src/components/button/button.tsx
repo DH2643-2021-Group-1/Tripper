@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import './button.scss';
 
 export interface ButtonProps {
@@ -8,20 +8,25 @@ export interface ButtonProps {
 
     /** Defaults to false. If set to true, the onPress callback is called regardless of the disabled state */ 
     propagatePressOnDisabled?: boolean
+    isLoading?: boolean,
 }
 
 export enum ButtonTypes {
     primary,
     onPrimary,
-    secondary
+    secondary,
+    danger
 }
 
 const Button: FC<ButtonProps> = (props) => {
+    const [loadingDots, setLoadingDots] = useState<string>("");
+
     const buttonClassStates = [
         props.disabled ? "button--disabled" : "",
         props.type === ButtonTypes.primary ? "button--primary" : "",
         props.type === ButtonTypes.onPrimary ? "button--on-primary" : "",
         props.type === ButtonTypes.secondary ? "button--secondary" : "",
+        props.type === ButtonTypes.danger ? "button--danger" : "",
     ];
 
     const handleOnClick = () => {
@@ -29,11 +34,31 @@ const Button: FC<ButtonProps> = (props) => {
         props.onPress();
     }
 
+    useEffect(() => {
+        var interval = setInterval(() => {
+            setLoadingDots((currentDots) => {
+                if (currentDots.length >= 3) {
+                    return ""
+                }
+                return currentDots + ".";
+            });
+        }, 250);
+        return () => {
+            clearInterval(interval);
+        }
+    }, [props.isLoading])
+
     return (
         <div 
             onClick={ handleOnClick }
             className={ "button " + buttonClassStates.join(" ") }>
-            { props.children }
+            {
+                props.isLoading
+                ?
+                    "Loading" + loadingDots
+                :
+                    props.children 
+            }
         </div>
     )
 }
@@ -42,6 +67,7 @@ Button.defaultProps = {
     type: ButtonTypes.primary,
     disabled: false,
     propagatePressOnDisabled: false,
+    isLoading: false,
 }
 
 export default Button;
