@@ -4,6 +4,7 @@ import {
     getAllBlogPosts,
     editProfilePage,
     getUserDetails,
+    createUser,
 } from "../blogpostApi";
 import { BlogPost } from "../models/blog-post"
 import { BlogPostContent, BlogPostContentPieceAny } from "../models/blog-post-content/blog-post-content";
@@ -113,7 +114,8 @@ function useBlogPostApi(): [
         profilePicture: any,
         biography: string
     ) => Promise<any>,
-    (userID: string) => Promise<any>
+    (userID: string) => Promise<any>,
+    (data: any) => Promise<any>,
 ] {
     const handleGetAllBlogPosts = async () => {
         try {
@@ -170,11 +172,21 @@ function useBlogPostApi(): [
         }
     };
 
+    const handleCreateUser = async (data: any) => {
+        try {
+            result = await createUser(data);
+            return result;
+        } catch (error) {
+            throw new Error("Couldn't create user");
+        }
+    };
+
     return [
         handleGetAllBlogPosts,
         handleGetBlogPostByUserId,
         handleEditProfile,
         handleGetUserDetails,
+        handleCreateUser,
     ];
 }
 

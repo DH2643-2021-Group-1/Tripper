@@ -116,10 +116,30 @@ const getUserDetails = async (req: express.Request, res: express.Response) => {
     }
 }
 
+const createUser = async (req: express.Request, res: express.Response) => {
+
+    try {
+        const { displayName, email, photoURL, uid } = req.body;
+        const doc = await db.collection("users").add({
+            biography: '',
+            displayName, 
+            email, 
+            photoURL,
+            userId: uid
+        })
+        console.log('Added document with ID: ', doc.id);
+        res.status(200).send(`New user with doc id ${doc.id} written to database`)
+    }
+    catch (error) {
+        res.status(400).json({ error: error })
+    }
+}
+
 export {
     getBlogPostsFromUserId,
     getBlogPostById,
     getAllBlogPosts,
     editProfilePage,
-    getUserDetails
+    getUserDetails,
+    createUser,
 }
