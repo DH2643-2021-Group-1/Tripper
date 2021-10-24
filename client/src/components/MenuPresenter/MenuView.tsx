@@ -30,19 +30,21 @@ const MenuView: React.FC<Props> = ({
 					<MenuIconPresenter menuIcon='compass' height='20px' />
 					Tripper
 				</Link>
-				<Link className='Menu-item' to='/post'>
-					<MenuIconPresenter menuIcon='plus' height='20px' />
-					New blogpost
-				</Link>
-				<Link className='Menu-item' to='/profile'>
-					<MenuIconPresenter menuIcon='user' height='20px' />
-					Profile
-				</Link>
 				{user ? (
+					<>
+					<Link className='Menu-item' to='/post'>
+						<MenuIconPresenter menuIcon='plus' height='20px' />
+						New blogpost
+					</Link>
+					<Link className='Menu-item' to='/profile'>
+						<MenuIconPresenter menuIcon='user' height='20px' />
+						Profile
+					</Link>
 					<Button type={ButtonTypes.tertiary} onPress={() => onSignOut()}>
 						<FontAwesomeIcon icon={faSignOutAlt} />
 						Sign out
 					</Button>
+					</>
 				) : (
 						<GoogleLogin
 							clientId='209447824082-unncgfvgil8pbbdr7it1vd1hlhapnp18.apps.googleusercontent.com'
