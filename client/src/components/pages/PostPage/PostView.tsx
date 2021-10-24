@@ -44,6 +44,7 @@ const PostView: FC<PostViewProps> = (props) => {
         value={props.title}
         onChange={props.onTitleChange} />
 
+      <br/>
       <span className={"post-page__heading"}>Description</span>
       <Input
         isMissing={props.requireDescription}
@@ -51,7 +52,11 @@ const PostView: FC<PostViewProps> = (props) => {
         multiLine={true}
         value={props.description}
         onChange={props.onDescriptionChange} />
+
+      <br />
       <ImageInput isMissing={props.requireImage} onImageRemove={props.onImageRemove} onHover={props.onImageHover} opacity={props.imageOpacity} imageUrl={props.imageUrl} uploaded={props.imageUrl.length > 0} onImageChange={props.onImageChange} />
+      
+      <br />
       <hr />
       <br />
     </ContentWrapper>
@@ -67,8 +72,9 @@ const PostView: FC<PostViewProps> = (props) => {
         {props.isLoading && <LoadingIndicator />}
       </CenterContent>
       <Button
-        disabled={false}
-        type={props.allFieldsOK ? ButtonTypes.primary : ButtonTypes.secondary}
+        disabled={!props.allFieldsOK}
+        propagatePressOnDisabled={true}
+        type={ButtonTypes.primary}
         onPress={props.onSubmit}>
         {props.editMode ? "Save" : "Post"}
       </Button>

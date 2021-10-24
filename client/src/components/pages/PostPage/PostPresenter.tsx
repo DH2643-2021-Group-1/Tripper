@@ -5,6 +5,7 @@ import useBlogPostApi, { useCreateBlogPost, useGetBlogPostByPostId, useUpdateBlo
 import { BlogPostContent } from "../../../models/blog-post-content/blog-post-content";
 import { useParams } from 'react-router-dom';
 import { BlogPost } from "../../../models/blog-post";
+import { EditType } from "../../../models/blog-post-content/blog-post-content-piece";
 
 interface PostPagePresenterParamTypes {
   id: string
@@ -57,7 +58,7 @@ const PostPresenter = () => {
   }, [blogPostImage])
 
   useEffect(() => {
-    setRequireContentPieces(false)
+    setRequireContentPieces(false);
   }, [blogPostContent])
 
 
@@ -122,6 +123,7 @@ const PostPresenter = () => {
   }
 
   const handleContentChange = (updatedContent: BlogPostContent) => {
+    console.log(updatedContent);
     setBlogPostContent(updatedContent);
   }
 
@@ -136,16 +138,35 @@ const PostPresenter = () => {
       setOpacity(0);
     }
   };
+  
+  const numberOfNonDeleteContentPieces = () => {
+    var amount = 0;
+    blogPostContent.contentPieces.forEach(piece => {
+      if (piece.editType != EditType.delete) {
+        amount++;
+      }
+    });
+    return amount;
+  }
+  
+  const requiredFieldsOnPostOK = () => {
+    return titleExists && descriptionExists && imageExists && numberOfNonDeleteContentPieces() > 0;
+  };
+  const requiredFieldsOnEdit = () => {
+    return editMode && titleExists && descriptionExists && numberOfNonDeleteContentPieces() > 0;
+  }
 
-  const requiredFieldsOnPostOK = titleExists && descriptionExists && imageExists && blogPostContent.contentPieces.length > 0;
-  const requiredFieldsOnEdit = editMode && titleExists && descriptionExists && blogPostContent.contentPieces.length > 0; //! rätt?
+  const readyForSubmit = () => {
+    if (editMode) return requiredFieldsOnEdit();
+    else return requiredFieldsOnPostOK();
+  }
 
   return <PostView
     onContentChange={handleContentChange}
     onDescriptionChange={handleDescriptionChange}
     onTitleChange={handleTitleChange}
     onImageChange={handleFileChange}
-    onSubmit={requiredFieldsOnPostOK || requiredFieldsOnEdit ? handleSubmit : handleEmptyFieldsError}
+    onSubmit={(readyForSubmit() ? handleSubmit : handleEmptyFieldsError)}
     description={blogPostDescription}
     title={blogPostTitle}
     isLoading={loading}
@@ -158,7 +179,7 @@ const PostPresenter = () => {
     imageOpacity={opacity}
     onImageHover={onImageHover}
     onImageRemove={onImageRemove}
-    allFieldsOK={requiredFieldsOnPostOK || requiredFieldsOnEdit}
+    allFieldsOK={readyForSubmit()}
     editMode={editMode}
   />;
 };
