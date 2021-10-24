@@ -13,6 +13,7 @@ import {
 import {
   createBlogPost,
   updateBlogPost,
+  deleteBlogPost
 } from "./firestore/edit-blog-post-manager";
 // rest of the code remains same
 
@@ -56,6 +57,13 @@ app.put(
   ]), (req, res) => {
   updateBlogPost(req, res);
 });
+
+app.delete(
+  "/delete-blogpost/:id",
+  (req, res) => {
+    deleteBlogPost(req, res)
+  }
+)
 
 app.get("/all-blogposts", (req, res) => {
   getAllBlogPosts(req, res);

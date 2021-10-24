@@ -5,6 +5,8 @@ export enum StatusCode {
     ErrorFirestoreCreate = 501,
     ErrorCouldNoUploadImage = 502,
     ErrorBlogPostContentPreparation = 503,
+    ErrorCouldNotDeleteImage = 504,
+    ErrorCouldNotDeleteBlogPost = 505,
     RequestNoPrimaryImage = 401,
     RequestBlogPostDoNotExist = 402,
 }

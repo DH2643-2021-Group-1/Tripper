@@ -10,16 +10,19 @@ import HourglassTopIcon from '@mui/icons-material/HourglassTopRounded';
 import BlogPostContentPresenter from '../../blog-post-content/BlogPostContent/BlogPostContentPresenter';
 
 import './BlogPostPageView.scss';
+import Button, { ButtonTypes } from '../../button/button';
+import { Link } from 'react-router-dom';
 
 interface BlogPostPageViewProps {
     readingSpeed: number,
+    isOwner: boolean,
+    deleteLoading: boolean,
     blogPost: BlogPost,
+    onDelete: () => void
+    onEdit: () => void
 }
 
 const BlogPostPageView: FC<BlogPostPageViewProps> = (props) => {
-    console.log("Blog post on page view");
-    console.log(props.blogPost);
-
     return (
         <div className="blog-post-page__container">
             <div className="blog-post-page__loaded-container">
@@ -58,6 +61,27 @@ const BlogPostPageView: FC<BlogPostPageViewProps> = (props) => {
                         </div>
                     </ContentWrapper>
                 </div>
+                {
+                    props.isOwner
+                    ?
+                        <div className="blog-post-page__edit-delete-container">
+                            <ContentWrapper>
+                                <hr/>
+                                <h2><i>Admin Settings</i></h2>
+                                <div className="blog-post-page__edit-delete-buttons">
+                                    <Button onPress={props.onEdit}>
+                                        Edit
+                                    </Button>
+                                    <Button isLoading={props.deleteLoading} type={ButtonTypes.danger} onPress={props.onDelete}>
+                                        Delete
+                                    </Button>
+                                </div>
+                                <hr/>
+                            </ContentWrapper>
+                        </div>
+                    :
+                        <></>
+                }
                 <div className="blog-post-page__text-content-container">
                     <BlogPostContentPresenter
                         content={props.blogPost.content}

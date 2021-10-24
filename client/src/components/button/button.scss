@@ -58,6 +58,15 @@
   &:hover {
     background-color: #ccc;
   }
+}
+
+.button--danger {
+  background-color: $color-danger;
+  color: $color-on-primary;
+
+  &:hover {
+    background-color: $color-danger-light;
+  }
 
 }
 
