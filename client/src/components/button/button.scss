@@ -33,8 +33,7 @@
   }
 }
 
-.button--secondary {
-  border: 3px solid $color-secondary;
+%button--secondary-tertiary {
   padding: 10px 20px;
   color: $color-on-secondary;
 
@@ -49,6 +48,17 @@
       background-color: unset;
     }
   }
+}
+
+
+.button--secondary {
+  @extend %button--secondary-tertiary;
+  border: 3px solid $color-secondary;
+}
+
+.button--tertiary {
+  @extend %button--secondary-tertiary;
+  border: 3px solid transparent
 }
 
 .button--on-primary {
