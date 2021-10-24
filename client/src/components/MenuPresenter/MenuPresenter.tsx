@@ -12,7 +12,6 @@ import {
 import useBlogPostApi from "../../hooks/useBlogPostApi";
 const [ handleGetAllBlogPosts,
 	handleGetBlogPostByUserId,
-	handleEditProfile,
 	handleGetUserDetails,
 	handleCreateUser,
 	handleCheckUser ] = useBlogPostApi();
