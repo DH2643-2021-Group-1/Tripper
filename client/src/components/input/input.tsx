@@ -10,6 +10,7 @@ export interface InputProps {
     placeholder?: string,
     value?: string,
     errorText?: string,
+    isMissing?: boolean,
     onFocus?: () => void,
     onChange?: (event: React.ChangeEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>) => void,
     onInput?: (event: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>) => void,
@@ -40,7 +41,7 @@ const Input: FC<InputProps> = (props) => {
                 onInput={(inputEvent) => {
                     if (props.onInput) props.onInput(inputEvent);
                 }}
-                className={"input-container__input" + inputClassStates.join(" ")}
+                className={props.isMissing ? ["input-container__input--empty", inputClassStates].join(" ") : ["input-container__input--default", inputClassStates].join(" ")}
                 type={props.type} />
             { props.errorText}
         </>)
@@ -65,7 +66,7 @@ const Input: FC<InputProps> = (props) => {
                 onInput={(inputEvent) => {
                     if (props.onInput) props.onInput(inputEvent);
                 }}
-                className={["input-container__input", "input-container--multiline", inputClassStates].join(" ")}></textarea>
+                className={props.isMissing ? ["input-container__input--empty", "input-container--multiline", inputClassStates].join(" ") : ["input-container__input--default", "input-container--multiline", inputClassStates].join(" ")}></textarea>
             { props.errorText}
         </>)
     }
@@ -87,6 +88,7 @@ Input.defaultProps = {
     placeholder: "",
     value: "",
     label: "",
+    isMissing: false,
     onFocus: () => {/***/ },
     onChange: (_) => {/***/ },
     onInput: (_) => {/***/ }

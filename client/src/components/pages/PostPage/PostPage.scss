@@ -1,20 +1,9 @@
-
-.container {
-    position: relative;
-    width: 500px;
-    align-items: flex-start;
+.post-page__heading {
+    font-weight: bold;
 }
 
-.preview {
-    width: 100%;
-    padding: 15px 0px 15px 0px;
+.post-page__center-text{
+    display: flex;
+    justify-content: center;
+    align-self: center;
 }
-
-.loader-icon {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-}
-
-// TODO naming conventions!
