@@ -8,6 +8,8 @@ import ContentWrapper from "../../content-wrapper/content-wrapper";
 import BlogPostContentPresenter from "../../blog-post-content/BlogPostContent/BlogPostContentPresenter";
 import { BlogPostContent } from "../../../models/blog-post-content/blog-post-content";
 import CenterContent from "../../center-content/center-content";
+import StatusModal, { StatusModalType } from "../../StatusModal/StatusModal";
+import TimerCountdown from "../../TimerCountdown/TimerCountdown";
 
 
 interface PostViewProps {
@@ -21,9 +23,35 @@ interface PostViewProps {
   imageUrl: string,
   content: BlogPostContent
   isLoading: boolean,
+  uploadStatus: {
+    error: string | null,
+    success: boolean,
+  } | null,
+  editMode: boolean,
+  onNavigateToBlogPage: () => void
 }
 
 const PostView: FC<PostViewProps> = (props) => {
+  const renderUploadStatus = () => {
+    if (props.uploadStatus == null) return <></>;
+    if (props.uploadStatus.error == null) {
+      return <StatusModal 
+        title={`Blog post successfully ${props.editMode ? "updated" : "created"}`} 
+        type={StatusModalType.success}>
+          <TimerCountdown seconds={3} onCountdownReached={() => {
+            props.onNavigateToBlogPage();
+          }} render={timeLeft => {
+            return <div>Navigating you to the blog post in <b>{timeLeft}</b> seconds</div> 
+          }}/>
+      </StatusModal>
+    }
+    return <StatusModal 
+      title={`Blog post could not be ${props.editMode ? "updated" : "created"}`} 
+      type={StatusModalType.error}>
+        {props.uploadStatus.error}
+    </StatusModal>
+  }
+
   return <div className="flexbox">
     <ContentWrapper>
       <p>Create new blog post</p>
@@ -60,11 +88,15 @@ const PostView: FC<PostViewProps> = (props) => {
         { props.isLoading && <LoadingIndicator /> }
       </CenterContent>
       <Button
-          disabled={false}
+          disabled={props.uploadStatus?.success ?? false}
           type={ButtonTypes.primary}
           onPress={props.onSubmit}>
             Post
       </Button>
+      <br/><br/>
+      {
+        renderUploadStatus()
+      }
     </ContentWrapper>
   </div>;
 };

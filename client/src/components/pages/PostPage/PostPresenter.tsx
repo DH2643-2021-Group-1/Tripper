@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import PostView from "./PostView";
 import useBlogPostApi, { useCreateBlogPost, useGetBlogPostByPostId, useUpdateBlogPost } from "../../../hooks/useBlogPostApi"
 import { BlogPostContent } from "../../../models/blog-post-content/blog-post-content";
@@ -25,18 +25,20 @@ const PostPresenter = () => {
 
   const [blogPostDescription, setBlogPostDescription] = useState("")
   const [blogPostImage, setBlogPostImage] = useState<File | null>(null)
-  const [blogPostTitle, setBlogPostTitle] = useState("")
+  const [blogPostTitle, setBlogPostTitle] = useState("");
+  const [newBlogPostId, setNewBlogPostId] = useState<null>(null);
+  const [blogPostUploadStatus, setBlogPostUploadStatus] = useState<{ success: boolean, error: string | null} | null>(null)
   const [loading, setIsLoading] = useState(false)
   const [blogPostContent, setBlogPostContent] = useState<BlogPostContent>({
     contentPieces: [],
   })
 
   const [previewImage, setPreviewImage] = useState("")
+  const history = useHistory();
 
   // here's an id that exists http://localhost:8080/edit-post/5nuHLdsKtU96PsR5IRDF
   useEffect(() => {
     if (blogPostId && location.pathname == `/edit-post/${blogPostId}`) {
-      console.log(blogPostId);
       setEditMode(true);
       useGetBlogPostByPostId(blogPostId).then((response: BlogPost[]) => {
         const existingBlogPost = response[0];
@@ -50,13 +52,28 @@ const PostPresenter = () => {
 
   const handleSubmit = async () => {
     setIsLoading(true)
+    setBlogPostUploadStatus(null);
 
-    if (editMode) {
-      await useUpdateBlogPost(blogPostId, blogPostTitle, blogPostDescription, blogPostImage, blogPostContent);
-    }
-    else {
-      if (blogPostImage == null) return;
-      await useCreateBlogPost(blogPostTitle, blogPostDescription, blogPostImage, blogPostContent);
+    try {
+      var result: any;
+      if (editMode) {
+        result = await useUpdateBlogPost(blogPostId, blogPostTitle, blogPostDescription, blogPostImage, blogPostContent);
+      }
+      else {
+        if (blogPostImage == null) return;
+        result = await useCreateBlogPost(blogPostTitle, blogPostDescription, blogPostImage, blogPostContent);
+      }
+      setBlogPostUploadStatus({ success: true, error: null });
+      setNewBlogPostId(result.data?.blogPostId ?? null);
+    } catch (error: any) {
+
+      if (error?.message == "Network Error") {
+        setBlogPostUploadStatus({ success: false, error: "You seem to be offline. Check you networks settings"});
+      }
+      else {
+        setBlogPostUploadStatus({ success: false, error: error?.message});
+      }
+      
     }
 
     setIsLoading(false)
@@ -84,7 +101,12 @@ const PostPresenter = () => {
     setBlogPostContent(updatedContent);
   }
 
+  const handleNavigateToBlogPage = () => {
+    history.replace(`/blog/${newBlogPostId ?? blogPostId}`);
+  }
+
   return <PostView
+    editMode={editMode}
     onContentChange={handleContentChange}
     onDescriptionChange={handleDescriptionChange}
     onTitleChange={handleTitleChange} 
@@ -94,7 +116,9 @@ const PostPresenter = () => {
     title={blogPostTitle} 
     isLoading={loading} 
     imageUrl={previewImage} 
-    content={blogPostContent}/>;
+    content={blogPostContent}
+    uploadStatus={blogPostUploadStatus}
+    onNavigateToBlogPage={handleNavigateToBlogPage}/>;
 };
 
 export default PostPresenter;

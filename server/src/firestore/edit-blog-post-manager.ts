@@ -60,7 +60,7 @@ const createBlogPost = async (req: express.Request, res: express.Response) => {
         content: preparedContent,
     })
     
-    respond(res, { statusCode: StatusCode.OK, message: "The blog post was successfully created"});
+    respond(res, { data: {blogPostId: docRef.id}, statusCode: StatusCode.OK, message: "The blog post was successfully created"});
 }
 
 const updateBlogPost = async (req: express.Request, res: express.Response) => {
@@ -79,7 +79,7 @@ const updateBlogPost = async (req: express.Request, res: express.Response) => {
             await replacePrimaryImage(existingBlogPost.ref, primaryImage);
         }
         catch (_) {
-            respond(res, { statusCode: StatusCode.ErrorCouldNoUploadImage, warning: `Could not replace the existing primary image` });
+            respond(res, { statusCode: StatusCode.ErrorCouldNoUploadImage, error: `Could not replace the existing primary image` });
             return;
         }
     }
@@ -101,6 +101,8 @@ const updateBlogPost = async (req: express.Request, res: express.Response) => {
 }
 
 const deleteBlogPost = async (req: express.Request, res: express.Response) => {
+    const warnings: string[] = []; 
+
     try {
         var blogPostToDelete = await db.collection('blogposts').doc(req.params.id).get();
     }
@@ -113,24 +115,28 @@ const deleteBlogPost = async (req: express.Request, res: express.Response) => {
         await deletePrimaryImage(blogPostToDelete.id)
     }
     catch (_) {
-        // respond(res, { statusCode: StatusCode.ErrorCouldNotDeleteImage, error: `Failed to remove the primary image` });
+        warnings.push("Failed to remove the primary image");
     }
     
     try {
         await removeAllImagesFromBlogPostContent(blogPostToDelete.data()!.content);
     }
     catch (_) {
-        // respond(res, { statusCode: StatusCode.ErrorCouldNotDeleteImage, warning: `Failed to remove the images from the content` });
+        warnings.push("Failed to remove the images from the content");
     }
-
+    
     try {
         await blogPostToDelete.ref.delete();
     }
     catch (_) {
-        // respond(res, { statusCode: StatusCode.ErrorCouldNotDeleteBlogPost, warning: `Failed to delete the blog post from database` });
+        warnings.push("Failed to delete the blog post from database");
     }
 
-    respond(res, { statusCode: StatusCode.OK, message: "Successfully delete the blog post"});
+    respond(res, { 
+        statusCode: StatusCode.OK, 
+        message: "Successfully delete the blog post",
+        warning: warnings
+    });
 } 
 
 /** Returns the primary image and also an array of imagePieces */
