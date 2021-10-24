@@ -29,9 +29,9 @@ export const getAllBlogPosts = async () => {
 }
 
 
-export const editProfilePage = async (userId: string, firstName: string, lastName: string, profilePicture: any, biography: string) => {
+export const editProfilePage = async (userId: string, displayName: string, profilePicture: any, biography: string) => {
     try {
-        const res = await axios.get(`http://localhost:8000/edit-profile/${userId}/${firstName}/${lastName}/${profilePicture}/${biography}`);
+        const res = await axios.get(`http://localhost:8000/edit-profile/${userId}/${displayName}/${profilePicture}/${biography}`);
         console.log('response:', res.data)
         return res.data;
     }

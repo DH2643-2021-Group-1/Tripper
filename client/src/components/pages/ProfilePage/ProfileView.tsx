@@ -7,21 +7,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BlogPostCard from "../../blog-post-card/blog-post-card";
 
 interface Props {
-  firstName: string;
-  lastName: string;
+  displayName: string;
   bio: string;
   profilePicture: string | undefined;
   userPosts: any[]
 }
 
-const ProfileView: React.FC<Props> = ({ firstName, lastName, bio, profilePicture, userPosts }) => {
+const ProfileView: React.FC<Props> = ({ displayName, bio, profilePicture, userPosts }) => {
   const history = useHistory();
   return (
     <div className="profile-page__container">
       <div className="profile-page__profile-container">
         <div className="profile-page__info-container">
           <div className="profile-page__profile-information">
-            <span className="profile-page__name">{firstName + ' ' + lastName}</span>
+            <span className="profile-page__name">{displayName}</span>
             <span className="profile-page__bio">{bio}</span>
             <div className="profile-page__edit-profile">
               <Button
