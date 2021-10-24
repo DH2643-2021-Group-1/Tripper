@@ -6,7 +6,7 @@ export interface ButtonProps {
     disabled?: boolean,
     onPress: () => void
 
-    /** Defaults to false. If set to true, the onPress callback is called regardless of the disabled state */ 
+    /** Defaults to false. If set to true, the onPress callback is called regardless of the disabled state */
     propagatePressOnDisabled?: boolean
     isLoading?: boolean,
 }
@@ -15,6 +15,7 @@ export enum ButtonTypes {
     primary,
     onPrimary,
     secondary,
+    tertiary,
     danger
 }
 
@@ -26,6 +27,7 @@ const Button: FC<ButtonProps> = (props) => {
         props.type === ButtonTypes.primary ? "button--primary" : "",
         props.type === ButtonTypes.onPrimary ? "button--on-primary" : "",
         props.type === ButtonTypes.secondary ? "button--secondary" : "",
+        props.type === ButtonTypes.tertiary ? "button--tertiary" : "",
         props.type === ButtonTypes.danger ? "button--danger" : "",
     ];
 
@@ -49,15 +51,15 @@ const Button: FC<ButtonProps> = (props) => {
     }, [props.isLoading])
 
     return (
-        <div 
-            onClick={ handleOnClick }
-            className={ "button " + buttonClassStates.join(" ") }>
+        <div
+            onClick={handleOnClick}
+            className={"button " + buttonClassStates.join(" ")}>
             {
                 props.isLoading
-                ?
+                    ?
                     "Loading" + loadingDots
-                :
-                    props.children 
+                    :
+                    props.children
             }
         </div>
     )
