@@ -14,14 +14,14 @@ interface Props {
 	onFailure: Function;
 	onSignIn: Function;
 	onSignOut: Function;
-	signedIn: Boolean;
+	user: Object[] | null
 }
 
 const MenuView: React.FC<Props> = ({
 	onFailure,
 	onSignIn,
 	onSignOut,
-	signedIn,
+	user,
 }) => {
 	return (
 		<div className='Menu'>
@@ -38,7 +38,7 @@ const MenuView: React.FC<Props> = ({
 					<MenuIconPresenter menuIcon='user' height='20px' />
 					Profile
 				</Link>
-				{signedIn ? (
+				{user ? (
 					<Button type={ButtonTypes.secondary} onPress={() => onSignOut()}>
 						<FontAwesomeIcon icon={faSignOutAlt} />
 						Sign out

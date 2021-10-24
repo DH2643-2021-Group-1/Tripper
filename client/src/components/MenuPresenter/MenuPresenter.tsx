@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import MenuView from "./MenuView";
 
 import {
@@ -8,6 +8,8 @@ import {
 	signOut,
 	GoogleAuthProvider,
 } from 'firebase/auth'
+
+import { AuthContext } from '../../contexts/AuthContext'
 
 import useBlogPostApi from "../../hooks/useBlogPostApi";
 const [ handleGetAllBlogPosts,
@@ -19,14 +21,9 @@ const [ handleGetAllBlogPosts,
 interface Props {}
 
 const Menu: React.FC<Props> = () => {
-  const auth = getAuth();
+	const user = useContext(AuthContext);
+  	const auth = getAuth();
 	const [signedIn, setSignedIn] = useState<boolean>(false);
-
-	onAuthStateChanged(auth, (user) => {
-		if (user) {
-		  setSignedIn(true)
-		}
-	  });
 
 	const onFailure = (error: any) => {
 		console.log(error) // TODO: better error handling
@@ -49,7 +46,6 @@ const Menu: React.FC<Props> = () => {
 								handleCreateUser(user)
 							}
 						})
-						setSignedIn(true);
 					})
 					.catch((error) => {
 						const errorCode = error.code;
@@ -58,7 +54,6 @@ const Menu: React.FC<Props> = () => {
 						const credential = GoogleAuthProvider.credentialFromError(error);
 					});
 				} else {
-          			setSignedIn(true);
 					console.log('User already signed-in Firebase.');
 				}
 			});
@@ -83,7 +78,7 @@ const Menu: React.FC<Props> = () => {
 	const onSignOut = () => {
 		signOut(auth)
 			.then(() => {
-				setSignedIn(false);
+				console.log('Signed out!')
 			})
 			.catch((error) => {
 				console.log(error); // TODO: better error handling
@@ -91,7 +86,7 @@ const Menu: React.FC<Props> = () => {
 	};
 
 	return (
-		<MenuView onFailure={onFailure} onSignIn={onSignIn} onSignOut={onSignOut} signedIn={signedIn}/>
+		<MenuView onFailure={onFailure} onSignIn={onSignIn} onSignOut={onSignOut} user={user}/>
 	);
 };
 
