@@ -50,3 +50,22 @@ export const getUserDetails = async (userId: string) => {
         throw new Error(error)
     }
 }
+
+export const createUser = async (data: any) => {
+    try {
+        const res = await axios.post("http://localhost:8000/create-user", data)
+        console.log("response", res.data)
+        return res.data
+    } catch (error: any) {
+        throw new Error(error) // find appr. error to throw
+    }
+}
+
+export const checkUser = async (userId: string) => { // TODO: better name for userId?? 
+    try {
+        const res = await axios.get(`http://localhost:8000/check-user/${userId}`, )
+        return res.data
+    } catch (error: any) {
+        throw new Error(error) // find appr. error to throw
+    }
+}

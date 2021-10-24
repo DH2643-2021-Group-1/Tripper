@@ -131,10 +131,48 @@ const getUserDetails = async (req: express.Request, res: express.Response) => {
     }
 }
 
+const createUser = async (req: express.Request, res: express.Response) => {
+
+    try {
+        const { displayName, email, photoURL, uid } = req.body;
+        const doc = await db.collection("users").doc(uid).set({
+            biography: '',
+            displayName, 
+            email, 
+            profilePicture: photoURL,
+        })
+        console.log('Added new document'); // TODO: better messages
+        res.status(200).send(`New user written to database`)
+    }
+    catch (error) {
+        res.status(400).json({ error: error })
+    }
+}
+
+const checkUser = async (req: express.Request, res: express.Response) => {
+    const responseArray: Object[] = [];
+    try {
+        const userId = req.params.userId;
+        const profileSnapshot = await db.collection('users').doc(userId).get()
+        if (profileSnapshot.exists) {
+            console.log(`Found user with id ${userId}`);
+            res.status(200).send(true); // TODO: is this good practice?
+        } else {
+            console.log(`No user found with id ${userId}`);
+            res.status(200).send(false);
+        }
+    }
+    catch (error) {
+        res.status(400).json({ error: error })
+    }
+}
+
 export {
     getBlogPostsFromUserId,
     getBlogPostById,
     getAllBlogPosts,
     editProfilePage,
-    getUserDetails
+    getUserDetails,
+    createUser,
+    checkUser
 }

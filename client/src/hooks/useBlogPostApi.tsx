@@ -3,9 +3,11 @@ import {
     getBlogPostByUserId,
     getAllBlogPosts,
     getUserDetails,
+    createUser,
+    checkUser,
 } from "../blogpostApi";
 import { BlogPost } from "../models/blog-post"
-import { BlogPostContent, BlogPostContentPieceAny } from "../models/blog-post-content/blog-post-content";
+import { BlogPostContent } from "../models/blog-post-content/blog-post-content";
 import { BlogPostContentImage } from "../models/blog-post-content/blog-post-content-image";
 
 let result: Array<BlogPost>;
@@ -134,7 +136,9 @@ const createFormDataBaseForBlogPostChanges = ( title: string, description: strin
 function useBlogPostApi(): [
     () => Promise<BlogPost[]>,
     (userID: string) => Promise<BlogPost[]>,
-    (userID: string) => Promise<any>
+    (userID: string) => Promise<any>,
+    (data: any) => Promise<any>, // TODO: better data types
+    (userID: string) => Promise<any>,
 ] {
     const handleGetAllBlogPosts = async () => {
         try {
@@ -167,10 +171,30 @@ function useBlogPostApi(): [
         }
     };
 
+    const handleCreateUser = async (data: any) => { // TODO: appropriate type
+        try {
+            result = await createUser(data);
+            return result;
+        } catch (error) {
+            throw new Error("Couldn't create user");
+        }
+    };
+
+    const handleCheckUser = async (userId: string) => {
+        try {
+            result = await checkUser(userId);
+            return result;
+        } catch (error) {
+            throw new Error("Couldn't check user");
+        }
+    };
+
     return [
         handleGetAllBlogPosts,
         handleGetBlogPostByUserId,
         handleGetUserDetails,
+        handleCreateUser,
+        handleCheckUser
     ];
 }
 

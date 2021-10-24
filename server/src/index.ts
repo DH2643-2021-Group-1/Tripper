@@ -7,6 +7,8 @@ import {
   getAllBlogPosts,
   getBlogPostById,
   editProfilePage,
+  createUser,
+  checkUser,
   getUserDetails,
 } from "./firestore/firestore";
 
@@ -79,6 +81,14 @@ app.put(
 
 app.get("/user/:userId", (req, res) => {
   getUserDetails(req, res);
+});
+
+app.post("/create-user", (req, res) => {
+  createUser(req, res);
+});
+
+app.get("/check-user/:userId", (req, res) => {
+  checkUser(req, res);
 });
 
 /** This is the client hosting */
