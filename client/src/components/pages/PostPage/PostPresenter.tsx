@@ -5,10 +5,8 @@ import useBlogPostApi, { useCreateBlogPost, useGetBlogPostByPostId, useUpdateBlo
 import { BlogPostContent } from "../../../models/blog-post-content/blog-post-content";
 import { useParams } from 'react-router-dom';
 import { BlogPost } from "../../../models/blog-post";
+import { EditType } from "../../../models/blog-post-content/blog-post-content-piece";
 
-
-// TODO possibility to populate fields with existing blogpost (for editing mode)
-// TODO: felhantering - "du måste ha en titel", etc
 interface PostPagePresenterParamTypes {
   id: string
 }
@@ -30,8 +28,39 @@ const PostPresenter = () => {
   const [blogPostContent, setBlogPostContent] = useState<BlogPostContent>({
     contentPieces: [],
   })
-
   const [previewImage, setPreviewImage] = useState("")
+
+  const [titleExists, setTitleExists] = useState(false)
+  const [descriptionExists, setDescriptionExists] = useState(false)
+  const [imageExists, setImageExists] = useState(false)
+
+
+  const [requireTitle, setRequireTitle] = useState(false)
+  const [requireDescription, setRequireDescription] = useState(false)
+  const [requireImage, setRequireImage] = useState(false)
+  const [requireContentPieces, setRequireContentPieces] = useState(false)
+
+  const [opacity, setOpacity] = useState<number>(0);
+
+  useEffect(() => {
+    setTitleExists(blogPostTitle.length > 0)
+    setRequireTitle(false)
+  }, [blogPostTitle])
+
+  useEffect(() => {
+    setDescriptionExists(blogPostDescription.length > 0)
+    setRequireDescription(false)
+  }, [blogPostDescription])
+
+  useEffect(() => {
+    setImageExists(previewImage !== null && previewImage !== undefined)
+    setRequireImage(false)
+  }, [blogPostImage])
+
+  useEffect(() => {
+    setRequireContentPieces(false);
+  }, [blogPostContent])
+
 
   // here's an id that exists http://localhost:8080/edit-post/5nuHLdsKtU96PsR5IRDF
   useEffect(() => {
@@ -62,6 +91,19 @@ const PostPresenter = () => {
     setIsLoading(false)
   }
 
+  const handleEmptyFieldsError = () => {
+    /* checks which of the required fields are not yet filled in */
+    setRequireTitle(!titleExists)
+    setRequireDescription(!descriptionExists)
+    setRequireImage(!imageExists)
+
+    if (blogPostContent.contentPieces.length > 0) {
+      setRequireContentPieces(false)
+    } else {
+      setRequireContentPieces(true)
+    }
+  }
+
   const handleDescriptionChange = (e: any) => {
     e.preventDefault();
     const blogpostText = e.target.value;
@@ -81,20 +123,65 @@ const PostPresenter = () => {
   }
 
   const handleContentChange = (updatedContent: BlogPostContent) => {
+    console.log(updatedContent);
     setBlogPostContent(updatedContent);
+  }
+
+  const onImageRemove = () => {
+    setPreviewImage("")
+  }
+
+  const onImageHover = () => {
+    if (opacity === 0) {
+      setOpacity(1);
+    } else {
+      setOpacity(0);
+    }
+  };
+  
+  const numberOfNonDeleteContentPieces = () => {
+    var amount = 0;
+    blogPostContent.contentPieces.forEach(piece => {
+      if (piece.editType != EditType.delete) {
+        amount++;
+      }
+    });
+    return amount;
+  }
+  
+  const requiredFieldsOnPostOK = () => {
+    return titleExists && descriptionExists && imageExists && numberOfNonDeleteContentPieces() > 0;
+  };
+  const requiredFieldsOnEdit = () => {
+    return editMode && titleExists && descriptionExists && numberOfNonDeleteContentPieces() > 0;
+  }
+
+  const readyForSubmit = () => {
+    if (editMode) return requiredFieldsOnEdit();
+    else return requiredFieldsOnPostOK();
   }
 
   return <PostView
     onContentChange={handleContentChange}
     onDescriptionChange={handleDescriptionChange}
-    onTitleChange={handleTitleChange} 
-    onImageChange={handleFileChange} 
-    onSubmit={handleSubmit} 
-    description={blogPostDescription} 
-    title={blogPostTitle} 
-    isLoading={loading} 
-    imageUrl={previewImage} 
-    content={blogPostContent}/>;
+    onTitleChange={handleTitleChange}
+    onImageChange={handleFileChange}
+    onSubmit={(readyForSubmit() ? handleSubmit : handleEmptyFieldsError)}
+    description={blogPostDescription}
+    title={blogPostTitle}
+    isLoading={loading}
+    imageUrl={previewImage}
+    content={blogPostContent}
+    requireTitle={requireTitle}
+    requireDescription={requireDescription}
+    requireImage={requireImage}
+    requireContentPieces={requireContentPieces}
+    imageOpacity={opacity}
+    onImageHover={onImageHover}
+    onImageRemove={onImageRemove}
+    allFieldsOK={readyForSubmit()}
+    editMode={editMode}
+  />;
 };
 
 export default PostPresenter;
