@@ -8,7 +8,7 @@ import axios from "axios"
 
 export const getBlogPostByUserId = async (userId: string) => {
     try {
-        const res = await axios.get(`http://localhost:8000/blogpost-from-author/${userId}`);
+        const res = await axios.get(`/api/blogpost-from-author/${userId}`);
         console.log("response", res.data)
         return res.data
     } catch (error: any) {
@@ -20,7 +20,7 @@ export const getBlogPostByUserId = async (userId: string) => {
 // ? set number of queried posts here? Now it's set in backend
 export const getAllBlogPosts = async () => {
     try {
-        const res = await axios.get("http://localhost:8000/all-blogposts")
+        const res = await axios.get("/api/all-blogposts")
         console.log("response", res.data)
         return res.data
     } catch (error: any) {
@@ -31,7 +31,7 @@ export const getAllBlogPosts = async () => {
 
 export const editProfilePage = async (userId: string, displayName: string, profilePicture: any, biography: string) => {
     try {
-        const res = await axios.get(`http://localhost:8000/edit-profile/${userId}/${displayName}/${profilePicture}/${biography}`);
+        const res = await axios.get(`/api/edit-profile/${userId}/${displayName}/${profilePicture}/${biography}`);
         console.log('response:', res.data)
         return res.data;
     }
@@ -42,7 +42,7 @@ export const editProfilePage = async (userId: string, displayName: string, profi
 
 export const getUserDetails = async (userId: string) => {
     try {
-        const res = await axios.get(`http://localhost:8000/user/${userId}`);
+        const res = await axios.get(`/api/user/${userId}`);
         console.log('response:', res.data)
         return res.data;
     }
@@ -53,7 +53,7 @@ export const getUserDetails = async (userId: string) => {
 
 export const createUser = async (data: any) => {
     try {
-        const res = await axios.post("http://localhost:8000/create-user", data)
+        const res = await axios.post("/api/create-user", data)
         console.log("response", res.data)
         return res.data
     } catch (error: any) {
@@ -63,7 +63,7 @@ export const createUser = async (data: any) => {
 
 export const checkUser = async (userId: string) => { // TODO: better name for userId?? 
     try {
-        const res = await axios.get(`http://localhost:8000/check-user/${userId}`, )
+        const res = await axios.get(`/api/check-user/${userId}`, )
         return res.data
     } catch (error: any) {
         throw new Error(error) // find appr. error to throw
