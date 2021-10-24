@@ -18,7 +18,6 @@ const ImageInput = ({ onImageChange, onHover, uploaded, imageUrl, opacity, onIma
 
 
     return (
-
         !uploaded ? (
             <div className={!isMissing ? "image-input__image-uploader-default" : "image-input__image-uploader-required"}>
                 <div className={""}>

@@ -33,22 +33,33 @@ const PostPresenter = () => {
   const [descriptionExists, setDescriptionExists] = useState(false)
   const [imageExists, setImageExists] = useState(false)
 
+
   const [requireTitle, setRequireTitle] = useState(false)
   const [requireDescription, setRequireDescription] = useState(false)
   const [requireImage, setRequireImage] = useState(false)
+  const [requireContentPieces, setRequireContentPieces] = useState(false)
 
   const [opacity, setOpacity] = useState<number>(0);
 
   useEffect(() => {
     setTitleExists(blogPostTitle.length > 0)
-    setDescriptionExists(blogPostDescription.length > 0)
-    setImageExists(blogPostImage !== null && blogPostImage !== undefined)
-
     setRequireTitle(false)
-    setRequireDescription(false)
-    setRequireImage(false)
+  }, [blogPostTitle])
 
-  }, [blogPostTitle, blogPostDescription, blogPostImage])
+  useEffect(() => {
+    setDescriptionExists(blogPostDescription.length > 0)
+    setRequireDescription(false)
+  }, [blogPostDescription])
+
+  useEffect(() => {
+    setImageExists(previewImage !== null && previewImage !== undefined)
+    setRequireImage(false)
+  }, [blogPostImage])
+
+  useEffect(() => {
+    setRequireContentPieces(false)
+  }, [blogPostContent])
+
 
   // here's an id that exists http://localhost:8080/edit-post/5nuHLdsKtU96PsR5IRDF
   useEffect(() => {
@@ -80,9 +91,16 @@ const PostPresenter = () => {
   }
 
   const handleEmptyFieldsError = () => {
+    /* checks which of the required fields are not yet filled in */
     setRequireTitle(!titleExists)
     setRequireDescription(!descriptionExists)
     setRequireImage(!imageExists)
+
+    if (blogPostContent.contentPieces.length > 0) {
+      setRequireContentPieces(false)
+    } else {
+      setRequireContentPieces(true)
+    }
   }
 
   const handleDescriptionChange = (e: any) => {
@@ -119,13 +137,15 @@ const PostPresenter = () => {
     }
   };
 
-  // TODO add require img (onSubmit prop and separate prop)
+  const requiredFieldsOnPostOK = titleExists && descriptionExists && imageExists && blogPostContent.contentPieces.length > 0;
+  const requiredFieldsOnEdit = editMode && titleExists && descriptionExists && blogPostContent.contentPieces.length > 0; //! rätt?
+
   return <PostView
     onContentChange={handleContentChange}
     onDescriptionChange={handleDescriptionChange}
     onTitleChange={handleTitleChange}
     onImageChange={handleFileChange}
-    onSubmit={titleExists && descriptionExists && imageExists ? handleSubmit : handleEmptyFieldsError}
+    onSubmit={requiredFieldsOnPostOK || requiredFieldsOnEdit ? handleSubmit : handleEmptyFieldsError}
     description={blogPostDescription}
     title={blogPostTitle}
     isLoading={loading}
@@ -134,9 +154,12 @@ const PostPresenter = () => {
     requireTitle={requireTitle}
     requireDescription={requireDescription}
     requireImage={requireImage}
+    requireContentPieces={requireContentPieces}
     imageOpacity={opacity}
     onImageHover={onImageHover}
     onImageRemove={onImageRemove}
+    allFieldsOK={requiredFieldsOnPostOK || requiredFieldsOnEdit}
+    editMode={editMode}
   />;
 };
 
