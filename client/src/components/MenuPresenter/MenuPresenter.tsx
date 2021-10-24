@@ -14,7 +14,8 @@ const [ handleGetAllBlogPosts,
 	handleGetBlogPostByUserId,
 	handleEditProfile,
 	handleGetUserDetails,
-	handleCreateUser, ] = useBlogPostApi();
+	handleCreateUser,
+	handleCheckUser ] = useBlogPostApi();
 
 interface Props {}
 
@@ -34,30 +35,32 @@ const Menu: React.FC<Props> = () => {
 	}
 
 	const onSignIn = (googleUser: { [k: string]: any }) => {
-		console.log('Google Auth Response', googleUser);
-		// We need to register an Observer on Firebase Auth to make sure auth is initialized.
+
 		const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
 			unsubscribe();
-			// Check if we are already signed-in Firebase with the correct user.
+
 			if (!isUserEqual(googleUser, firebaseUser)) {
-				// Build Firebase credential with the Google ID token.
+
 				const id_token = googleUser.getAuthResponse().id_token;
 				const credential = GoogleAuthProvider.credential(id_token);
 				
 				signInWithCredential(auth, credential)
 					.then(({ user }) => {
-						handleCreateUser(user)
+						handleCheckUser(user.uid).then(res => {
+							if (!res) {
+								handleCreateUser(user)
+							}
+						})
 						setSignedIn(true);
 					})
 					.catch((error) => {
-						// Handle Errors here.
 						const errorCode = error.code;
 						const errorMessage = error.message;
 						const email = error.email;
 						const credential = GoogleAuthProvider.credentialFromError(error);
 					});
 				} else {
-          setSignedIn(true);
+          			setSignedIn(true);
 					console.log('User already signed-in Firebase.');
 				}
 			});
