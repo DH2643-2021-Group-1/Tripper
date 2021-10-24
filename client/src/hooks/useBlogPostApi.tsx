@@ -2,7 +2,6 @@ import axios from "axios";
 import {
     getBlogPostByUserId,
     getAllBlogPosts,
-    editProfilePage,
     getUserDetails,
 } from "../blogpostApi";
 import { BlogPost } from "../models/blog-post"
@@ -95,6 +94,35 @@ const prepareContentForUpload = (formData: FormData, content: BlogPostContent) =
     return contentCopy;
 }
 
+export const handleEditProfile = async (
+    userId: string,
+    firstName: string,
+    lastName: string,
+    profilePicture: File | null,
+    biography: string,
+    changedImage: Boolean
+) => {
+    try {
+        var formData = new FormData();
+        if (profilePicture != null && changedImage) {
+            formData.append("profileImage", profilePicture, "profileImage.png");
+        }
+        formData.append("changedImage", String(changedImage));
+        formData.append("userId", userId);
+        formData.append("firstName", firstName);
+        formData.append("lastName", lastName);
+        formData.append("biography", biography);
+        const res = await axios.put(`/api/edit-profile`, formData,
+        {
+            headers: { "Content-Type": "multipart/form-data" }
+        });
+
+        return res.data;
+    } catch (error:any) {
+        throw new Error("Problems communicating with the API");
+    }
+};
+
 const createFormDataBaseForBlogPostChanges = ( title: string, description: string, userId: string) => {
     const formData = new FormData();
     formData.append("title", title);
@@ -106,13 +134,6 @@ const createFormDataBaseForBlogPostChanges = ( title: string, description: strin
 function useBlogPostApi(): [
     () => Promise<BlogPost[]>,
     (userID: string) => Promise<BlogPost[]>,
-    (
-        userID: string,
-        firstName: string,
-        lastName: string,
-        profilePicture: any,
-        biography: string
-    ) => Promise<any>,
     (userID: string) => Promise<any>
 ] {
     const handleGetAllBlogPosts = async () => {
@@ -136,30 +157,6 @@ function useBlogPostApi(): [
         }
     };
 
-
-
-    const handleEditProfile = async (
-        userId: string,
-        firstName: string,
-        lastName: string,
-        profilePicture: any,
-        biography: string
-    ) => {
-        try {
-            result = await editProfilePage(
-                userId,
-                firstName,
-                lastName,
-                profilePicture,
-                biography
-            );
-            console.log("Updated profile:", result);
-            return result;
-        } catch (error) {
-            throw new Error("Problems communicating with the API");
-        }
-    };
-
     const handleGetUserDetails = async (userId: string) => {
         try {
             result = await getUserDetails(userId);
@@ -173,7 +170,6 @@ function useBlogPostApi(): [
     return [
         handleGetAllBlogPosts,
         handleGetBlogPostByUserId,
-        handleEditProfile,
         handleGetUserDetails,
     ];
 }

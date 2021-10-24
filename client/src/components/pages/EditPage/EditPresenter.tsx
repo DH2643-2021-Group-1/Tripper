@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import EditView from "./EditView";
-import useBlogPostApi from "../../../hooks/useBlogPostApi";
+import useBlogPostApi, {handleEditProfile} from "../../../hooks/useBlogPostApi";
 
 const EditPresenter: React.FC = () => {
   const SAMPLE_USER_REF = "UuJaEV7oLO07OZgreaAc";
@@ -10,7 +10,6 @@ const EditPresenter: React.FC = () => {
   const [
     handleGetAllBlogPosts,
     handleGetBlogPostByUserId,
-    handleEditProfile,
     handleGetUserDetails,
   ] = useBlogPostApi();
 
@@ -18,34 +17,36 @@ const EditPresenter: React.FC = () => {
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
-  const [profilePicture, setProfilePicture] = useState<any>();
+  const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string>("");
   const [changedImage, setChangedImage] = useState<Boolean>(false);
+  const [previewOn, setPreviewOn] = useState<Boolean>(false);
   const [opacity, setOpacity] = useState<number>(0);
 
   const onChangeProfilePicture = (event: any) => {
     let imageFile = event.target.files[0];
     setChangedImage(true);
+    setPreviewOn(true);
     setProfilePicture(imageFile);
     setPreviewImage(URL.createObjectURL(imageFile));
     // Write to database to upload image
   };
 
-  const onSave = (
+  const onSave = async (
     savedFirstName: string,
     savedLastName: string,
     savedBio: string,
-    savedProfilePicture: any
+    savedProfilePicture: File | null
   ) => {
     // write to database
-    handleEditProfile(
+    await handleEditProfile(
       "UuJaEV7oLO07OZgreaAc",
       savedFirstName,
       savedLastName,
       savedProfilePicture ?? null,
-      savedBio
-    );
-    history.push("/profile");
+      savedBio,
+      changedImage
+    ).then(() => {history.push("/profile");});
   };
 
   const onCancel = () => {
@@ -61,16 +62,21 @@ const EditPresenter: React.FC = () => {
   };
 
   const onClose = () => {
-    setChangedImage(false);
-    setProfilePicture(undefined);
+    setPreviewOn(false);
+    setChangedImage(true);
+    setProfilePicture(null);
   };
 
   useEffect(() => {
     handleGetUserDetails(SAMPLE_USER_REF).then((data) => {
       setFirstName(data[0]);
       setLastName(data[1]);
-      setProfilePicture(data[3]);
-      setBio(data[4])
+      if (data[3]){
+        setPreviewOn(true);
+        setProfilePicture(data[3][0]);
+        setPreviewImage(data[3][0]);
+      }
+      setBio(data[4]);
     });
   }, []);
 
@@ -83,12 +89,11 @@ const EditPresenter: React.FC = () => {
       bio={bio}
       setBio={setBio}
       profilePicture={profilePicture}
-      setProfilePicture={setProfilePicture}
       previewImage={previewImage}
       onSave={onSave}
       onCancel={onCancel}
       onChangeProfilePicture={onChangeProfilePicture}
-      changedImage={changedImage}
+      previewOn={previewOn}
       onHover={onHover}
       opacity={opacity}
       onClose={onClose}

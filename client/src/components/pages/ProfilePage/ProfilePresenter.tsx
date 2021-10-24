@@ -10,13 +10,13 @@ const ProfilePresenter: React.FC = () => {
   const [lastName, setLastName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [profilePicture, setProfilePicture] = useState<any>(undefined);
+  const [loading, setLoading] = useState<Boolean>(true);
 
   const [userPosts, setUserPosts] = useState<any[]>([]);
 
   const [
     handleGetAllBlogPosts,
     handleGetBlogPostByUserId,
-    handleEditProfile,
     handleGetUserDetails,
   ] = useBlogPostApi();
 
@@ -25,12 +25,12 @@ const ProfilePresenter: React.FC = () => {
       setFirstName(data[0]);
       setLastName(data[1]);
       setBio(data[4]);
-      setProfilePicture(null); // null for now since image isn't uploaded to database yet
+      setProfilePicture(data[3] ? data[3][0] : data[3]);
     });
     handleGetBlogPostByUserId(SAMPLE_USER_REF).then((data) => {
       setUserPosts(data);
     });
-  }, [bio]);
+  }, []);
 
   return (
     <ProfileView
