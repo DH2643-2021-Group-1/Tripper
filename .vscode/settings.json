@@ -1,9 +1,11 @@
 {
-    "cSpell.words": [
-        "blogpost",
-        "blogposts",
-        "fieldname",
-        "fortawesome",
-        "uuidv"
-    ]
+  "cSpell.words": [
+    "blogpost",
+    "blogposts",
+    "fieldname",
+    "fortawesome",
+    "uuidv"
+  ],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true
 }
