@@ -39,19 +39,19 @@ const MenuView: React.FC<Props> = ({
 					Profile
 				</Link>
 				{user ? (
-					<Button type={ButtonTypes.secondary} onPress={() => onSignOut()}>
+					<Button type={ButtonTypes.tertiary} onPress={() => onSignOut()}>
 						<FontAwesomeIcon icon={faSignOutAlt} />
 						Sign out
 					</Button>
 				) : (
-					<GoogleLogin
-						clientId='209447824082-unncgfvgil8pbbdr7it1vd1hlhapnp18.apps.googleusercontent.com'
-						buttonText='Login with Google'
-						onSuccess={(res) => onSignIn(res)}
-						onFailure={(err) => onFailure(err)}
-						cookiePolicy={'single_host_origin'}
-					/>
-				)}
+						<GoogleLogin
+							clientId='209447824082-unncgfvgil8pbbdr7it1vd1hlhapnp18.apps.googleusercontent.com'
+							buttonText='Login with Google'
+							onSuccess={(res) => onSignIn(res)}
+							onFailure={(err) => onFailure(err)}
+							cookiePolicy={'single_host_origin'}
+						/>
+					)}
 			</div>
 		</div>
 	);
