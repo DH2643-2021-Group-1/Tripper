@@ -11,13 +11,12 @@ interface Props {
   setLastName: Function;
   bio: string;
   setBio: Function;
-  profilePicture: string | undefined;
-  setProfilePicture: Function;
+  profilePicture: File | null;
   previewImage: string;
   onSave: Function;
   onCancel: Function;
   onChangeProfilePicture: Function;
-  changedImage: Boolean;
+  previewOn: Boolean;
   onHover: Function;
   opacity: number;
   onClose: Function;
@@ -31,12 +30,11 @@ const EditView: React.FC<Props> = ({
   bio,
   setBio,
   profilePicture,
-  setProfilePicture,
   previewImage,
   onSave,
   onCancel,
   onChangeProfilePicture,
-  changedImage,
+  previewOn,
   onHover,
   opacity,
   onClose,
@@ -49,7 +47,7 @@ const EditView: React.FC<Props> = ({
           <div className="edit-page__profile-picture">
             <label>Profile Picture</label>
             <div className="edit-page__image-uploader">
-              {changedImage ? (
+              {previewOn ? (
                 <>
                   <div
                     className="edit-page__image-uploader-remove"

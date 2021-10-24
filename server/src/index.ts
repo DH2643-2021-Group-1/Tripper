@@ -71,9 +71,9 @@ app.get("/all-blogposts", (req, res) => {
   getAllBlogPosts(req, res);
 });
 
-//TODO: Use Post for edit profile
-app.get(
-  "/edit-profile/:userId/:firstName/:lastName/:profilePicture/:biography",
+app.put(
+  "/edit-profile",
+  upload.fields([{ name: "profileImage", maxCount: 1 }]),
   (req, res) => {
     editProfilePage(req, res);
   }

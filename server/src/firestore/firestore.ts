@@ -84,19 +84,34 @@ const populateBlogPostData = async (blogpostDocumentSnapshot: firestore.QueryDoc
 
 const editProfilePage = async (req: express.Request, res: express.Response) => {
     try {
-        const userId = req.params.userId;
-        const firstName = req.params.firstName;
-        const lastName = req.params.lastName;
-        const profilePicture = req.params.profilePicture;
-        const biography = req.params.biography;
+        const userId = req.body.userId;
+        const firstName = req.body.firstName;
+        const lastName = req.body.lastName;
+        const biography = req.body.biography;
+        let newImageUrl;
+
+        const files = req.files! as { [fieldname: string]: Express.Multer.File[] };
+        if (files['profileImage']){
+            const profileImage = files['profileImage'];
+
+            const profileImagePath = `profileImages/${userId}.png`;
+            newImageUrl = await uploadImage(profileImage[0], profileImagePath);
+        }
+        else if(req.body.changedImage === 'false'){
+            const user = await db.collection('users').doc(userId).get();
+            newImageUrl = user.data()?.profilePicture;
+        }
+        else {
+            newImageUrl = null;
+        }
+        
         const profileSnapshot = await db.collection('users').doc(userId).update({
             firstName: firstName,
             lastName: lastName,
-            profilePicture: profilePicture,
-            biography: biography
+            biography: biography,
+            profilePicture: newImageUrl
         })
         res.status(200).send(firstName + ' ' + lastName);
-        //return profileSnapshot.data()?.firstName;
     }
     catch (error) {
         res.status(400).json({ error: error });
