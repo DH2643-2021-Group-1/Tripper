@@ -116,7 +116,7 @@ function useBlogPostApi(): [
         biography: string
     ) => Promise<any>,
     (userID: string) => Promise<any>,
-    (data: any) => Promise<any>,
+    (data: any) => Promise<any>, // TODO: better data types
     (userID: string) => Promise<any>,
 ] {
     const handleGetAllBlogPosts = async () => {

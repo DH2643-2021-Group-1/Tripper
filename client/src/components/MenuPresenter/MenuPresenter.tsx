@@ -25,7 +25,6 @@ const Menu: React.FC<Props> = () => {
 
 	onAuthStateChanged(auth, (user) => {
 		if (user) {
-			//console.log('auth user: ', user)
 		  setSignedIn(true)
 		}
 	  });
@@ -93,12 +92,7 @@ const Menu: React.FC<Props> = () => {
 	};
 
 	return (
-		<MenuView
-			onFailure={onFailure}
-			onSignIn={onSignIn}
-			onSignOut={onSignOut}
-			signedIn={signedIn}
-		/>
+		<MenuView onFailure={onFailure} onSignIn={onSignIn} onSignOut={onSignOut} signedIn={signedIn}/>
 	);
 };
 

@@ -124,7 +124,7 @@ const createUser = async (req: express.Request, res: express.Response) => {
             biography: '',
             displayName, 
             email, 
-            photoURL,
+            profilePicture: photoURL,
         })
         console.log('Added new document'); // TODO: better messages
         res.status(200).send(`New user written to database`)
