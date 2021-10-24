@@ -85,8 +85,7 @@ const populateBlogPostData = async (blogpostDocumentSnapshot: firestore.QueryDoc
 const editProfilePage = async (req: express.Request, res: express.Response) => {
     try {
         const userId = req.body.userId;
-        const firstName = req.body.firstName;
-        const lastName = req.body.lastName;
+        const displayName = req.body.displayName;
         const biography = req.body.biography;
         let newImageUrl;
 
@@ -106,12 +105,11 @@ const editProfilePage = async (req: express.Request, res: express.Response) => {
         }
         
         const profileSnapshot = await db.collection('users').doc(userId).update({
-            firstName: firstName,
-            lastName: lastName,
+            displayName: displayName,
             biography: biography,
             profilePicture: newImageUrl
         })
-        res.status(200).send(firstName + ' ' + lastName);
+        res.status(200).send(displayName);
     }
     catch (error) {
         res.status(400).json({ error: error });

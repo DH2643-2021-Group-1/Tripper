@@ -98,8 +98,7 @@ const prepareContentForUpload = (formData: FormData, content: BlogPostContent) =
 
 export const handleEditProfile = async (
     userId: string,
-    firstName: string,
-    lastName: string,
+    displayName: string,
     profilePicture: File | null,
     biography: string,
     changedImage: Boolean
@@ -111,8 +110,7 @@ export const handleEditProfile = async (
         }
         formData.append("changedImage", String(changedImage));
         formData.append("userId", userId);
-        formData.append("firstName", firstName);
-        formData.append("lastName", lastName);
+        formData.append("displayName", displayName);
         formData.append("biography", biography);
         const res = await axios.put(`/api/edit-profile`, formData,
         {
