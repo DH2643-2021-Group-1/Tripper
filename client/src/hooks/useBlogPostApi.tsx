@@ -98,7 +98,11 @@ export const handleEditProfile = async (
             formData.append("profileImage", profilePicture, "profileImage.png");
         }
         formData.append("changedImage", String(changedImage));
-        const res = await axios.post(`/api/edit-profile/${userId}/${firstName}/${lastName}/${biography}`, formData,
+        formData.append("userId", userId);
+        formData.append("firstName", firstName);
+        formData.append("lastName", lastName);
+        formData.append("biography", biography);
+        const res = await axios.post(`/api/edit-profile`, formData,
         {
             headers: { "Content-Type": "multipart/form-data" }
         });

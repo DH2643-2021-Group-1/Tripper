@@ -84,10 +84,10 @@ const populateBlogPostData = async (blogpostDocumentSnapshot: firestore.QueryDoc
 
 const editProfilePage = async (req: express.Request, res: express.Response) => {
     try {
-        const userId = req.params.userId;
-        const firstName = req.params.firstName;
-        const lastName = req.params.lastName;
-        const biography = req.params.biography;
+        const userId = req.body.userId;
+        const firstName = req.body.firstName;
+        const lastName = req.body.lastName;
+        const biography = req.body.biography;
         let newImageUrl;
 
         const files = req.files! as { [fieldname: string]: Express.Multer.File[] };

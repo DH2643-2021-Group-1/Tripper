@@ -62,7 +62,7 @@ app.get("/all-blogposts", (req, res) => {
 });
 
 app.post(
-  "/edit-profile/:userId/:firstName/:lastName/:biography",
+  "/edit-profile",
   upload.fields([{ name: "profileImage", maxCount: 1 }]),
   (req, res) => {
     editProfilePage(req, res);
