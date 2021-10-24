@@ -24,6 +24,9 @@ interface PostViewProps {
   requireTitle: boolean,
   requireDescription: boolean,
   requireImage: boolean,
+  allFieldsOK: boolean,
+  editMode: boolean,
+  requireContentPieces: boolean, // TODO modal on true w msg: "must have at least one element"
   imageOpacity?: number,
   onImageHover: Function,
   onImageRemove: () => void,
@@ -32,9 +35,8 @@ interface PostViewProps {
 const PostView: FC<PostViewProps> = (props) => {
   return <div className="flexbox">
     <ContentWrapper size={ContentWrapperSize.medium}>
-      <p>Create new blog post</p>
-
-      <span>Title</span>
+      <p className={["post-page__heading", "post-page__center-text"].join(" ")}>{props.editMode ? "Edit blog post" : "Create new blog post"}</p>
+      <span className={"post-page__heading"}>Title</span>
       <Input
         isMissing={props.requireTitle}
         name={"blog-post-title"}
@@ -42,7 +44,7 @@ const PostView: FC<PostViewProps> = (props) => {
         value={props.title}
         onChange={props.onTitleChange} />
 
-      <span>Description</span>
+      <span className={"post-page__heading"}>Description</span>
       <Input
         isMissing={props.requireDescription}
         name={"blogpost title input form"}
@@ -66,9 +68,9 @@ const PostView: FC<PostViewProps> = (props) => {
       </CenterContent>
       <Button
         disabled={false}
-        type={ButtonTypes.primary}
+        type={props.allFieldsOK ? ButtonTypes.primary : ButtonTypes.secondary}
         onPress={props.onSubmit}>
-        Post
+        {props.editMode ? "Save" : "Post"}
       </Button>
     </ContentWrapper>
   </div>;
