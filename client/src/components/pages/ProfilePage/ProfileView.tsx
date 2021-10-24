@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import BlogPostCard from "../../blog-post-card/blog-post-card";
+import CenterContent from "../../center-content/center-content";
 
 interface Props {
   displayName: string;
@@ -16,7 +17,7 @@ interface Props {
 const ProfileView: React.FC<Props> = ({ displayName, bio, profilePicture, userPosts }) => {
   const history = useHistory();
   return (
-    <div className="profile-page__container">
+    <CenterContent>
       <div className="profile-page__profile-container">
         <div className="profile-page__info-container">
           <div className="profile-page__profile-information">
@@ -59,7 +60,7 @@ const ProfileView: React.FC<Props> = ({ displayName, bio, profilePicture, userPo
           })}
         </div>
       </div>
-    </div>
+    </CenterContent>
   );
 };
 

@@ -12,8 +12,7 @@ import { BlogPostContentImage } from "../models/blog-post-content/blog-post-cont
 
 let result: Array<BlogPost>;
 
-export const useCreateBlogPost = async (title: string, description: string, primaryImage: File, content: BlogPostContent) => {
-    let userId: string = "320v9d6BBIeCkorfQgjc"; // TODO take as param in handleSetPost
+export const useCreateBlogPost = async (title: string, description: string, primaryImage: File, content: BlogPostContent, userId: string) => {
     var formData = createFormDataBaseForBlogPostChanges(title, description, userId);
     formData.append("primaryImage", primaryImage, "primaryImage.png");
     const contentPreparedForUpload = prepareContentForUpload(formData, content);
@@ -27,8 +26,7 @@ export const useCreateBlogPost = async (title: string, description: string, prim
     return res.data
 }
 
-export const useUpdateBlogPost = async (id: string, title: string, description: string, primaryImage: File | null, content: BlogPostContent) => {
-    let userId: string = "320v9d6BBIeCkorfQgjc"; // TODO take as param in handleSetPost
+export const useUpdateBlogPost = async (id: string, title: string, description: string, primaryImage: File | null, content: BlogPostContent, userId: string) => {
     var formData = createFormDataBaseForBlogPostChanges(title, description, userId);
     const contentPreparedForUpload = prepareContentForUpload(formData, content);
     formData.append("id", id);
