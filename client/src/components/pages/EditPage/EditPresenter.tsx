@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import EditView from "./EditView";
-import useBlogPostApi, {handleEditProfile} from "../../../hooks/useBlogPostApi";
+import useBlogPostApi, {
+  handleEditProfile,
+} from "../../../hooks/useBlogPostApi";
 
 const EditPresenter: React.FC = () => {
   const SAMPLE_USER_REF = "UuJaEV7oLO07OZgreaAc";
@@ -36,7 +38,7 @@ const EditPresenter: React.FC = () => {
     savedFirstName: string,
     savedLastName: string,
     savedBio: string,
-    savedProfilePicture: File | null
+    savedProfilePicture: File | null,
   ) => {
     // write to database
     await handleEditProfile(
@@ -45,8 +47,10 @@ const EditPresenter: React.FC = () => {
       savedLastName,
       savedProfilePicture ?? null,
       savedBio,
-      changedImage
-    ).then(() => {history.push("/profile");});
+      changedImage,
+    ).then(() => {
+      history.push("/profile");
+    });
   };
 
   const onCancel = () => {
@@ -71,7 +75,7 @@ const EditPresenter: React.FC = () => {
     handleGetUserDetails(SAMPLE_USER_REF).then((data) => {
       setFirstName(data[0]);
       setLastName(data[1]);
-      if (data[3]){
+      if (data[3]) {
         setPreviewOn(true);
         setProfilePicture(data[3][0]);
         setPreviewImage(data[3][0]);

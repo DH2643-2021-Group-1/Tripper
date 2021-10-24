@@ -15,7 +15,7 @@ import {
 import {
   createBlogPost,
   updateBlogPost,
-  deleteBlogPost
+  deleteBlogPost,
 } from "./firestore/edit-blog-post-manager";
 // rest of the code remains same
 
@@ -40,32 +40,31 @@ app.get("/blogpost-from-author/:userId", (req, res) => {
   getBlogPostsFromUserId(req, res);
 });
 
-
 app.post(
-    "/create-blogpost", 
-    upload.fields([
-      { name: 'primaryImage', maxCount: 1 }, 
-      { name: 'imagePieces', maxCount: 20 }
-    ]), 
-    (req, res) => {
-  createBlogPost(req, res);
-});
+  "/create-blogpost",
+  upload.fields([
+    { name: "primaryImage", maxCount: 1 },
+    { name: "imagePieces", maxCount: 20 },
+  ]),
+  (req, res) => {
+    createBlogPost(req, res);
+  },
+);
 
 app.put(
-  "/update-blogpost", 
+  "/update-blogpost",
   upload.fields([
-    { name: 'primaryImage', maxCount: 1 }, 
-    { name: 'imagePieces', maxCount: 20 }
-  ]), (req, res) => {
-  updateBlogPost(req, res);
-});
-
-app.delete(
-  "/delete-blogpost/:id",
+    { name: "primaryImage", maxCount: 1 },
+    { name: "imagePieces", maxCount: 20 },
+  ]),
   (req, res) => {
-    deleteBlogPost(req, res)
-  }
-)
+    updateBlogPost(req, res);
+  },
+);
+
+app.delete("/delete-blogpost/:id", (req, res) => {
+  deleteBlogPost(req, res);
+});
 
 app.get("/all-blogposts", (req, res) => {
   getAllBlogPosts(req, res);
@@ -76,7 +75,7 @@ app.put(
   upload.fields([{ name: "profileImage", maxCount: 1 }]),
   (req, res) => {
     editProfilePage(req, res);
-  }
+  },
 );
 
 app.get("/user/:userId", (req, res) => {

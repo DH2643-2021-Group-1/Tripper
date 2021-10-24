@@ -11,17 +11,25 @@ interface Props {
   lastName: string;
   bio: string;
   profilePicture: string | undefined;
-  userPosts: any[]
+  userPosts: any[];
 }
 
-const ProfileView: React.FC<Props> = ({ firstName, lastName, bio, profilePicture, userPosts }) => {
+const ProfileView: React.FC<Props> = ({
+  firstName,
+  lastName,
+  bio,
+  profilePicture,
+  userPosts,
+}) => {
   const history = useHistory();
   return (
     <div className="profile-page__container">
       <div className="profile-page__profile-container">
         <div className="profile-page__info-container">
           <div className="profile-page__profile-information">
-            <span className="profile-page__name">{firstName + ' ' + lastName}</span>
+            <span className="profile-page__name">
+              {firstName + " " + lastName}
+            </span>
             <span className="profile-page__bio">{bio}</span>
             <div className="profile-page__edit-profile">
               <Button
@@ -56,7 +64,11 @@ const ProfileView: React.FC<Props> = ({ firstName, lastName, bio, profilePicture
         </div>
         <div className="profile-page__post-container">
           {userPosts.map((post, idx) => {
-            return <div key={idx} className="profile-page__post"><BlogPostCard data={post} key={idx}></BlogPostCard></div>
+            return (
+              <div key={idx} className="profile-page__post">
+                <BlogPostCard data={post} key={idx}></BlogPostCard>
+              </div>
+            );
           })}
         </div>
       </div>
