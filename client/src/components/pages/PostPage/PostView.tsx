@@ -91,6 +91,22 @@ const PostView: FC<PostViewProps> = (props) => {
       content={props.content}
       editMode={true}
       onContentEdited={props.onContentChange} />
+
+    <ContentWrapper>
+      {
+        props.requireContentPieces
+          ? <>
+              <br/>
+              <StatusModal 
+                title={`The blog post content can not be empty`} 
+                type={StatusModalType.warning}>
+                  Add content by dragging the boxes in the tools in the the box above.
+              </StatusModal>
+            </>
+          : <></>
+      }
+    </ContentWrapper>
+
     <ContentWrapper>
       <br />
       <hr />

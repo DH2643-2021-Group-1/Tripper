@@ -19,7 +19,7 @@ const ImageInput = ({ onImageChange, onHover, uploaded, imageUrl, opacity, onIma
 
     return (
         !uploaded ? (
-            <div className={!isMissing ? "image-input__image-uploader-default" : "image-input__image-uploader-required"}>
+            <div className={(!isMissing ? "image-input__image-uploader-default" : "image-input__image-uploader-required")}>
                 <div className={""}>
                     <label htmlFor='single'>
                         <FontAwesomeIcon size="4x"

@@ -56,7 +56,7 @@ const PostPresenter = () => {
   }, [blogPostDescription])
 
   useEffect(() => {
-    setImageExists(previewImage !== null && previewImage !== undefined)
+    setImageExists(previewImage != "")
     setRequireImage(false)
   }, [blogPostImage])
 
