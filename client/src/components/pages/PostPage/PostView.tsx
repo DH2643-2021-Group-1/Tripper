@@ -8,6 +8,8 @@ import ContentWrapper, { ContentWrapperSize } from "../../content-wrapper/conten
 import BlogPostContentPresenter from "../../blog-post-content/BlogPostContent/BlogPostContentPresenter";
 import { BlogPostContent } from "../../../models/blog-post-content/blog-post-content";
 import CenterContent from "../../center-content/center-content";
+import StatusModal, { StatusModalType } from "../../StatusModal/StatusModal";
+import TimerCountdown from "../../TimerCountdown/TimerCountdown";
 
 
 interface PostViewProps {
@@ -25,14 +27,39 @@ interface PostViewProps {
   requireDescription: boolean,
   requireImage: boolean,
   allFieldsOK: boolean,
-  editMode: boolean,
   requireContentPieces: boolean, // TODO modal on true w msg: "must have at least one element"
   imageOpacity?: number,
   onImageHover: Function,
   onImageRemove: () => void,
+  uploadStatus: {
+    error: string | null,
+    success: boolean,
+  } | null,
+  editMode: boolean,
+  onNavigateToBlogPage: () => void
 }
 
 const PostView: FC<PostViewProps> = (props) => {
+  const renderUploadStatus = () => {
+    if (props.uploadStatus == null) return <></>;
+    if (props.uploadStatus.error == null) {
+      return <StatusModal 
+        title={`Blog post successfully ${props.editMode ? "updated" : "created"}`} 
+        type={StatusModalType.success}>
+          <TimerCountdown seconds={3} onCountdownReached={() => {
+            props.onNavigateToBlogPage();
+          }} render={timeLeft => {
+            return <div>Navigating you to the blog post in <b>{timeLeft}</b> seconds</div> 
+          }}/>
+      </StatusModal>
+    }
+    return <StatusModal 
+      title={`Blog post could not be ${props.editMode ? "updated" : "created"}`} 
+      type={StatusModalType.error}>
+        {props.uploadStatus.error}
+    </StatusModal>
+  }
+
   return <div className="flexbox">
     <ContentWrapper size={ContentWrapperSize.medium}>
       <p className={["post-page__heading", "post-page__center-text"].join(" ")}>{props.editMode ? "Edit blog post" : "Create new blog post"}</p>
@@ -64,6 +91,22 @@ const PostView: FC<PostViewProps> = (props) => {
       content={props.content}
       editMode={true}
       onContentEdited={props.onContentChange} />
+
+    <ContentWrapper>
+      {
+        props.requireContentPieces
+          ? <>
+              <br/>
+              <StatusModal 
+                title={`The blog post content can not be empty`} 
+                type={StatusModalType.warning}>
+                  Add content by dragging the boxes in the tools in the the box above.
+              </StatusModal>
+            </>
+          : <></>
+      }
+    </ContentWrapper>
+
     <ContentWrapper>
       <br />
       <hr />
@@ -72,12 +115,16 @@ const PostView: FC<PostViewProps> = (props) => {
         {props.isLoading && <LoadingIndicator />}
       </CenterContent>
       <Button
-        disabled={!props.allFieldsOK}
+        disabled={(!props.allFieldsOK || (props.uploadStatus?.success ?? false))}
         propagatePressOnDisabled={true}
         type={ButtonTypes.primary}
         onPress={props.onSubmit}>
         {props.editMode ? "Save" : "Post"}
       </Button>
+      <br/><br/>
+      {
+        renderUploadStatus()
+      }
     </ContentWrapper>
   </div>;
 };

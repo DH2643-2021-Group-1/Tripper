@@ -2,21 +2,22 @@ import express = require("express");
 
 export enum StatusCode {
     OK = 200,
-    ErrorFirestoreCreate = 501,
-    ErrorCouldNoUploadImage = 502,
-    ErrorBlogPostContentPreparation = 503,
-    ErrorCouldNotDeleteImage = 504,
-    ErrorCouldNotDeleteBlogPost = 505,
-    RequestNoPrimaryImage = 401,
-    RequestBlogPostDoNotExist = 402,
+    ErrorFirestoreCreate = 551,
+    ErrorCouldNoUploadImage = 552,
+    ErrorBlogPostContentPreparation = 553,
+    ErrorCouldNotDeleteImage = 554,
+    ErrorCouldNotDeleteBlogPost = 555,
+    RequestNoPrimaryImage = 452,
+    RequestBlogPostDoNotExist = 453,
 }
 
 export const respond = (
     res: express.Response<any, Record<string, any>>, 
-    param: {statusCode: StatusCode, message?: string, warning?: string, error?: string}) => {
+    param: {data?: any, statusCode: StatusCode, message?: string, warning?: string[], error?: string}) => {
     res.status(param.statusCode).json({
         message: param.message ?? "NONE",
-        warning: param.warning ?? "NONE",
-        error: param.error ?? "NONE"
+        warning: param.warning ?? [],
+        error: param.error ?? "NONE",
+        data: param.data
     })
 }
