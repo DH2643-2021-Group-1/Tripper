@@ -1,4 +1,6 @@
 import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
+
 import MenuView from "./MenuView";
 
 import {
@@ -21,9 +23,9 @@ const [ handleGetAllBlogPosts,
 interface Props {}
 
 const Menu: React.FC<Props> = () => {
+	const history = useHistory();
 	const user = useContext(AuthContext);
   	const auth = getAuth();
-	const [signedIn, setSignedIn] = useState<boolean>(false);
 
 	const onFailure = (error: any) => {
 		console.log(error) // TODO: better error handling
@@ -78,7 +80,7 @@ const Menu: React.FC<Props> = () => {
 	const onSignOut = () => {
 		signOut(auth)
 			.then(() => {
-				console.log('Signed out!')
+				history.push("/");
 			})
 			.catch((error) => {
 				console.log(error); // TODO: better error handling
