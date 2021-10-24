@@ -47,7 +47,7 @@ const BlogPostPageView: FC<BlogPostPageViewProps> = (props) => {
                                         profilePictureSrc={ props.blogPost.author.profilePicture } />
                                 }
                                 subtitle="Author"
-                                title={props.blogPost.author.firstName + " " + props.blogPost.author.lastName}/>
+                                title={props.blogPost.author.displayName }/>
                             <BlogPostMetaCard 
                                 leading={<EventNoteIcon/>}
                                 subtitle="Date Posted"

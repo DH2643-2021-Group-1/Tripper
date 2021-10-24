@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useHistory, useLocation } from "react-router-dom";
 import PostView from "./PostView";
 import useBlogPostApi, { useCreateBlogPost, useGetBlogPostByPostId, useUpdateBlogPost } from "../../../hooks/useBlogPostApi"
@@ -6,6 +6,7 @@ import { BlogPostContent } from "../../../models/blog-post-content/blog-post-con
 import { useParams } from 'react-router-dom';
 import { BlogPost } from "../../../models/blog-post";
 import { EditType } from "../../../models/blog-post-content/blog-post-content-piece";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 interface PostPagePresenterParamTypes {
   id: string
@@ -44,6 +45,7 @@ const PostPresenter = () => {
   const [requireContentPieces, setRequireContentPieces] = useState(false)
 
   const [opacity, setOpacity] = useState<number>(0);
+  const user = useContext(AuthContext);
 
   useEffect(() => {
     setTitleExists(blogPostTitle.length > 0)
@@ -80,17 +82,18 @@ const PostPresenter = () => {
   }, []);
 
   const handleSubmit = async () => {
+    if (user == null) return;
     setIsLoading(true)
     setBlogPostUploadStatus(null);
 
     try {
       var result: any;
       if (editMode) {
-        result = await useUpdateBlogPost(blogPostId, blogPostTitle, blogPostDescription, blogPostImage, blogPostContent);
+        result = await useUpdateBlogPost(blogPostId, blogPostTitle, blogPostDescription, blogPostImage, blogPostContent, user["uid"]);
       }
       else {
         if (blogPostImage == null) return;
-        result = await useCreateBlogPost(blogPostTitle, blogPostDescription, blogPostImage, blogPostContent);
+        result = await useCreateBlogPost(blogPostTitle, blogPostDescription, blogPostImage, blogPostContent, user["uid"]);
       }
       setBlogPostUploadStatus({ success: true, error: null });
       setNewBlogPostId(result.data?.blogPostId ?? null);

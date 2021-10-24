@@ -1,3 +1,5 @@
+@import "../../theme/theme.scss";
+
 %image-input__image-uploader-container {
     position: relative;
     width: 100%;
@@ -8,6 +10,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+
+    border-radius: $shape-border-radius-medium;
+    overflow: hidden;
 }
 
 .image-input__image-uploader-default {

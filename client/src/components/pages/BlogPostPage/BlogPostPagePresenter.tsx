@@ -1,10 +1,11 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useContext, useEffect, useState } from 'react';
 import PageLoadingIndicator from '../../page-loading-indicator/page-loading-indicator';
 import { BlogPost } from '../../../models/blog-post';
 import BlogPostPageView from './BlogPostPageView';
 import { useHistory, useParams } from 'react-router-dom';
 import { useDeleteBlogPostByPostId, useGetBlogPostByPostId } from '../../../hooks/useBlogPostApi';
 import { calculateReadTimeInMinutes } from '../../../helpers/blog-post-read-time';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 interface BlogPostPagePresenterParamTypes {
     id: string
@@ -20,17 +21,20 @@ const BlogPostPagePresenter: FC = (props) => {
     const [isOwner, setIsOwner] = useState<boolean>(false);
     const [deleteIsLoading, setDeleteIsLoading] = useState<boolean>(false);
 
-    const history = useHistory();
+    const history = useHistory();    
+    const user = useContext(AuthContext);
     
-    const checkIfOwner = () => {
-        // TODO: Do some logic here to check if the user is the owner of the current blog post
-        return true;
-    }
+    useEffect(() => {
+        if (user == null || blogPost == null) {
+            setIsOwner(false);
+            return;
+        }
+        setIsOwner(user["uid"] == blogPost.author.id);
+    }, [blogPost, user]);
 
     useEffect(() => {
         setIsFetchingBlogPost(true);
         useGetBlogPostByPostId(blogPostId).then((fetchedBlogPost: BlogPost[]) => {
-            setIsOwner(checkIfOwner());
             setBlogPost(fetchedBlogPost[0]);
             setIsFetchingBlogPost(false);
         });

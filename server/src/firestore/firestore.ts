@@ -16,7 +16,6 @@ interface BlogPostDatabaseStructure {
 }
 
 
-
 /** Get the blog post from its Id */
 const getBlogPostById = async (req: express.Request, res: express.Response) => {
 
@@ -74,8 +73,8 @@ const populateBlogPostData = async (blogpostDocumentSnapshot: firestore.QueryDoc
         primaryImage: blogpostDocumentData.primaryImage,
         publicationDate: blogpostDocumentData.publicationDate,
         author: {
-            firstName: author.data()?.firstName,
-            lastName: author.data()?.lastName,
+            id: author.id,
+            displayName: author.data()?.displayName,
             profilePicture: author.data()?.profilePicture,
             email: author.data()?.email
         }
