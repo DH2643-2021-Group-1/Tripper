@@ -112,7 +112,7 @@ export const handleEditProfile = async (
         formData.append("firstName", firstName);
         formData.append("lastName", lastName);
         formData.append("biography", biography);
-        const res = await axios.post(`/api/edit-profile`, formData,
+        const res = await axios.put(`/api/edit-profile`, formData,
         {
             headers: { "Content-Type": "multipart/form-data" }
         });

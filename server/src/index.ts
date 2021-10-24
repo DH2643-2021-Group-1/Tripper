@@ -69,7 +69,7 @@ app.get("/all-blogposts", (req, res) => {
   getAllBlogPosts(req, res);
 });
 
-app.post(
+app.put(
   "/edit-profile",
   upload.fields([{ name: "profileImage", maxCount: 1 }]),
   (req, res) => {
