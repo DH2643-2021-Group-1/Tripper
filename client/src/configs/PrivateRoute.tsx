@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 import { AuthContext } from '../contexts/AuthContext';
@@ -12,24 +12,37 @@ interface Props {
 
 const PrivateRoute: React.FC<Props> = (props) => {
 	const user = useContext(AuthContext);
+	const [loading, setLoading] = useState(true);
 	const { children, ...rest } = props;
 
+	useEffect(() => {
+		if (user) {
+			setLoading(false);
+		} else {
+			setTimeout( () => setLoading(false), 1500); // TODO: Better handling of this case
+		}
+	}, [user]);
+
 	return (
-		<Route
-			{...rest}
-			render={(renderProps) =>
-				user ? (
-					children
-				) : (
-					<Redirect
-						to={{
-							pathname: '/',
-							state: { from: renderProps.location },
-						}}
-					/>
-				)
-			}
-		/>
+		<>
+			{!loading && (
+				<Route
+					{...rest}
+					render={(renderProps) =>
+						user ? (
+							children
+						) : (
+							<Redirect
+								to={{
+									pathname: '/',
+									state: { from: renderProps.location },
+								}}
+							/>
+						)
+					}
+				/>
+			)}
+		</>
 	);
 };
 
