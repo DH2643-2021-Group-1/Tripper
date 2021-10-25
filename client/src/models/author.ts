@@ -1,6 +1,6 @@
 export interface Author {
-  firstName: string;
-  lastName: string;
+  id: string;
+  displayName: string;
   profilePicture: string | null;
   email: string;
 }

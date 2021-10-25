@@ -17,9 +17,9 @@ const dummyBlogPost: BlogPost = {
   },
   publicationDate: new Date(),
   author: {
+    id: "000",
     email: "adajon@kth.se",
-    firstName: "Adam",
-    lastName: "Jonsson",
+    displayName: "Adam",
     profilePicture: null,
   },
 };
@@ -40,8 +40,6 @@ test("Author name is rendered in blog post card", () => {
       <BlogPostCard data={dummyBlogPost}>Card Content</BlogPostCard>
     </MemoryRouter>,
   );
-  const linkElement = screen.getByText(
-    dummyBlogPost.author.firstName + " " + dummyBlogPost.author.lastName,
-  );
+  const linkElement = screen.getByText(dummyBlogPost.author.displayName);
   expect(linkElement).toBeInTheDocument();
 });

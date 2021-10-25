@@ -1,9 +1,54 @@
-.imageContainer {
-    width: 60px;
+@import "../../theme/theme.scss";
+
+%image-input__image-uploader-container {
+    position: relative;
+    width: 100%;
+    min-height: 150px;
+    background-color: hsla(164, 99%, 30%, 0.212);
+    filter: brightness(1.2);
+    margin: 10px 0px 10px 0px;    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: $shape-border-radius-medium;
+    overflow: hidden;
 }
 
-.hide {
+.image-input__image-uploader-default {
+    @extend %image-input__image-uploader-container;
+    border: 3px solid #01966e36;
+}
+
+.image-input__image-uploader-no-border {
+    @extend %image-input__image-uploader-container;
+    box-shadow: 0 0 5px #00000026;
+}
+
+.image-input__image-uploader-required {
+    @extend %image-input__image-uploader-container;
+    border: 2px solid rgba(255, 0, 0, 0.6);
+}
+
+.image-input__image-uploader-icon {
+    cursor: pointer;
+}
+
+ .image-input__remove-container {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ }
+
+.image-input__hide-image  {
     display: none;
 }
 
-// TODO naming conventions!
+.image-input__preview-image {
+    width: 100%;
+    border: none;
+}

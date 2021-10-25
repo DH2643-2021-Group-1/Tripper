@@ -4,6 +4,7 @@ import "./App.scss";
 import Menu from "./components/MenuPresenter/MenuPresenter";
 import WelcomePresenter from "./components/pages/WelcomePage/WelcomePresenter";
 import ProfilePresenter from "./components/pages/ProfilePage/ProfilePresenter";
+import PrivateRoute from "./configs/PrivateRoute";
 import PostPresenter from "./components/pages/PostPage/PostPresenter";
 import EditPresenter from "./components/pages/EditPage/EditPresenter";
 import BlogPostPagePresenter from "./components/pages/BlogPostPage/BlogPostPagePresenter";
@@ -25,30 +26,30 @@ const App: React.FC = () => {
             <Menu />
             <BlogPostPagePresenter />
           </Route>
-          <Route exact path="/post">
+          <PrivateRoute exact path="/post">
             <Menu />
             <div className="pageContainer">
               <PostPresenter />
             </div>
-          </Route>
-          <Route exact path="/edit-post/:id">
+          </PrivateRoute>
+          <PrivateRoute exact path="/edit-post/:id">
             <Menu />
             <div className="pageContainer">
               <PostPresenter />
             </div>
-          </Route>
-          <Route exact path="/profile">
+          </PrivateRoute>
+          <PrivateRoute exact path="/profile">
             <Menu />
             <div className="pageContainer">
               <ProfilePresenter />
             </div>
-          </Route>
-          <Route exact path="/edit">
+          </PrivateRoute>
+          <PrivateRoute exact path="/edit">
             <Menu />
             <div className="pageContainer">
               <EditPresenter />
             </div>
-          </Route>
+          </PrivateRoute>
         </Switch>
       </Router>
     </AuthProvider>

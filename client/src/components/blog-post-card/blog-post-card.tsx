@@ -34,11 +34,7 @@ const BlogPostCard: FC<BlogPostCardProps> = (props) => {
               />
               <div>-</div>
               <div>
-                <i>
-                  {props.data.author.firstName +
-                    " " +
-                    props.data.author.lastName}
-                </i>
+                <i>{props.data.author.displayName}</i>
               </div>
             </div>
             <h3 className="blog-post-card__title">{props.data.title}</h3>

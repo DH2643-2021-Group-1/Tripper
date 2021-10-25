@@ -6,7 +6,7 @@ const BlogPostContentNoContentPlaceholder: FC = (props) => {
   return (
     <div className="blog-post-content-no-content-placeholder__container">
       <CenterContent>
-        Start building you blog post!
+        Start building your blog post!
         <br />
         Drag elements into this box from the tools.
       </CenterContent>

@@ -5,10 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextField from "@mui/material/TextField";
 
 interface Props {
-  firstName: string;
-  setFirstName: Function;
-  lastName: string;
-  setLastName: Function;
+  displayName: string;
+  setDisplayName: Function;
   bio: string;
   setBio: Function;
   profilePicture: File | null;
@@ -23,10 +21,8 @@ interface Props {
 }
 
 const EditView: React.FC<Props> = ({
-  firstName,
-  setFirstName,
-  lastName,
-  setLastName,
+  displayName,
+  setDisplayName,
   bio,
   setBio,
   profilePicture,
@@ -79,23 +75,13 @@ const EditView: React.FC<Props> = ({
             </div>
           </div>
           <div className="edit-page__name">
-            <label>First Name</label>
+            <label>Name</label>
             <TextField
               id="outlined-basic"
-              label="First Name"
-              value={firstName}
+              label="Name"
+              value={displayName}
               variant="outlined"
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-          </div>
-          <div className="edit-page__name">
-            <label>Last Name</label>
-            <TextField
-              id="outlined-basic"
-              label="Last Name"
-              value={lastName}
-              variant="outlined"
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={(e) => setDisplayName(e.target.value)}
             />
           </div>
           <div className="edit-page__bio">
@@ -116,7 +102,7 @@ const EditView: React.FC<Props> = ({
           </Button>
           <Button
             type={ButtonTypes.primary}
-            onPress={() => onSave(firstName, lastName, bio, profilePicture)}
+            onPress={() => onSave(displayName, bio, profilePicture)}
           >
             Save
           </Button>

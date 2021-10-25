@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ProfileView from "./ProfileView";
 import useBlogPostApi from "../../../hooks/useBlogPostApi";
 
+import { AuthContext } from "../../../contexts/AuthContext";
+
 const ProfilePresenter: React.FC = () => {
   // Get user info from database
-  const SAMPLE_USER_REF = "UuJaEV7oLO07OZgreaAc";
+  const user = useContext(AuthContext);
 
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
+  const [displayName, setDisplayName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [profilePicture, setProfilePicture] = useState<any>(undefined);
-  const [loading, setLoading] = useState<Boolean>(true);
 
   const [userPosts, setUserPosts] = useState<any[]>([]);
 
@@ -21,21 +21,21 @@ const ProfilePresenter: React.FC = () => {
   ] = useBlogPostApi();
 
   useEffect(() => {
-    handleGetUserDetails(SAMPLE_USER_REF).then((data) => {
-      setFirstName(data[0]);
-      setLastName(data[1]);
-      setBio(data[4]);
-      setProfilePicture(data[3] ? data[3][0] : data[3]);
-    });
-    handleGetBlogPostByUserId(SAMPLE_USER_REF).then((data) => {
-      setUserPosts(data);
-    });
-  }, []);
+    if (user) {
+      handleGetUserDetails(user["uid"]).then(data => {
+        setDisplayName(data["displayName"]);
+        setBio(data["biography"]);
+        setProfilePicture(data["profilePicture"]);
+      });
+      handleGetBlogPostByUserId(user["uid"]).then(data => {
+        setUserPosts(data);
+      });
+    }
+  }, [user]);
 
   return (
     <ProfileView
-      firstName={firstName}
-      lastName={lastName}
+      displayName={displayName}
       bio={bio}
       profilePicture={profilePicture}
       userPosts={userPosts}

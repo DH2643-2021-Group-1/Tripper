@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-export const AuthContext = React.createContext(null);
+export const AuthContext = React.createContext<any | null>(null);
 
 export const AuthProvider: React.FC<{}> = ({ children }) => {
   const auth = getAuth();
@@ -9,6 +9,7 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
 
   useEffect(() => {
     onAuthStateChanged(auth, (user: any) => {
+      console.log(user);
       if (user) {
         setUser(user);
       } else {

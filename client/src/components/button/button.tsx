@@ -15,6 +15,7 @@ export enum ButtonTypes {
   primary,
   onPrimary,
   secondary,
+  tertiary,
   danger,
 }
 
@@ -26,6 +27,7 @@ const Button: FC<ButtonProps> = (props) => {
     props.type === ButtonTypes.primary ? "button--primary" : "",
     props.type === ButtonTypes.onPrimary ? "button--on-primary" : "",
     props.type === ButtonTypes.secondary ? "button--secondary" : "",
+    props.type === ButtonTypes.tertiary ? "button--tertiary" : "",
     props.type === ButtonTypes.danger ? "button--danger" : "",
   ];
 

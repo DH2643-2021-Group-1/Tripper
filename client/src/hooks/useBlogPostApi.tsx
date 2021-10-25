@@ -17,25 +17,20 @@ export const useCreateBlogPost = async (
   description: string,
   primaryImage: File,
   content: BlogPostContent,
+  userId: string,
 ) => {
-  let userId: string = "320v9d6BBIeCkorfQgjc"; // TODO take as param in handleSetPost
-  try {
-    var formData = createFormDataBaseForBlogPostChanges(
-      title,
-      description,
-      userId,
-    );
-    formData.append("primaryImage", primaryImage, "primaryImage.png");
-    const contentPreparedForUpload = prepareContentForUpload(formData, content);
-    formData.append("content", JSON.stringify(contentPreparedForUpload));
-    const res = await axios.post("/api/create-blogpost", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    console.log(res);
-    return res.data;
-  } catch (error: any) {
-    throw new Error(error); // find appr. error to throw
-  }
+  var formData = createFormDataBaseForBlogPostChanges(
+    title,
+    description,
+    userId,
+  );
+  formData.append("primaryImage", primaryImage, "primaryImage.png");
+  const contentPreparedForUpload = prepareContentForUpload(formData, content);
+  formData.append("content", JSON.stringify(contentPreparedForUpload));
+  const res = await axios.post("/api/create-blogpost", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
 };
 
 export const useUpdateBlogPost = async (
@@ -44,29 +39,25 @@ export const useUpdateBlogPost = async (
   description: string,
   primaryImage: File | null,
   content: BlogPostContent,
+  userId: string,
 ) => {
-  let userId: string = "320v9d6BBIeCkorfQgjc"; // TODO take as param in handleSetPost
-  try {
-    var formData = createFormDataBaseForBlogPostChanges(
-      title,
-      description,
-      userId,
-    );
-    const contentPreparedForUpload = prepareContentForUpload(formData, content);
-    formData.append("id", id);
-    formData.append("content", JSON.stringify(contentPreparedForUpload));
+  var formData = createFormDataBaseForBlogPostChanges(
+    title,
+    description,
+    userId,
+  );
+  const contentPreparedForUpload = prepareContentForUpload(formData, content);
+  formData.append("id", id);
+  formData.append("content", JSON.stringify(contentPreparedForUpload));
 
-    if (primaryImage != null) {
-      formData.append("primaryImage", primaryImage, "primaryImage.png");
-    }
-
-    const res = await axios.put("/api/update-blogpost", formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    return res.data;
-  } catch (error: any) {
-    throw new Error(error); // find appr. error to throw
+  if (primaryImage != null) {
+    formData.append("primaryImage", primaryImage, "primaryImage.png");
   }
+
+  const res = await axios.put("/api/update-blogpost", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+  return res.data;
 };
 
 export const useDeleteBlogPostByPostId = async (blogPostId: string) => {
@@ -114,8 +105,7 @@ const prepareContentForUpload = (
 
 export const handleEditProfile = async (
   userId: string,
-  firstName: string,
-  lastName: string,
+  displayName: string,
   profilePicture: File | null,
   biography: string,
   changedImage: Boolean,
@@ -127,8 +117,7 @@ export const handleEditProfile = async (
     }
     formData.append("changedImage", String(changedImage));
     formData.append("userId", userId);
-    formData.append("firstName", firstName);
-    formData.append("lastName", lastName);
+    formData.append("displayName", displayName);
     formData.append("biography", biography);
     const res = await axios.put(`/api/edit-profile`, formData, {
       headers: { "Content-Type": "multipart/form-data" },

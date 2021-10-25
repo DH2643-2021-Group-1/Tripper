@@ -1,0 +1,41 @@
+@import "../../theme/theme.scss";
+
+.status-modal {
+    display: grid;
+    grid-template-columns: auto auto 1fr;
+    gap: 15px;
+    align-items: center;
+    padding: $content-padding-normal;
+    color: $color-on-primary;
+}
+
+.status-modal--success {
+    background-color: $color-success;
+}
+.status-modal--warning {
+    background-color: $color-warning;
+}
+.status-modal--error {
+    background-color: $color-error;
+}
+
+.status-modal__line-split {
+    height: 30px;
+    width: 2px;
+    background-color: $color-on-primary;
+}
+
+.status-modal__text-container {
+    margin-left: 5px;
+}
+
+.status-modal__title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+.status-modal__icon-container {
+    font-size: 25px;
+    line-height: 0;
+}

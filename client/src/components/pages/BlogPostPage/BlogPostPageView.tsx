@@ -47,11 +47,7 @@ const BlogPostPageView: FC<BlogPostPageViewProps> = (props) => {
                   />
                 }
                 subtitle="Author"
-                title={
-                  props.blogPost.author.firstName +
-                  " " +
-                  props.blogPost.author.lastName
-                }
+                title={props.blogPost.author.displayName}
               />
               <BlogPostMetaCard
                 leading={<EventNoteIcon />}

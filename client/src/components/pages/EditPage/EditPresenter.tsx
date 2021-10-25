@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import EditView from "./EditView";
 import useBlogPostApi, {
   handleEditProfile,
 } from "../../../hooks/useBlogPostApi";
 
+import { AuthContext } from "../../../contexts/AuthContext";
+
 const EditPresenter: React.FC = () => {
   const SAMPLE_USER_REF = "UuJaEV7oLO07OZgreaAc";
 
   const history = useHistory();
+  const user = useContext(AuthContext);
   const [
     handleGetAllBlogPosts,
     handleGetBlogPostByUserId,
@@ -16,8 +19,7 @@ const EditPresenter: React.FC = () => {
   ] = useBlogPostApi();
 
   // Get user info from database
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
+  const [displayName, setDisplayName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string>("");
@@ -35,22 +37,21 @@ const EditPresenter: React.FC = () => {
   };
 
   const onSave = async (
-    savedFirstName: string,
-    savedLastName: string,
-    savedBio: string,
-    savedProfilePicture: File | null,
+    displayName: string,
+    bio: string,
+    profilePicture: File | null,
   ) => {
     // write to database
-    await handleEditProfile(
-      "UuJaEV7oLO07OZgreaAc",
-      savedFirstName,
-      savedLastName,
-      savedProfilePicture ?? null,
-      savedBio,
-      changedImage,
-    ).then(() => {
-      history.push("/profile");
-    });
+    user &&
+      (await handleEditProfile(
+        user["uid"],
+        displayName,
+        profilePicture ?? null,
+        bio,
+        changedImage,
+      ).then(() => {
+        history.push("/profile");
+      }));
   };
 
   const onCancel = () => {
@@ -72,24 +73,23 @@ const EditPresenter: React.FC = () => {
   };
 
   useEffect(() => {
-    handleGetUserDetails(SAMPLE_USER_REF).then((data) => {
-      setFirstName(data[0]);
-      setLastName(data[1]);
-      if (data[3]) {
-        setPreviewOn(true);
-        setProfilePicture(data[3][0]);
-        setPreviewImage(data[3][0]);
-      }
-      setBio(data[4]);
-    });
-  }, []);
+    if (user) {
+      handleGetUserDetails(user["uid"]).then((data) => {
+        setDisplayName(data["displayName"]);
+        setBio(data["biography"]);
+        if (data["profilePicture"]) {
+          setPreviewOn(true);
+          setProfilePicture(data["profilePicture"]);
+          setPreviewImage(data["profilePicture"]);
+        }
+      });
+    }
+  }, [user]);
 
   return (
     <EditView
-      firstName={firstName}
-      setFirstName={setFirstName}
-      lastName={lastName}
-      setLastName={setLastName}
+      displayName={displayName}
+      setDisplayName={setDisplayName}
       bio={bio}
       setBio={setBio}
       profilePicture={profilePicture}

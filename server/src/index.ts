@@ -30,18 +30,18 @@ app.listen(PORT, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
 });
 
-app.get("/test", (req, res) => res.send("YES!!!"));
+app.get("/api/test", (req, res) => res.send("YES!!!"));
 
-app.get("/blogpost/:blogpostId", (req, res) => {
+app.get("/api/blogpost/:blogpostId", (req, res) => {
   getBlogPostById(req, res);
 });
 
-app.get("/blogpost-from-author/:userId", (req, res) => {
+app.get("/api/blogpost-from-author/:userId", (req, res) => {
   getBlogPostsFromUserId(req, res);
 });
 
 app.post(
-  "/create-blogpost",
+  "/api/create-blogpost",
   upload.fields([
     { name: "primaryImage", maxCount: 1 },
     { name: "imagePieces", maxCount: 20 },
@@ -52,7 +52,7 @@ app.post(
 );
 
 app.put(
-  "/update-blogpost",
+  "/api/update-blogpost",
   upload.fields([
     { name: "primaryImage", maxCount: 1 },
     { name: "imagePieces", maxCount: 20 },
@@ -62,31 +62,31 @@ app.put(
   },
 );
 
-app.delete("/delete-blogpost/:id", (req, res) => {
+app.delete("/api/delete-blogpost/:id", (req, res) => {
   deleteBlogPost(req, res);
 });
 
-app.get("/all-blogposts", (req, res) => {
+app.get("/api/all-blogposts", (req, res) => {
   getAllBlogPosts(req, res);
 });
 
 app.put(
-  "/edit-profile",
+  "/api/edit-profile",
   upload.fields([{ name: "profileImage", maxCount: 1 }]),
   (req, res) => {
     editProfilePage(req, res);
   },
 );
 
-app.get("/user/:userId", (req, res) => {
+app.get("/api/user/:userId", (req, res) => {
   getUserDetails(req, res);
 });
 
-app.post("/create-user", (req, res) => {
+app.post("/api/create-user", (req, res) => {
   createUser(req, res);
 });
 
-app.get("/check-user/:userId", (req, res) => {
+app.get("/api/check-user/:userId", (req, res) => {
   checkUser(req, res);
 });
 
