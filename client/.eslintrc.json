@@ -14,13 +14,13 @@
       "jsx": true
     },
     "ecmaVersion": 13,
-    "sourceType": "module"
+    "sourceType": "module",
   },
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
     "semi": ["error", "always"],
     "quotes": ["error", "double"],
-    "trailingComma": "all",
+    //"trailingComma": ["error", "all"],
     "tabWidth": ["error", 2]
   }
 }
