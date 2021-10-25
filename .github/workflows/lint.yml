@@ -35,4 +35,6 @@ jobs:
         run: npm run format
 
       - name: Commit any changed files
-        run: git status
+        uses: mikeal/publish-to-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
