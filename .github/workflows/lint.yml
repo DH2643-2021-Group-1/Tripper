@@ -19,18 +19,25 @@ jobs:
         node-version: [14.x]
 
     steps:
-      - name: Get branch name
-        id: branch-name
-        uses: tj-actions/branch-names@v5
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # ESLint and Prettier must be in `package.json`
+      - name: Install Node.js dependencies
+        run: npm install
+
+      - name: Run linters
+        run: npm run format
 
       - name: Running on a pull request branch.
-        if: steps.branch-name.outputs.is_default == 'false'
-        run: |
-          echo "Running on pr: ${{ steps.branch-name.outputs.current_branch }}"
-        # Outputs: "Running on pr: feature/test".
-
+        run: echo ${steps.branch-name.outputs.current_branch}
       #- name: Commit any changed files
-      #run: echo ${GITHUB_REF#refs/heads/}
-      #uses: mikeal/publish-to-github-action@master
-      #env:
-      # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        #run: echo ${GITHUB_REF#refs/heads/}
+        #uses: mikeal/publish-to-github-action@master
+        #env:
+         # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
