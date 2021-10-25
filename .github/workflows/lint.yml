@@ -39,7 +39,7 @@ jobs:
         uses: tj-actions/branch-names@v5
 
       - name: Running on a pull request branch.
-        run: echo ${steps.branch-name.outputs.current_branch}
+        run: echo ${{ steps.branch-name.outputs.current_branch }}
       #- name: Commit any changed files
         #run: echo ${GITHUB_REF#refs/heads/}
         #uses: mikeal/publish-to-github-action@master
