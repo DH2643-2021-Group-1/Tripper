@@ -33,6 +33,10 @@ jobs:
 
       - name: Run linters
         run: npm run format
+      
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5
 
       - name: Running on a pull request branch.
         run: echo ${steps.branch-name.outputs.current_branch}
