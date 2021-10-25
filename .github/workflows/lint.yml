@@ -1,14 +1,10 @@
 name: Lint
 
 on:
-  # Trigger the workflow on push or pull request,
-  # but only for the main branch
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   run-linters:
@@ -38,8 +34,5 @@ jobs:
       - name: Run linters
         run: npm run format
 
-      - name: Commit any changed files 
+      - name: Commit any changed files
         run: git status
-        uses: mikeal/publish-to-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
