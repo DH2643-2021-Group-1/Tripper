@@ -50,7 +50,7 @@ const getAllBlogPosts = async (req: express.Request, res: express.Response) => {
     try {
         const responseArray: Object[] = [];
         const blogpostCollection = db.collection('blogposts');
-        const snapshot = await blogpostCollection.limit(10).get(); // ? orderBy(createdAt), ? set limit here or client?
+        const snapshot = await blogpostCollection.orderBy("publicationDate", "desc").limit(10).get(); // ? orderBy(createdAt), ? set limit here or client?
         for (const doc of snapshot.docs) {
             responseArray.push(await populateBlogPostData(doc));
         }
