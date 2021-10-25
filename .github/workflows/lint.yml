@@ -42,6 +42,6 @@ jobs:
         run: echo ${{ steps.branch-name.outputs.current_branch }}
 
       - name: Commit any changed files
-        uses: mikeal/publish-to-github-action@steps.branch-name.outputs.current_branch
+        uses: mikeal/publish-to-github-action@${{ steps.branch-name.outputs.current_branch }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
