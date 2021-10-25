@@ -33,7 +33,7 @@
     "start": "webpack serve --open --hot --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
     "test": "jest --collect-coverage",
-    "eslint:github-action": "eslint src/"
+    "format": "prettier --write 'src/**/*.{ts,tsx}'"
   },
   "eslintConfig": {
     "extends": [
