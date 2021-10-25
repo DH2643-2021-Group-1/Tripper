@@ -34,8 +34,12 @@ jobs:
       - name: Run linters
         run: npm run format
 
-      - name: Commit any changed files
-        run: echo ${GITHUB_REF##*/}
+      - name: Running on a pull request branch.
+        if: steps.branch-name.outputs.is_default == 'false'
+        run: |
+          echo "Running on pr: ${{ steps.branch-name.outputs.current_branch }}"
+      #- name: Commit any changed files
+        #run: echo ${GITHUB_REF#refs/heads/}
         #uses: mikeal/publish-to-github-action@master
         #env:
          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
