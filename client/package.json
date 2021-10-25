@@ -33,7 +33,8 @@
   "scripts": {
     "start": "webpack serve --open --hot --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "test": "jest --collect-coverage"
+    "test": "jest --collect-coverage",
+    "eslint:github-action": "eslint src/"
   },
   "eslintConfig": {
     "extends": [
