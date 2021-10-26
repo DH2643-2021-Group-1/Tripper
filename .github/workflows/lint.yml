@@ -1,0 +1,23 @@
+name: Lint
+on: pull_request
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+    strategy:
+      matrix:
+        test_command: ["npx prettier --check 'src/**/*.{ts,tsx}'"]
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - run: ${{ matrix.test_command }}
