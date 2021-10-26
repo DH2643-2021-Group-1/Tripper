@@ -12,10 +12,7 @@ jobs:
 
       - uses: actions/setup-node@v2
         with:
-          node-version: "12.x"
-          always-auth: true
-          registry-url: https://registry.npmjs.org
-          cache: "npm"
+          node-version: ${{ matrix.node-version }}
 
       - name: Setup
         run: npm install
