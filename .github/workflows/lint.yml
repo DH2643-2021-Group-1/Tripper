@@ -4,9 +4,12 @@ on: pull_request
 jobs:
   test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
     strategy:
       matrix:
-        test_command: ["lint --quiet", "prettier --check"]
+        test_command: ["npx prettier --check ."]
     steps:
       - uses: actions/checkout@v2
 
