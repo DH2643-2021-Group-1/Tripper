@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        test_command: ["npm lint --quiet", "npm tc", "npm prettier --check"]
+        test_command: ["yarn lint --quiet", "yarn tc", "yarn prettier --check"]
     steps:
       - uses: actions/checkout@v2
 
