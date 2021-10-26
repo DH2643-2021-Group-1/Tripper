@@ -17,9 +17,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Setup
+      - name: Install dependencies
         run: npm install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
 
       - run: ${{ matrix.test_command }}
