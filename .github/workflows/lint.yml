@@ -9,7 +9,7 @@ jobs:
         working-directory: ./client
     strategy:
       matrix:
-        test_command: ["npx prettier --check ."]
+        test_command: ["npx prettier --check 'src/**/*.{ts,tsx}'"]
     steps:
       - uses: actions/checkout@v2
 
