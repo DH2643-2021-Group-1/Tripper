@@ -15,7 +15,7 @@ jobs:
           node-version: "12.x"
           always-auth: true
           registry-url: https://registry.npmjs.org
-          cache: "yarn"
+          cache: "npm"
 
       - name: Setup
         run: npm install
