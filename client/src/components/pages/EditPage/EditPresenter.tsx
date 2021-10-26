@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import EditView from "./EditView";
-import useBlogPostApi, {handleEditProfile} from "../../../hooks/useBlogPostApi";
+import useBlogPostApi, {
+  handleEditProfile,
+} from "../../../hooks/useBlogPostApi";
 
-import { AuthContext } from '../../../contexts/AuthContext'
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const EditPresenter: React.FC = () => {
   const SAMPLE_USER_REF = "UuJaEV7oLO07OZgreaAc";
@@ -40,13 +42,16 @@ const EditPresenter: React.FC = () => {
     profilePicture: File | null
   ) => {
     // write to database
-    user && await handleEditProfile(
-      user['uid'],
-      displayName,
-      profilePicture ?? null,
-      bio,
-      changedImage
-    ).then(() => {history.push("/profile");});
+    user &&
+      (await handleEditProfile(
+        user["uid"],
+        displayName,
+        profilePicture ?? null,
+        bio,
+        changedImage
+      ).then(() => {
+        history.push("/profile");
+      }));
   };
 
   const onCancel = () => {
@@ -69,14 +74,14 @@ const EditPresenter: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      handleGetUserDetails(user['uid']).then((data) => {
-        setDisplayName(data['displayName']);
-        setBio(data['biography']);
-        if (data['profilePicture']) {
+      handleGetUserDetails(user["uid"]).then((data) => {
+        setDisplayName(data["displayName"]);
+        setBio(data["biography"]);
+        if (data["profilePicture"]) {
           setPreviewOn(true);
-          setProfilePicture(data['profilePicture'])
-          setPreviewImage(data['profilePicture']);
-        };
+          setProfilePicture(data["profilePicture"]);
+          setPreviewImage(data["profilePicture"]);
+        }
       });
     }
   }, [user]);

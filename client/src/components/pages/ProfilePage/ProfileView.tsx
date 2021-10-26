@@ -11,10 +11,15 @@ interface Props {
   displayName: string;
   bio: string;
   profilePicture: string | undefined;
-  userPosts: any[]
+  userPosts: any[];
 }
 
-const ProfileView: React.FC<Props> = ({ displayName, bio, profilePicture, userPosts }) => {
+const ProfileView: React.FC<Props> = ({
+  displayName,
+  bio,
+  profilePicture,
+  userPosts,
+}) => {
   const history = useHistory();
   return (
     <CenterContent>
@@ -56,7 +61,11 @@ const ProfileView: React.FC<Props> = ({ displayName, bio, profilePicture, userPo
         </div>
         <div className="profile-page__post-container">
           {userPosts.map((post, idx) => {
-            return <div key={idx} className="profile-page__post"><BlogPostCard data={post} key={idx}></BlogPostCard></div>
+            return (
+              <div key={idx} className="profile-page__post">
+                <BlogPostCard data={post} key={idx}></BlogPostCard>
+              </div>
+            );
           })}
         </div>
       </div>
