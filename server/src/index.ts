@@ -15,7 +15,7 @@ import {
 import {
   createBlogPost,
   updateBlogPost,
-  deleteBlogPost
+  deleteBlogPost,
 } from "./firestore/edit-blog-post-manager";
 // rest of the code remains same
 
@@ -26,8 +26,7 @@ app.use(express.json());
 app.use(cors());
 
 const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-});
+app.listen(PORT, () => {});
 
 app.get("/api/test", (req, res) => res.send("YES!!!"));
 
@@ -39,32 +38,31 @@ app.get("/api/blogpost-from-author/:userId", (req, res) => {
   getBlogPostsFromUserId(req, res);
 });
 
-
 app.post(
-    "/api/create-blogpost", 
-    upload.fields([
-      { name: 'primaryImage', maxCount: 1 }, 
-      { name: 'imagePieces', maxCount: 20 }
-    ]), 
-    (req, res) => {
-  createBlogPost(req, res);
-});
+  "/api/create-blogpost",
+  upload.fields([
+    { name: "primaryImage", maxCount: 1 },
+    { name: "imagePieces", maxCount: 20 },
+  ]),
+  (req, res) => {
+    createBlogPost(req, res);
+  }
+);
 
 app.put(
-  "/api/update-blogpost", 
+  "/api/update-blogpost",
   upload.fields([
-    { name: 'primaryImage', maxCount: 1 }, 
-    { name: 'imagePieces', maxCount: 20 }
-  ]), (req, res) => {
-  updateBlogPost(req, res);
-});
-
-app.delete(
-  "/api/delete-blogpost/:id",
+    { name: "primaryImage", maxCount: 1 },
+    { name: "imagePieces", maxCount: 20 },
+  ]),
   (req, res) => {
-    deleteBlogPost(req, res)
+    updateBlogPost(req, res);
   }
-)
+);
+
+app.delete("/api/delete-blogpost/:id", (req, res) => {
+  deleteBlogPost(req, res);
+});
 
 app.get("/api/all-blogposts", (req, res) => {
   getAllBlogPosts(req, res);

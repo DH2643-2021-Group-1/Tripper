@@ -38,9 +38,10 @@ const EditView: React.FC<Props> = ({
   opacity,
   onClose,
   loadingExistingProfile,
-  loadingSavingProfile
+  loadingSavingProfile,
 }) => {
-  if (loadingExistingProfile || loadingSavingProfile) return <PageLoadingIndicator/>
+  if (loadingExistingProfile || loadingSavingProfile)
+    return <PageLoadingIndicator />;
 
   return (
     <div className="edit-page__container">

@@ -5,12 +5,12 @@ import ContentWrapper from "../../content-wrapper/content-wrapper";
 import PageLoadingIndicator from "../../page-loading-indicator/page-loading-indicator";
 
 interface Props {
-  blogPosts: Array<any>,
-  isLoading: boolean,
+  blogPosts: Array<any>;
+  isLoading: boolean;
 }
 
 const WelcomeView: React.FC<Props> = (props) => {
-  if (props.isLoading) return <PageLoadingIndicator/>
+  if (props.isLoading) return <PageLoadingIndicator />;
 
   return (
     <ContentWrapper>

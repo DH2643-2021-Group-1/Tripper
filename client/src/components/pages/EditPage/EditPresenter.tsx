@@ -1,9 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import EditView from "./EditView";
-import useBlogPostApi, {handleEditProfile} from "../../../hooks/useBlogPostApi";
+import useBlogPostApi, {
+  handleEditProfile,
+} from "../../../hooks/useBlogPostApi";
 
-import { AuthContext } from '../../../contexts/AuthContext'
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const EditPresenter: React.FC = () => {
   const SAMPLE_USER_REF = "UuJaEV7oLO07OZgreaAc";
@@ -24,8 +26,10 @@ const EditPresenter: React.FC = () => {
   const [changedImage, setChangedImage] = useState<boolean>(false);
   const [previewOn, setPreviewOn] = useState<boolean>(false);
   const [opacity, setOpacity] = useState<number>(0);
-  const [loadingExistingProfile, setLoadingExistingProfile] = useState<boolean>(true);
-  const [loadingSavingProfile, setLoadingSavingProfile] = useState<boolean>(false);
+  const [loadingExistingProfile, setLoadingExistingProfile] =
+    useState<boolean>(true);
+  const [loadingSavingProfile, setLoadingSavingProfile] =
+    useState<boolean>(false);
 
   const onChangeProfilePicture = (event: any) => {
     let imageFile = event.target.files[0];
@@ -39,20 +43,21 @@ const EditPresenter: React.FC = () => {
   const onSave = async (
     displayName: string,
     bio: string,
-    profilePicture: File | null
+    profilePicture: File | null,
   ) => {
     // write to database
     setLoadingSavingProfile(true);
-    user && await handleEditProfile(
-      user['uid'],
-      displayName,
-      profilePicture ?? null,
-      bio,
-      changedImage
-    ).then(() => {
-      setLoadingSavingProfile(false);
-      history.push("/profile");
-    });
+    user &&
+      (await handleEditProfile(
+        user["uid"],
+        displayName,
+        profilePicture ?? null,
+        bio,
+        changedImage,
+      ).then(() => {
+        setLoadingSavingProfile(false);
+        history.push("/profile");
+      }));
   };
 
   const onCancel = () => {
@@ -76,14 +81,14 @@ const EditPresenter: React.FC = () => {
   useEffect(() => {
     if (user) {
       setLoadingExistingProfile(true);
-      handleGetUserDetails(user['uid']).then((data) => {
-        setDisplayName(data['displayName']);
-        setBio(data['biography']);
-        if (data['profilePicture']) {
+      handleGetUserDetails(user["uid"]).then((data) => {
+        setDisplayName(data["displayName"]);
+        setBio(data["biography"]);
+        if (data["profilePicture"]) {
           setPreviewOn(true);
-          setProfilePicture(data['profilePicture'])
-          setPreviewImage(data['profilePicture']);
-        };
+          setProfilePicture(data["profilePicture"]);
+          setPreviewImage(data["profilePicture"]);
+        }
         setLoadingExistingProfile(false);
       });
     }
