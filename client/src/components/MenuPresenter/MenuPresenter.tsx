@@ -28,7 +28,7 @@ const Menu: React.FC<Props> = () => {
   	const auth = getAuth();
 
 	const onFailure = (error: any) => {
-		console.log(error) // TODO: better error handling
+		// TODO: better error handling
 	}
 
 	const onSignIn = (googleUser: { [k: string]: any }) => {
@@ -55,8 +55,6 @@ const Menu: React.FC<Props> = () => {
 						const email = error.email;
 						const credential = GoogleAuthProvider.credentialFromError(error);
 					});
-				} else {
-					console.log('User already signed-in Firebase.');
 				}
 			});
 	};
@@ -82,9 +80,6 @@ const Menu: React.FC<Props> = () => {
 			.then(() => {
 				history.push("/");
 			})
-			.catch((error) => {
-				console.log(error); // TODO: better error handling
-			});
 	};
 
 	return (

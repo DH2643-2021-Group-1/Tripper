@@ -3,6 +3,7 @@ import Button, { ButtonTypes } from "../../button/button";
 import { faUpload, faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TextField from "@mui/material/TextField";
+import PageLoadingIndicator from "../../page-loading-indicator/page-loading-indicator";
 
 interface Props {
   displayName: string;
@@ -18,6 +19,8 @@ interface Props {
   onHover: Function;
   opacity: number;
   onClose: Function;
+  loadingExistingProfile: boolean;
+  loadingSavingProfile: boolean;
 }
 
 const EditView: React.FC<Props> = ({
@@ -34,7 +37,11 @@ const EditView: React.FC<Props> = ({
   onHover,
   opacity,
   onClose,
+  loadingExistingProfile,
+  loadingSavingProfile
 }) => {
+  if (loadingExistingProfile || loadingSavingProfile) return <PageLoadingIndicator/>
+
   return (
     <div className="edit-page__container">
       <div className="edit-page__form-conatiner">

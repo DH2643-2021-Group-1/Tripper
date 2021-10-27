@@ -130,7 +130,6 @@ function useBlogPostApi(): [
     const handleGetAllBlogPosts = async () => {
         try {
             result = await getAllBlogPosts();
-            console.log("Get all blogposts, result:", result);
             return result;
         } catch (error) {
             throw new Error("No such document");
@@ -141,7 +140,6 @@ function useBlogPostApi(): [
         // userID = doc id to user
         try {
             result = await getBlogPostByUserId(userID);
-            console.log("Get blogpost by id, result:", result);
             return result;
         } catch (error) {
             throw new Error("No such document");
@@ -151,7 +149,6 @@ function useBlogPostApi(): [
     const handleGetUserDetails = async (userId: string) => {
         try {
             result = await getUserDetails(userId);
-            console.log("User details: ", result);
             return result;
         } catch (error) {
             throw new Error("No such document");

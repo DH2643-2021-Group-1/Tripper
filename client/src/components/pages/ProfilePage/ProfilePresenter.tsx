@@ -11,7 +11,8 @@ const ProfilePresenter: React.FC = () => {
   const [displayName, setDisplayName] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const [profilePicture, setProfilePicture] = useState<any>(undefined);
-  const [loading, setLoading] = useState<Boolean>(true);
+  const [loadingUser, setLoadingUser] = useState<boolean>(true);
+  const [loadingBlogPosts, setLoadingBlogPosts] = useState<boolean>(true);
 
   const [userPosts, setUserPosts] = useState<any[]>([]);
 
@@ -23,13 +24,20 @@ const ProfilePresenter: React.FC = () => {
 
   useEffect(() => {
     if (user) {
+
+      setLoadingUser(true);
       handleGetUserDetails(user['uid']).then((data) => {
+        setLoadingUser(false);
         setDisplayName(data['displayName']);
         setBio(data['biography']);
         setProfilePicture(data['profilePicture']);
+        setLoadingUser(false);
       });
+      
+      setLoadingBlogPosts(true);
       handleGetBlogPostByUserId(user['uid']).then((data) => {
         setUserPosts(data);
+        setLoadingBlogPosts(false);
       });
     }
   }, [user]);
@@ -40,6 +48,8 @@ const ProfilePresenter: React.FC = () => {
       bio={bio}
       profilePicture={profilePicture}
       userPosts={userPosts}
+      loadingUser={loadingUser}
+      loadingBlogPosts={loadingBlogPosts}
     />
   );
 };
