@@ -14,7 +14,6 @@ interface PostPagePresenterParamTypes {
 
 const PostPresenter = () => {
 
-  const [handleGetAllBlogPosts, handleGetBlogPostByUserId] = useBlogPostApi()
 
   let location = useLocation()
   const params = useParams<PostPagePresenterParamTypes>();
@@ -38,11 +37,12 @@ const PostPresenter = () => {
   const [descriptionExists, setDescriptionExists] = useState(false)
   const [imageExists, setImageExists] = useState(false)
 
-
   const [requireTitle, setRequireTitle] = useState(false)
   const [requireDescription, setRequireDescription] = useState(false)
   const [requireImage, setRequireImage] = useState(false)
   const [requireContentPieces, setRequireContentPieces] = useState(false)
+
+  const [loadingExistingBlogPost, setLoadingExistingBlogPost] = useState(false);
 
   const [opacity, setOpacity] = useState<number>(0);
   const user = useContext(AuthContext);
@@ -71,7 +71,9 @@ const PostPresenter = () => {
   useEffect(() => {
     if (blogPostId && location.pathname == `/edit-post/${blogPostId}`) {
       setEditMode(true);
+      setLoadingExistingBlogPost(true);
       useGetBlogPostByPostId(blogPostId).then((response: BlogPost[]) => {
+        setLoadingExistingBlogPost(false);
         const existingBlogPost = response[0];
         setBlogPostTitle(existingBlogPost.title);
         setBlogPostDescription(existingBlogPost.description);
@@ -207,6 +209,7 @@ const PostPresenter = () => {
     allFieldsOK={readyForSubmit()}
     uploadStatus={blogPostUploadStatus}
     onNavigateToBlogPage={handleNavigateToBlogPage}
+    isFetchingExistingData={loadingExistingBlogPost}
   />;
 };
 
