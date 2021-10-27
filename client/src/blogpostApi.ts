@@ -9,7 +9,6 @@ import axios from "axios"
 export const getBlogPostByUserId = async (userId: string) => {
     try {
         const res = await axios.get(`/api/blogpost-from-author/${userId}`);
-        console.log("response", res.data)
         return res.data
     } catch (error: any) {
         throw new Error(error) // find appr. error to throw
@@ -21,7 +20,6 @@ export const getBlogPostByUserId = async (userId: string) => {
 export const getAllBlogPosts = async () => {
     try {
         const res = await axios.get("/api/all-blogposts")
-        console.log("response", res.data)
         return res.data
     } catch (error: any) {
         throw new Error(error) // find appr. error to throw
@@ -32,7 +30,6 @@ export const getAllBlogPosts = async () => {
 export const editProfilePage = async (userId: string, displayName: string, profilePicture: any, biography: string) => {
     try {
         const res = await axios.get(`/api/edit-profile/${userId}/${displayName}/${profilePicture}/${biography}`);
-        console.log('response:', res.data)
         return res.data;
     }
     catch (error: any) {
@@ -43,7 +40,6 @@ export const editProfilePage = async (userId: string, displayName: string, profi
 export const getUserDetails = async (userId: string) => {
     try {
         const res = await axios.get(`/api/user/${userId}`);
-        console.log('response:', res.data)
         return res.data;
     }
     catch (error: any) {
@@ -54,7 +50,6 @@ export const getUserDetails = async (userId: string) => {
 export const createUser = async (data: any) => {
     try {
         const res = await axios.post("/api/create-user", data)
-        console.log("response", res.data)
         return res.data
     } catch (error: any) {
         throw new Error(error) // find appr. error to throw

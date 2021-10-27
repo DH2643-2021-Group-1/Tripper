@@ -27,7 +27,6 @@ app.use(cors());
 
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
-  console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
 });
 
 app.get("/api/test", (req, res) => res.send("YES!!!"));

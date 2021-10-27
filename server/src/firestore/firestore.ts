@@ -137,7 +137,6 @@ const createUser = async (req: express.Request, res: express.Response) => {
             email, 
             profilePicture: photoURL,
         })
-        console.log('Added new document'); // TODO: better messages
         res.status(200).send(`New user written to database`)
     }
     catch (error) {
@@ -151,10 +150,8 @@ const checkUser = async (req: express.Request, res: express.Response) => {
         const userId = req.params.userId;
         const profileSnapshot = await db.collection('users').doc(userId).get()
         if (profileSnapshot.exists) {
-            console.log(`Found user with id ${userId}`);
             res.status(200).send(true); // TODO: is this good practice?
         } else {
-            console.log(`No user found with id ${userId}`);
             res.status(200).send(false);
         }
     }
