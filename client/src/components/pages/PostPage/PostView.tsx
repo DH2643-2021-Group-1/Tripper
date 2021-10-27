@@ -10,6 +10,7 @@ import { BlogPostContent } from "../../../models/blog-post-content/blog-post-con
 import CenterContent from "../../center-content/center-content";
 import StatusModal, { StatusModalType } from "../../StatusModal/StatusModal";
 import TimerCountdown from "../../TimerCountdown/TimerCountdown";
+import PageLoadingIndicator from "../../page-loading-indicator/page-loading-indicator";
 
 
 interface PostViewProps {
@@ -36,10 +37,12 @@ interface PostViewProps {
     success: boolean,
   } | null,
   editMode: boolean,
-  onNavigateToBlogPage: () => void
+  onNavigateToBlogPage: () => void,
+  isFetchingExistingData: boolean,
 }
 
 const PostView: FC<PostViewProps> = (props) => {
+
   const renderUploadStatus = () => {
     if (props.uploadStatus == null) return <></>;
     if (props.uploadStatus.error == null) {
@@ -59,6 +62,8 @@ const PostView: FC<PostViewProps> = (props) => {
         {props.uploadStatus.error}
     </StatusModal>
   }
+
+  if (props.isFetchingExistingData) return <PageLoadingIndicator/>
 
   return <div className="flexbox">
     <ContentWrapper size={ContentWrapperSize.medium}>

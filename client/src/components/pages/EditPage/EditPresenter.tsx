@@ -21,9 +21,11 @@ const EditPresenter: React.FC = () => {
   const [bio, setBio] = useState<string>("");
   const [profilePicture, setProfilePicture] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string>("");
-  const [changedImage, setChangedImage] = useState<Boolean>(false);
-  const [previewOn, setPreviewOn] = useState<Boolean>(false);
+  const [changedImage, setChangedImage] = useState<boolean>(false);
+  const [previewOn, setPreviewOn] = useState<boolean>(false);
   const [opacity, setOpacity] = useState<number>(0);
+  const [loadingExistingProfile, setLoadingExistingProfile] = useState<boolean>(true);
+  const [loadingSavingProfile, setLoadingSavingProfile] = useState<boolean>(false);
 
   const onChangeProfilePicture = (event: any) => {
     let imageFile = event.target.files[0];
@@ -40,13 +42,17 @@ const EditPresenter: React.FC = () => {
     profilePicture: File | null
   ) => {
     // write to database
+    setLoadingSavingProfile(true);
     user && await handleEditProfile(
       user['uid'],
       displayName,
       profilePicture ?? null,
       bio,
       changedImage
-    ).then(() => {history.push("/profile");});
+    ).then(() => {
+      setLoadingSavingProfile(false);
+      history.push("/profile");
+    });
   };
 
   const onCancel = () => {
@@ -69,6 +75,7 @@ const EditPresenter: React.FC = () => {
 
   useEffect(() => {
     if (user) {
+      setLoadingExistingProfile(true);
       handleGetUserDetails(user['uid']).then((data) => {
         setDisplayName(data['displayName']);
         setBio(data['biography']);
@@ -77,6 +84,7 @@ const EditPresenter: React.FC = () => {
           setProfilePicture(data['profilePicture'])
           setPreviewImage(data['profilePicture']);
         };
+        setLoadingExistingProfile(false);
       });
     }
   }, [user]);
@@ -96,6 +104,8 @@ const EditPresenter: React.FC = () => {
       onHover={onHover}
       opacity={opacity}
       onClose={onClose}
+      loadingExistingProfile={loadingExistingProfile}
+      loadingSavingProfile={loadingSavingProfile}
     />
   );
 };
