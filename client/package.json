@@ -31,7 +31,8 @@
   "scripts": {
     "start": "webpack serve --open --hot --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js",
-    "test": "jest --collect-coverage"
+    "test": "jest --collect-coverage",
+    "format": "prettier --write 'src/**/*.{ts,tsx}'"
   },
   "eslintConfig": {
     "extends": [
@@ -75,6 +76,7 @@
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.2",
     "jest": "^27.2.5",
+    "prettier": "2.4.1",
     "react-redux": "^7.2.5",
     "react-router-dom": "^5.3.0",
     "react-test-renderer": "^17.0.2",
