@@ -4,7 +4,7 @@ import "./App.scss";
 import Menu from "./components/MenuPresenter/MenuPresenter";
 import WelcomePresenter from "./components/pages/WelcomePage/WelcomePresenter";
 import ProfilePresenter from "./components/pages/ProfilePage/ProfilePresenter";
-import PrivateRoute from "./configs/PrivateRoute"
+import PrivateRoute from "./configs/PrivateRoute";
 import PostPresenter from "./components/pages/PostPage/PostPresenter";
 import EditPresenter from "./components/pages/EditPage/EditPresenter";
 import BlogPostPagePresenter from "./components/pages/BlogPostPage/BlogPostPagePresenter";

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import ProfileView from "./ProfileView";
 import useBlogPostApi from "../../../hooks/useBlogPostApi";
 
-import { AuthContext } from '../../../contexts/AuthContext'
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const ProfilePresenter: React.FC = () => {
   // Get user info from database
@@ -24,18 +24,17 @@ const ProfilePresenter: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-
       setLoadingUser(true);
-      handleGetUserDetails(user['uid']).then((data) => {
+      handleGetUserDetails(user["uid"]).then((data) => {
         setLoadingUser(false);
-        setDisplayName(data['displayName']);
-        setBio(data['biography']);
-        setProfilePicture(data['profilePicture']);
+        setDisplayName(data["displayName"]);
+        setBio(data["biography"]);
+        setProfilePicture(data["profilePicture"]);
         setLoadingUser(false);
       });
-      
+
       setLoadingBlogPosts(true);
-      handleGetBlogPostByUserId(user['uid']).then((data) => {
+      handleGetBlogPostByUserId(user["uid"]).then((data) => {
         setUserPosts(data);
         setLoadingBlogPosts(false);
       });

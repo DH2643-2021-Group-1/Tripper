@@ -1,16 +1,12 @@
-import React, { FC } from 'react';
-import './card.scss';
+import React, { FC } from "react";
+import "./card.scss";
 
 interface CardProps {
-    className?: string,
+  className?: string;
 }
 
 const Card: FC<CardProps> = (props) => {
-    return (
-        <div className={"card " + props.className}>
-            { props.children }
-        </div>
-    )
-}
+  return <div className={"card " + props.className}>{props.children}</div>;
+};
 
 export default Card;
