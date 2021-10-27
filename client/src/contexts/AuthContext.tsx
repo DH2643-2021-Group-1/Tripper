@@ -9,7 +9,6 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
 
 	useEffect(() => {
 		onAuthStateChanged(auth, (user: any) => {
-			console.log(user);
 			if (user) {
 				setUser(user);
 			} else {

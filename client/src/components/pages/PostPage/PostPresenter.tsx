@@ -145,7 +145,6 @@ const PostPresenter = () => {
   }
 
   const handleContentChange = (updatedContent: BlogPostContent) => {
-    console.log(updatedContent);
     setBlogPostContent(updatedContent);
   }
 
